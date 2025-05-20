@@ -1,0 +1,23 @@
+# Default initial positions for myrobot_description's ros2_control fake system
+
+initial_positions:
+  f18: 0
+  f19: 0
+  f28: 0
+  f29: 0
+  j11: 0
+  j12: 0
+  j13: 0
+  j14: 0
+  j15: 0
+  j16: 0
+  j17: 0
+  j21: 0
+  j22: 0
+  j23: 0
+  j24: 0
+  j25: 0
+  j26: 0
+  j27: 0
+  j31: 0
+  j_32: 0

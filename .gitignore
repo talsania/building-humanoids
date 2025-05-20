@@ -1,0 +1,69 @@
+# ROS2 build directories
+build/
+install/
+log/
+
+# Colcon build artifacts
+.colcon_cd_root
+.colcon_install_layout
+
+# ROS2 log files
+*.log
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.env/
+
+# C++ artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+CMakeCache.txt
+CMakeFiles/
+CMakeTmp/
+CTestTestfile.cmake
+cmake_install.cmake
+Makefile
+Makefile.*
+compile_commands.json
+*.cmake
+
+# IDE and editor files
+.idea/
+.vscode/
+.project
+.cproject
+.settings/
+.clangd/
+*.swp
+*.swo
+*~
+
+# macOS system files
+.DS_Store
+._.DS_Store
+._*
+
+# Temporary files
+*.tmp
+
+# MoveIt specific files
+.setup_assistant
+moveit_setup_helper/
+ompl_storage/
+.moveit_setup/
+
+# Generated files
+**/generated/
+*.urdf.xacro
+*.compiled.*

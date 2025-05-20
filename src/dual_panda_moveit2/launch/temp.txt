@@ -1,0 +1,2 @@
+Unnecessary file.
+But the folder is necessary.
