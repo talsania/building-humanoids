@@ -5,9 +5,9 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 moveit_simple_controller_manager:
   controller_names:
     - dual_arm_controller
-    - head_controller
-    - left_hand_controller
-    - right_hand_controller
+    # - head_controller
+    # - left_hand_controller
+    # - right_hand_controller
 
   dual_arm_controller:
     type: FollowJointTrajectory
@@ -30,30 +30,33 @@ moveit_simple_controller_manager:
       - j27
     action_ns: follow_joint_trajectory
     default: true
-  head_controller:
-    type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
-    default: true
-    joints:
-      - j31
-      - j_32
-    action_ns: follow_joint_trajectory
-    default: true
-  left_hand_controller:
-    type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
-    default: true
-    joints:
-      - f28
-      - f29
-    action_ns: follow_joint_trajectory
-    default: true
-  right_hand_controller:
-    type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
-    default: true
-    joints:
-      - f18
-      - f19
-    action_ns: follow_joint_trajectory
-    default: true
+  # head_controller:
+  #   type: FollowJointTrajectory
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+  #   joints:
+  #     - j31
+  #     - j_32
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+
+
+
+  # left_hand_controller:
+  #   type: FollowJointTrajectory
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+  #   joints:
+  #     - f28
+  #     - f29
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+  # right_hand_controller:
+  #   type: FollowJointTrajectory
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+  #   joints:
+  #     - f18
+  #     - f19
+  #   action_ns: follow_joint_trajectory
+  #   default: true

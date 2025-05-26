@@ -1,0 +1,42 @@
+# config/ompl_planning.yaml
+move_group:
+  ros__parameters:
+    # tell MoveIt to load the OMPL pipeline
+    planning_pipelines:
+      ompl:
+        planner_plugins:
+          - "ompl_interface/OMPLPlanner"
+
+    # make OMPL the default pipeline
+    default_planning_pipeline: ompl
+
+    # standard request adapters to clean up your path/states
+    request_adapters:
+      - "default_planner_request_adapters/AddTimeParameterization"
+      - "default_planner_request_adapters/FixWorkspaceBounds"
+      - "default_planner_request_adapters/FixStartStateBounds"
+      - "default_planner_request_adapters/FixStartStateCollision"
+      - "default_planner_request_adapters/FixStartStatePathConstraints"
+
+    # how much error we’ll tolerate in the start state bounds check
+    start_state_max_bounds_error: 0.1
+
+    # OMPL-specific settings
+    ompl:
+      # global planning time (seconds)
+      planning_time: 5.0
+      # keep your scaling factors in sync with RViz defaults
+      max_velocity_scaling_factor: 0.10
+      max_acceleration_scaling_factor: 0.10
+
+      # for each MoveIt group (here ‘dual_arm’) pick a planner
+      dual_arm:
+        planner_config: RRTConnectkConfigDefault
+        # can override planning_time here too if you like
+        planning_time: 5.0
+
+      # define your default planner config parameters
+      RRTConnectkConfigDefault:
+        range: 0.0        # use default (automatically computed)
+        goal_bias: 0.05   # 5% bias toward goal
+

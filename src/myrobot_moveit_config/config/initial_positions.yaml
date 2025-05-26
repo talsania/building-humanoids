@@ -1,5 +1,4 @@
 # Default initial positions for myrobot_description's ros2_control fake system
-
 initial_positions:
   f18: 0
   f19: 0
