@@ -1,99 +1,245 @@
+# ros__parameters:
+#   # Reasonable scaling factors for smooth motion
+#   default_velocity_scaling_factor: 0.3
+#   default_acceleration_scaling_factor: 0.3
+
+#   # Joint limits for all joints - CRITICAL: These must have proper limits for planning to work
+#   joint_limits:
+#     # Right arm joints (j11-j17)
+#     j11:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j12:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j13:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j14:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j15:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j16:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j17:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+    
+#     # Left arm joints (j21-j27)
+#     j21:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j22:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j23:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j24:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j25:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j26:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+#     j27:
+#       has_velocity_limits: true
+#       max_velocity: 1.5
+#       has_acceleration_limits: true
+#       max_acceleration: 3.0
+    
+#     # Gripper joints - set limits even if not actively used
+#     f18:
+#       has_velocity_limits: true
+#       max_velocity: 1.0
+#       has_acceleration_limits: true
+#       max_acceleration: 2.0
+#     f19:
+#       has_velocity_limits: true
+#       max_velocity: 1.0
+#       has_acceleration_limits: true
+#       max_acceleration: 2.0
+#     f28:
+#       has_velocity_limits: true
+#       max_velocity: 1.0
+#       has_acceleration_limits: true
+#       max_acceleration: 2.0
+#     f29:
+#       has_velocity_limits: true
+#       max_velocity: 1.0
+#       has_acceleration_limits: true
+#       max_acceleration: 2.0
+    
+#     # Head joints - set limits even if not actively used
+#     j31:
+#       has_velocity_limits: true
+#       max_velocity: 1.0
+#       has_acceleration_limits: true
+#       max_acceleration: 2.0
+#     j_32:
+#       has_velocity_limits: true
+#       max_velocity: 1.0
+#       has_acceleration_limits: true
+#       max_acceleration: 2.0
+
 ros__parameters:
-  default_velocity_scaling_factor: 0.1
-  default_acceleration_scaling_factor: 0.1
+  default_velocity_scaling_factor: 0.3
+  default_acceleration_scaling_factor: 0.3
 
   joint_limits:
+    # Right arm
     j11:
-      # has_velocity_limits: true
-      # max_velocity: 1.5
-      # has_acceleration_limits: false
+      has_position_limits: true
+      min_position: -3.14
+      max_position: 3.14
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j12:
+      has_position_limits: true
+      min_position: -2.5
+      max_position: 2.5
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j13:
+      has_position_limits: true
+      min_position: -2.5
+      max_position: 2.5
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j14:
+      has_position_limits: true
+      min_position: -2.0
+      max_position: 2.0
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j15:
+      has_position_limits: true
+      min_position: -3.14
+      max_position: 3.14
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j16:
+      has_position_limits: true
+      min_position: -1.57
+      max_position: 1.57
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j17:
+      has_position_limits: true
+      min_position: -3.14
+      max_position: 3.14
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
 
+    # Left arm
     j21:
+      has_position_limits: true
+      min_position: -3.14
+      max_position: 3.14
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j22:
+      has_position_limits: true
+      min_position: -2.5
+      max_position: 2.5
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j23:
+      has_position_limits: true
+      min_position: -2.5
+      max_position: 2.5
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j24:
+      has_position_limits: true
+      min_position: -2.0
+      max_position: 2.0
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j25:
+      has_position_limits: true
+      min_position: -3.14
+      max_position: 3.14
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j26:
+      has_position_limits: true
+      min_position: -1.57
+      max_position: 1.57
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
     j27:
+      has_position_limits: true
+      min_position: -3.14
+      max_position: 3.14
       has_velocity_limits: true
       max_velocity: 1.5
       has_acceleration_limits: true
-      max_acceleration: 2.0
+      max_acceleration: 3.0
 
-    # These are unused or disabled:
-    # f18:
-    #   has_velocity_limits: false
-    #   max_velocity: 0
-    # f19:
-    #   has_velocity_limits: false
-    #   max_velocity: 0
-    # f28:
-    #   has_velocity_limits: false
-    #   max_velocity: 0
-    # f29:
-    #   has_velocity_limits: false
-    #   max_velocity: 0
-    # j31:
-    #   has_velocity_limits: false
-    #   max_velocity: 0
-    # j_32:
-    #   has_velocity_limits: false
-    #   max_velocity: 0
+    # Fingers
+    f18: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
+    f19: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
+    f28: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
+    f29: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
+
+    # Head
+    j31: {has_position_limits: true, min_position: -1.0, max_position: 1.0, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
+    j_32: {has_position_limits: true, min_position: -1.0, max_position: 1.0, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
