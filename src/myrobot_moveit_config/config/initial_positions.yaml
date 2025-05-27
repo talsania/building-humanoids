@@ -1,22 +1,21 @@
-# Default initial positions for myrobot_description's ros2_control fake system
 initial_positions:
+  j11: 3.14    # approx 180°
+  j12: -2.08   # approx -119°
+  j13: 0.66    # approx 38°
+  j14: -0.91   # approx -52°
+  j15: -3.14   # approx -180°
+  j16: 2.86    # approx 164°
+  j17: 3.13    # approx 179°
+  j21: 1.91    # approx 109°
+  j22: 1.10    # approx 63°
+  j23: 0.51    # approx 29°
+  j24: -0.45   # approx -26°
+  j25: 1.45    # approx 83°
+  j26: 0.0
+  j27: 0.0
   f18: 0
   f19: 0
   f28: 0
   f29: 0
-  j11: 0
-  j12: 0
-  j13: 0
-  j14: 0
-  j15: 0
-  j16: 0
-  j17: 0
-  j21: 0
-  j22: 0
-  j23: 0
-  j24: 0
-  j25: 0
-  j26: 0
-  j27: 0
   j31: 0
   j_32: 0

@@ -18,25 +18,31 @@ move_group:
       - "default_planner_request_adapters/FixStartStateCollision"
       - "default_planner_request_adapters/FixStartStatePathConstraints"
 
-    # how much error we’ll tolerate in the start state bounds check
+    # how much error we'll tolerate in the start state bounds check
     start_state_max_bounds_error: 0.1
 
     # OMPL-specific settings
     ompl:
-      # global planning time (seconds)
-      planning_time: 5.0
-      # keep your scaling factors in sync with RViz defaults
-      max_velocity_scaling_factor: 0.10
-      max_acceleration_scaling_factor: 0.10
+      # global planning time (seconds) - increased for better success rate
+      planning_time: 10.0
+      # increased scaling factors for smoother motion
+      max_velocity_scaling_factor: 0.30
+      max_acceleration_scaling_factor: 0.30
 
-      # for each MoveIt group (here ‘dual_arm’) pick a planner
+      # for each MoveIt group pick a planner
       dual_arm:
         planner_config: RRTConnectkConfigDefault
-        # can override planning_time here too if you like
-        planning_time: 5.0
+        planning_time: 10.0
+      
+      left_arm:
+        planner_config: RRTConnectkConfigDefault
+        planning_time: 8.0
+        
+      right_arm:
+        planner_config: RRTConnectkConfigDefault
+        planning_time: 8.0
 
       # define your default planner config parameters
       RRTConnectkConfigDefault:
         range: 0.0        # use default (automatically computed)
         goal_bias: 0.05   # 5% bias toward goal
-

@@ -1,24 +1,11 @@
 # This config file is used by ros2_control
 controller_manager:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
     update_rate: 100  # Hz
 
     dual_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-
-
-    # head_controller:
-    #   type: joint_trajectory_controller/JointTrajectoryController
-
-
-    # left_hand_controller:
-    #   type: joint_trajectory_controller/JointTrajectoryController
-
-
-    # right_hand_controller:
-    #   type: joint_trajectory_controller/JointTrajectoryController
-
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -45,69 +32,23 @@ dual_arm_controller:
     state_interfaces:
       - position
       - velocity
-# head_controller:
-#   ros__parameters:
-#     joints:
-#       - j31
-#       - j_32
-#     command_interfaces:
-#       - position
-#     state_interfaces:
-#       - position
-#       - velocity
-
-
-
-# left_hand_controller:
-#   ros__parameters:
-#     joints:
-#       - f28
-#       - f29
-#     command_interfaces:
-#       - position
-#     state_interfaces:
-#       - position
-#       - velocity
-# right_hand_controller:
-#   ros__parameters:
-#     joints:
-#       - f18
-#       - f19
-#     command_interfaces:
-#       - position
-#     state_interfaces:
-#       - position
-#       - velocity
-
-
-
-
-# controller_manager:
-#   ros__parameters:
-#     update_rate: 100
-
-#     # publishes /joint_states
-#     joint_state_broadcaster:
-#       type: joint_state_broadcaster/JointStateBroadcaster
-
-#     # this is the controller MoveIt will spawn on “Plan & Execute”
-#     follow_joint_trajectory:
-#       type: joint_trajectory_controller/JointTrajectoryController
-#       joints:
-#         - j11
-#         - j12
-#         - j13
-#         - j14
-#         - j15
-#         - j16
-#         - j17
-#         - j21
-#         - j22
-#         - j23
-#         - j24
-#         - j25
-#         - j26
-#         - j27
-#       state_publish_rate:    25
-#       action_monitor_rate:   10
-#       allow_nonzero_velocity_at_trajectory_end: true
+    # Important: Allow trajectory points with non-zero velocity at end
+    allow_nonzero_velocity_at_trajectory_end: true
+    # Tolerances for trajectory execution
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+      j11: {trajectory: 0.1, goal: 0.05}
+      j12: {trajectory: 0.1, goal: 0.05}
+      j13: {trajectory: 0.1, goal: 0.05}
+      j14: {trajectory: 0.1, goal: 0.05}
+      j15: {trajectory: 0.1, goal: 0.05}
+      j16: {trajectory: 0.1, goal: 0.05}
+      j17: {trajectory: 0.1, goal: 0.05}
+      j21: {trajectory: 0.1, goal: 0.05}
+      j22: {trajectory: 0.1, goal: 0.05}
+      j23: {trajectory: 0.1, goal: 0.05}
+      j24: {trajectory: 0.1, goal: 0.05}
+      j25: {trajectory: 0.1, goal: 0.05}
+      j26: {trajectory: 0.1, goal: 0.05}
+      j27: {trajectory: 0.1, goal: 0.05}
