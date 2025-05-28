@@ -55,7 +55,23 @@ def generate_launch_description():
         ),
 
         # —————————————————————————————————————————————
-        # ros2_control: now our URDF’s <ros2_control> block is present
+        # ADD: Joint State Publisher for missing joints (f18, f19, f28, f29, j31, j32)
+        Node(
+            package="joint_state_publisher",
+            executable="joint_state_publisher",
+            name="missing_joint_state_publisher",
+            parameters=[{
+                'source_list': ['joint_states'],  # Subscribe to your real joint_states
+                'use_gui': False,
+                'rate': 50.0,
+                # Define the missing joints with default positions
+                'zeros': {} # No fake joints needed
+            }],
+            output="screen",
+        ),
+
+        # —————————————————————————————————————————————
+        # ros2_control: now our URDF's <ros2_control> block is present
         Node(
             package="controller_manager",
             executable="ros2_control_node",
@@ -75,6 +91,19 @@ def generate_launch_description():
              output="screen"),
 
         # —————————————————————————————————————————————
+        # ADD: Planning Scene Monitor (helps with scene initialization)
+        Node(
+            package="moveit_ros_planning",
+            executable="moveit_publish_scene_from_text",
+            name="publish_planning_scene",
+            output="screen",
+            parameters=[
+                {"robot_description": robot_description},
+                {"robot_description_semantic": robot_description_semantic},
+            ],
+        ),
+
+        # —————————————————————————————————————————————
         # MoveIt! move_group
         Node(
             package="moveit_ros_move_group",
@@ -89,7 +118,16 @@ def generate_launch_description():
                 joint_limits_yaml,
                 planning_scene_yaml,
                 ompl_planning_yaml,
-                
+                # ADD: Additional parameters to handle joint state issues
+                {
+                    "planning_scene_monitor.publish_planning_scene": True,
+                    "planning_scene_monitor.publish_geometry_updates": True,
+                    "planning_scene_monitor.publish_state_updates": True,
+                    "planning_scene_monitor.publish_transforms_updates": True,
+                    "move_group.jiggle_fraction": 0.05,  # Help escape joint limits
+                    "move_group.max_safe_path_cost": 1,
+                    "publish_robot_description_semantic": True,
+                }
             ],
         ),
 
@@ -107,4 +145,4 @@ def generate_launch_description():
             ],
             arguments=["-d", PathJoinSubstitution([pkg, "config", "moveit.rviz"])],
         ),
-    ])
+    ])  

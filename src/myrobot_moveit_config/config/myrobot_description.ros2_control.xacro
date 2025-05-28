@@ -1,10 +1,14 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- 👇 ADD THIS LINE: Declare initial_positions_file as an input arg -->
+  <xacro:arg name="initial_positions_file" default="initial_positions.yaml"/>
+
   <xacro:macro name="myrobot_description_ros2_control"
                params="name initial_positions_file port_name:=/dev/ttyUSB0
                        use_fake_hardware:=false fake_sensor_commands:=false">
+
     <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}"/>
-    
+
     <ros2_control name="${name}" type="system">
       <hardware>
         <!-- Conditional configuration for fake versus real hardware -->

@@ -1,14 +1,15 @@
 # This config file is used by ros2_control
+
 controller_manager:
   ros__parameters:
     use_sim_time: false
     update_rate: 100  # Hz
 
-    dual_arm_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
+
+    dual_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
 dual_arm_controller:
   ros__parameters:
@@ -27,17 +28,19 @@ dual_arm_controller:
       - j25
       - j26
       - j27
+
     command_interfaces:
       - position
+
     state_interfaces:
       - position
       - velocity
-    # Important: Allow trajectory points with non-zero velocity at end
-    allow_nonzero_velocity_at_trajectory_end: true
-    # Tolerances for trajectory execution
+
+    allow_nonzero_velocity_at_trajectory_end: true  # Important for smoother execution
+
     constraints:
-      stopped_velocity_tolerance: 0.01
       goal_time: 0.0
+      stopped_velocity_tolerance: 0.01
       j11: {trajectory: 0.1, goal: 0.05}
       j12: {trajectory: 0.1, goal: 0.05}
       j13: {trajectory: 0.1, goal: 0.05}
