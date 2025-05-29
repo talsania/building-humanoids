@@ -84,24 +84,24 @@ def generate_launch_description():
             arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
             output="screen",
         ),
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["dual_arm_controller", "--controller-manager", "/controller_manager"],
+            output="screen",
+        ),
         # Node(
         #     package="controller_manager",
         #     executable="spawner",
-        #     arguments=["dual_arm_controller", "--controller-manager", "/controller_manager"],
+        #     arguments=["left_arm_controller", "--controller-manager", "/controller_manager"],
         #     output="screen",
         # ),
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["left_arm_controller", "--controller-manager", "/controller_manager"],
-            output="screen",
-        ),
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["right_arm_controller", "--controller-manager", "/controller_manager"],
-            output="screen",
-        ),
+        # Node(
+        #     package="controller_manager",
+        #     executable="spawner",
+        #     arguments=["right_arm_controller", "--controller-manager", "/controller_manager"],
+        #     output="screen",
+        # ),
 
         # —— publish planning scene ——
         Node(

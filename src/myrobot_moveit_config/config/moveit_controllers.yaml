@@ -4,26 +4,14 @@ moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControll
 
 moveit_simple_controller_manager:
   controller_names:
-    - left_arm_controller
-    - right_arm_controller
+    - dual_arm_controller
+    # - left_arm_controller
+    # - right_arm_controller
     # - head_controller
     # - left_hand_controller
     # - right_hand_controller
 
-  left_arm_controller:
-    type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
-    default: true
-    joints:
-      - j21
-      - j22
-      - j23
-      - j24
-      - j25
-      - j26
-      - j27
-
-  right_arm_controller:
+  dual_arm_controller:
     type: FollowJointTrajectory
     action_ns: follow_joint_trajectory
     default: true
@@ -35,6 +23,13 @@ moveit_simple_controller_manager:
       - j15
       - j16
       - j17
+      - j21
+      - j22
+      - j23
+      - j24
+      - j25
+      - j26
+      - j27
 
   # head_controller:
   #   type: FollowJointTrajectory
@@ -59,3 +54,65 @@ moveit_simple_controller_manager:
     joints:
       - f18
       - f19
+
+# -------- INDIVIDUAL ARM CONTROLLERS --------
+
+# moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+# moveit_simple_controller_manager:
+#   controller_names:
+#     - left_arm_controller
+#     - right_arm_controller
+#     # - head_controller
+#     # - left_hand_controller
+#     # - right_hand_controller
+
+#   left_arm_controller:
+#     type: FollowJointTrajectory
+#     action_ns: follow_joint_trajectory
+#     default: true
+#     joints:
+#       - j21
+#       - j22
+#       - j23
+#       - j24
+#       - j25
+#       - j26
+#       - j27
+
+#   right_arm_controller:
+#     type: FollowJointTrajectory
+#     action_ns: follow_joint_trajectory
+#     default: true
+#     joints:
+#       - j11
+#       - j12
+#       - j13
+#       - j14
+#       - j15
+#       - j16
+#       - j17
+
+#   # head_controller:
+#   #   type: FollowJointTrajectory
+#   #   action_ns: follow_joint_trajectory
+#   #   default: true
+#   #   joints:
+#   #     - j31
+#   #     - j32
+
+#   left_hand_controller:
+#     type: FollowJointTrajectory
+#     action_ns: follow_joint_trajectory
+#     default: true
+#     joints:
+#       - f28
+#       - f29
+
+#   right_hand_controller:
+#     type: FollowJointTrajectory
+#     action_ns: follow_joint_trajectory
+#     default: true
+#     joints:
+#       - f18
+#       - f19
