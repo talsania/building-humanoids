@@ -8,6 +8,6 @@
 
 ### Commands
 
-> ros2 launch moveit_setup_assistant setup_assistant.launch.py
+> ros2 launch myrobot_moveit_config move_group.launch.py
 >
-> ros2 launch dexsent_moveit_config demo.launch.py
+> ros2 launch myrobot_moveit_config planning_and_control.launch.py
