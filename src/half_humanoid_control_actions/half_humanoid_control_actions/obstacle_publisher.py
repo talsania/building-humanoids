@@ -1,3 +1,5 @@
+# obstacle publisher
+
 import rclpy
 from rclpy.node import Node
 from moveit_msgs.msg import PlanningScene, CollisionObject

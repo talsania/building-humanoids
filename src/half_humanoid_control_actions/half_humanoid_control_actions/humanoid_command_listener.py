@@ -1,3 +1,5 @@
+# listener
+
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
@@ -179,7 +181,7 @@ class HumanoidCommandListener(Node):
 
         goal_msg = MoveGroup.Goal()
         goal_msg.request = MotionPlanRequest()
-        goal_msg.request.group_name = group_name  # Use given group name
+        goal_msg.request.group_name = group_name
 
         constraint = Constraints()
         for name, pos in zip(joint_names, joint_positions):

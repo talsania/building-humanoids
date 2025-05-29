@@ -23,7 +23,7 @@ def generate_launch_description():
         value_type=str,
     )
 
-    # 2) SRDF - Fixed to use proper file reading
+    # 2) SRDF
     robot_description_semantic = ParameterValue(
         Command([
             "cat ",
