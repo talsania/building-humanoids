@@ -32,12 +32,12 @@ def generate_launch_description():
         value_type=str,
     )
 
-    # 3) MoveIt config files
-    moveit_controllers   = PathJoinSubstitution([pkg, "config", "moveit_controllers_for_launch.yaml"])
-    kinematics_yaml      = PathJoinSubstitution([pkg, "config", "kinematics.yaml"])
-    joint_limits_yaml    = PathJoinSubstitution([pkg, "config", "joint_limits.yaml"])
-    planning_scene_yaml  = PathJoinSubstitution([pkg, "config", "planning_scene_monitor_params.yaml"])
-    ompl_planning_yaml   = PathJoinSubstitution([pkg, "config", "ompl_planning.yaml"])
+    # # 3) MoveIt config files # Not needed here if move_group is launched separately
+    # moveit_controllers   = PathJoinSubstitution([pkg, "config", "moveit_controllers_for_launch.yaml"])
+    # kinematics_yaml      = PathJoinSubstitution([pkg, "config", "kinematics.yaml"])
+    # joint_limits_yaml    = PathJoinSubstitution([pkg, "config", "joint_limits.yaml"])
+    # planning_scene_yaml  = PathJoinSubstitution([pkg, "config", "planning_scene_monitor_params.yaml"])
+    # ompl_planning_yaml   = PathJoinSubstitution([pkg, "config", "ompl_planning.yaml"])
 
     # 4) ros2_control definitions
     ros2_ctrl_yaml       = PathJoinSubstitution([pkg, "config", "ros2_controllers.yaml"])
@@ -115,31 +115,31 @@ def generate_launch_description():
             ],
         ),
 
-        # —— MoveIt! move_group ——
-        Node(
-            package="moveit_ros_move_group",
-            executable="move_group",
-            name="move_group",
-            output="screen",
-            parameters=[
-                {"robot_description": robot_description},
-                {"robot_description_semantic": robot_description_semantic},
-                moveit_controllers,
-                kinematics_yaml,
-                joint_limits_yaml,
-                planning_scene_yaml,
-                ompl_planning_yaml,
-                {
-                    "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
-                    "planning_scene_monitor.publish_planning_scene": True,
-                    "planning_scene_monitor.publish_geometry_updates": True,
-                    "planning_scene_monitor.publish_state_updates": True,
-                    "planning_scene_monitor.publish_transforms_updates": True,
-                    "move_group.jiggle_fraction": 0.05,
-                    "move_group.max_safe_path_cost": 1.0,
-                }
-            ],
-        ),
+        # # —— MoveIt! move_group —— # <<< COMMENTED OUT / REMOVED THIS SECTION
+        # Node(
+        #     package="moveit_ros_move_group",
+        #     executable="move_group",
+        #     name="move_group",
+        #     output="screen",
+        #     parameters=[
+        #         {"robot_description": robot_description},
+        #         {"robot_description_semantic": robot_description_semantic},
+        #         moveit_controllers,
+        #         kinematics_yaml,
+        #         joint_limits_yaml,
+        #         planning_scene_yaml,
+        #         ompl_planning_yaml,
+        #         {
+        #             "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
+        #             "planning_scene_monitor.publish_planning_scene": True,
+        #             "planning_scene_monitor.publish_geometry_updates": True,
+        #             "planning_scene_monitor.publish_state_updates": True,
+        #             "planning_scene_monitor.publish_transforms_updates": True,
+        #             "move_group.jiggle_fraction": 0.05,
+        #             "move_group.max_safe_path_cost": 1.0,
+        #         }
+        #     ],
+        # ),
 
         # —— RViz ——
         Node(
