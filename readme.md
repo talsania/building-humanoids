@@ -16,10 +16,10 @@
 
 ### Updates
 
-- Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions to setup ROS2 workspace.
+- Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions to setup the humanoid workspace.
 
-- Integrate Dynamixel actuators with the ROS2 workspace for hardware-software communication.
+- Integrate Dynamixel actuators with the workspace for hardware-software communication.
 
-- Develope ROS2 actions using custom listeners and publishers for real-time robot control.
+- Develope ROS2 actions using custom listeners and publishers for real-time control.
 
-- Optimize backend pipeline to minimize planning and execution delays.
+- Optimize backend pipeline to optimize execution delays using OMPL only.
