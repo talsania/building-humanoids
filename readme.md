@@ -10,9 +10,9 @@
 
 > ros2 launch myrobot_moveit_config umbrella.launch.py
 
-> ros2 run half_humanoid_control_actions humanoid_command_publisher.py
-
 > ros2 run half_humanoid_control_actions humanoid_command_listener.py
+
+> ros2 run half_humanoid_control_actions humanoid_command_publisher.py
 
 ### Updates
 
