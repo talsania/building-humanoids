@@ -1,20 +1,33 @@
-### Add to ~/.bashrc
+# humanoid_ws
+ROS 2, MoveIt, Gazebo, RViz 2, Git, colcon, rosdep, URDF/Xacro, YAML
 
+## Commands
+
+#### install dependences
+> chmod +x ./bootstrap.sh
+> 
+> ./bootstrap.sh
+
+#### build workspace
+> colcon build
+> 
+> source install/setup.bash
+
+#### add to ~/.bashrc
 > source /opt/ros/humble/setup.bash
->
+> 
 > source ~/ws_moveit2/install/setup.bash
->
+> 
 > source ~/humanoid_ws/install/setup.bash
 
-### Commands
-
+#### run in seperate terminals
 > ros2 launch myrobot_moveit_config umbrella.launch.py
 
 > ros2 run half_humanoid_control_actions humanoid_command_listener.py
 
 > ros2 run half_humanoid_control_actions humanoid_command_publisher.py
 
-### Updates
+## Updates
 
 - Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions to setup the humanoid workspace.
 
