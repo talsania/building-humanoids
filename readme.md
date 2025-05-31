@@ -1,5 +1,5 @@
 # humanoid_ws
-ROS 2, MoveIt, Gazebo, RViz 2, Git, colcon, rosdep, URDF/Xacro, YAML
+ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 
 ## Commands
 
