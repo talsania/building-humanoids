@@ -1,48 +1,76 @@
-# config/ompl_planning.yaml
-move_group:
-  ros__parameters:
-    # tell MoveIt to load the OMPL pipeline
-    planning_pipelines:
-      ompl:
-        planner_plugins:
-          - "ompl_interface/OMPLPlanner"
+# This is the top-level key for OMPL parameters within the move_group node's namespace.
 
-    # make OMPL the default pipeline
-    default_planning_pipeline: ompl
+request_adapters: >
+  default_planner_request_adapters/AddTimeParameterization
+  default_planner_request_adapters/FixWorkspaceBounds
+  default_planner_request_adapters/FixStartStateBounds
+  default_planner_request_adapters/FixStartStateCollision
+  default_planner_request_adapters/FixStartStatePathConstraints
 
-    # standard request adapters to clean up your path/states
-    request_adapters:
-      - "default_planner_request_adapters/AddTimeParameterization"
-      - "default_planner_request_adapters/FixWorkspaceBounds"
-      - "default_planner_request_adapters/FixStartStateBounds"
-      - "default_planner_request_adapters/FixStartStateCollision"
-      - "default_planner_request_adapters/FixStartStatePathConstraints"
+start_state_max_bounds_error: 0.1
 
-    # how much error we'll tolerate in the start state bounds check
-    start_state_max_bounds_error: 0.1
+ompl:
+  planning_time: 10.0
+  max_velocity_scaling_factor: 0.1
+  max_acceleration_scaling_factor: 0.1
+  simplify_solutions: true
 
-    # OMPL-specific settings
-    ompl:
-      # global planning time (seconds) - increased for better success rate
-      planning_time: 10.0
-      # increased scaling factors for smoother motion
-      max_velocity_scaling_factor: 0.30
-      max_acceleration_scaling_factor: 0.30
+  workspace_parameters:
+    min_corner: [-1.0, -1.0, 0.0]
+    max_corner: [1.0, 1.0, 2.0]
 
-      # for each MoveIt group pick a planner
-      dual_arm:
-        planner_config: RRTConnectkConfigDefault
-        planning_time: 10.0
-      
-      left_arm:
-        planner_config: RRTConnectkConfigDefault
-        planning_time: 8.0
-        
-      right_arm:
-        planner_config: RRTConnectkConfigDefault
-        planning_time: 8.0
+  # Available planner configurations
+  # These are definitions of planners that can be selected per group.
+  planner_configs:
+    RRTConnectkConfigDefault:
+      type: geometric::RRTConnect
+      range: 0.0               # Max motion added to tree. If 0.0, default is computed.
+      goal_bias: 0.05          # When close to goal, try to connect to goal directly.
+      # Projection an string like "x", "y", "z". Only works for 3D.
+      # projection_evaluator: joints(joint1,joint2) 
+      # Other RRTConnect specific parameters can be added here if needed.
 
-      # define your default planner config parameters
-      RRTConnectkConfigDefault:
-        range: 0.0        # use default (automatically computed)
-        goal_bias: 0.05   # 5% bias toward goal
+    RRTstarkConfigDefault:
+      type: geometric::RRTstar
+      range: 0.0
+      goal_bias: 0.05
+      delay_collision_checking: true
+      # Other RRTstar specific parameters
+
+    # Add other planner config definitions as needed (e.g., PRM, EST, etc.)
+
+  # --- Planning Group Specific Configurations ---
+  # For each planning group in your SRDF, you can specify:
+  # - default_planner_config: The planner to use if not specified in a request.
+  # - planner_configs: A list of planners available for this group.
+  # - projection_evaluator: (Less common for general groups)
+  # - longest_valid_segment_fraction: (Advanced parameter)
+
+  # Example for your 'dual_arm' group
+  dual_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+    # projection_evaluator: joints(left_arm_joint1,right_arm_joint1) # Example if useful
+
+  # Example for your 'left_arm' group
+  left_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
+  # Example for your 'right_arm' group
+  right_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
+  # If you have an 'all_manipulators' group or other groups, configure them similarly.
+  # all_manipulators:
+  #   default_planner_config: RRTConnectkConfigDefault
+  #   planner_configs:
+  #     - RRTConnectkConfigDefault
+  #     - RRTstarkConfigDefault
