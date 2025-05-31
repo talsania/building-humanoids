@@ -29,7 +29,6 @@ def generate_launch_description():
         print("INFO: Deleting 'ompl.request_adapters' from base_moveit_params.")
         del base_moveit_params['ompl']['request_adapters']
 
-
     ompl_specific_planner_config_file_path = os.path.join(moveit_config_pkg_path, 'config', 'ompl_planning.yaml')
     ompl_config_from_file = {}
     try:
@@ -50,7 +49,13 @@ def generate_launch_description():
         final_move_group_params['ompl'] = {}
     final_move_group_params['ompl'].update(ompl_config_from_file) 
     final_move_group_params['ompl']['planning_plugin'] = "ompl_interface/OMPLPlanner"
-    final_move_group_params['ompl']['request_adapters'] = "" # Explicitly empty for OMPL to use global
+    final_move_group_params['ompl']['request_adapters'] = (
+    "default_planner_request_adapters/AddTimeOptimalParameterization "
+    "default_planner_request_adapters/FixWorkspaceBounds "
+    "default_planner_request_adapters/FixStartStateBounds "
+    "default_planner_request_adapters/FixStartStateCollision "
+    "default_planner_request_adapters/FixStartStatePathConstraints"
+    )
 
     # Pilz might still be loaded by default by MoveItConfigsBuilder, ensure its adapters are also empty
     if 'pilz_industrial_motion_planner' not in final_move_group_params:
