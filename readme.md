@@ -29,10 +29,10 @@ ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 
 ## Updates
 
-- Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions to setup the humanoid workspace.
+- Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions.
 
-- Integrate Dynamixel actuators with the workspace for hardware-software communication.
+- Integrate Dynamixel actuators with the workspace - hardware-software communication.
 
-- Develope ROS2 actions using custom listeners and publishers for real-time control.
+- Develope ROS2 actions using listeners and publishers for gestures.
 
-- Optimize backend pipeline to optimize execution delays using OMPL only.
+- Optimize backend pipeline, use OMPL for plan & execute, run with terminal only, eliminate execution delays.
