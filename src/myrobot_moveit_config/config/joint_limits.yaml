@@ -1,130 +1,64 @@
 ros__parameters:
-  default_velocity_scaling_factor: 0.3
-  default_acceleration_scaling_factor: 0.3
+  default_velocity_scaling_factor: 0.1  # Reduce for testing
+  default_acceleration_scaling_factor: 0.1
 
   joint_limits:
-    # Right arm
+    # Right arm (from URDF)
     j11:
       has_position_limits: true
-      min_position: -3.14
-      max_position: 3.14
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.571
+      max_position: 1.571
     j12:
       has_position_limits: true
-      min_position: -2.5
-      max_position: 2.5
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.22
+      max_position: 0.105
     j13:
       has_position_limits: true
-      min_position: -2.5
-      max_position: 2.5
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.571
+      max_position: 1.571
     j14:
       has_position_limits: true
-      min_position: -2.0
-      max_position: 2.0
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.0472
+      max_position: 1.309
     j15:
       has_position_limits: true
-      min_position: -3.14
-      max_position: 3.14
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.57
+      max_position: 1.57
     j16:
       has_position_limits: true
-      min_position: -1.57
-      max_position: 1.57
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -0.52
+      max_position: 0.52
     j17:
       has_position_limits: true
-      min_position: -3.14
-      max_position: 3.14
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.571
+      max_position: 1.571
 
-    # Left arm
+    # Left arm (from URDF)  
     j21:
       has_position_limits: true
-      min_position: -3.14
-      max_position: 3.14
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.571
+      max_position: 1.571
     j22:
       has_position_limits: true
-      min_position: -2.5
-      max_position: 2.5
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -0.105
+      max_position: 1.22
     j23:
       has_position_limits: true
-      min_position: -2.5
-      max_position: 2.5
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true 
-      max_acceleration: 3.0
+      min_position: -1.571
+      max_position: 1.571
     j24:
       has_position_limits: true
-      min_position: -2.0
-      max_position: 2.0
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+      min_position: -1.0472
+      max_position: 1.309
     j25:
-      has_position_limits: true
-      min_position: -3.14
-      max_position: 3.14
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
-    j26:
       has_position_limits: true
       min_position: -1.57
       max_position: 1.57
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
+    j26:
+      has_position_limits: true
+      min_position: -0.52
+      max_position: 0.52
     j27:
       has_position_limits: true
-      min_position: -3.14
-      max_position: 3.14
-      has_velocity_limits: true
-      max_velocity: 1.5
-      has_acceleration_limits: true
-      max_acceleration: 3.0
-
-    # Fingers
-    f18: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
-    f19: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
-    f28: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
-    f29: {has_position_limits: true, min_position: 0.0, max_position: 0.8, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
-
-    # Head
-    j31: {has_position_limits: true, min_position: -1.0, max_position: 1.0, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
-    j_32: {has_position_limits: true, min_position: -1.0, max_position: 1.0, has_velocity_limits: true, max_velocity: 1.0, has_acceleration_limits: true, max_acceleration: 2.0}
+      min_position: -1.571
+      max_position: 1.571
