@@ -7,9 +7,9 @@ moveit_simple_controller_manager:
     - dual_arm_controller
     # - left_arm_controller
     # - right_arm_controller
-    # - head_controller
-    # - left_hand_controller
-    # - right_hand_controller
+    - head_controller
+    - left_hand_controller
+    - right_hand_controller
 
   dual_arm_controller:
     type: FollowJointTrajectory
@@ -37,7 +37,7 @@ moveit_simple_controller_manager:
   #   default: true
   #   joints:
   #     - j31
-  #     - j32
+  #     - j_32
 
   left_hand_controller:
     type: FollowJointTrajectory

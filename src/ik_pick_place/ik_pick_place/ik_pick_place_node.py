@@ -592,7 +592,7 @@ class SeparatePickPlaceNode(Node):
                     self.create_timer(1.5, lambda: self.on_grip_complete(arm_type), clock=None)
                 else:
                     self.publish_status("Failed to reach pick position")
-                    self.get_logger().error("❌ PICK FAILED - could not reach position")
+                    self.get_logger().error("PICK FAILED - could not reach position")
                     self.is_busy = False
                     self.current_operation = None
                     
@@ -605,7 +605,7 @@ class SeparatePickPlaceNode(Node):
                     self.create_timer(1.5, lambda: self.on_release_complete(arm_type), clock=None)
                 else:
                     self.publish_status("Failed to reach place position")
-                    self.get_logger().error("❌ PLACE FAILED - could not reach position")
+                    self.get_logger().error("PLACE FAILED - could not reach position")
                     self.is_busy = False
                     self.current_operation = None
                     
@@ -614,10 +614,10 @@ class SeparatePickPlaceNode(Node):
                     self.last_pick_pose = None
                     self.last_arm_used = None
                     self.publish_status("HOME completed successfully")
-                    self.get_logger().info("✅ HOME SUCCESSFUL")
+                    self.get_logger().info("HOME SUCCESSFUL")
                 else:
                     self.publish_status("HOME failed")
-                    self.get_logger().error("❌ HOME FAILED")
+                    self.get_logger().error("HOME FAILED")
                 
                 self.is_busy = False
                 self.current_operation = None
@@ -635,14 +635,14 @@ class SeparatePickPlaceNode(Node):
         self.last_arm_used = arm_type
         
         self.publish_status(f"PICK completed successfully with {arm_type} arm")
-        self.get_logger().info(f"✅ PICK SUCCESSFUL with {arm_type} arm")
+        self.get_logger().info(f"PICK SUCCESSFUL with {arm_type} arm")
         self.is_busy = False
         self.current_operation = None
 
     def on_release_complete(self, arm_type):
         """Called when release simulation is complete"""
         self.publish_status(f"PLACE completed successfully with {arm_type} arm")
-        self.get_logger().info(f"✅ PLACE SUCCESSFUL with {arm_type} arm")
+        self.get_logger().info(f"PLACE SUCCESSFUL with {arm_type} arm")
         self.is_busy = False
         self.current_operation = None
 

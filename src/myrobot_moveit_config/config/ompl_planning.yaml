@@ -46,7 +46,6 @@ ompl:
   # - projection_evaluator: (Less common for general groups)
   # - longest_valid_segment_fraction: (Advanced parameter)
 
-  # Example for your 'dual_arm' group
   dual_arm:
     default_planner_config: RRTConnectkConfigDefault
     planner_configs:
@@ -54,15 +53,25 @@ ompl:
       - RRTstarkConfigDefault
     # projection_evaluator: joints(left_arm_joint1,right_arm_joint1) # Example if useful
 
-  # Example for your 'left_arm' group
   left_arm:
     default_planner_config: RRTConnectkConfigDefault
     planner_configs:
       - RRTConnectkConfigDefault
       - RRTstarkConfigDefault
 
-  # Example for your 'right_arm' group
   right_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
+  right_hand:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+  
+  left_hand:
     default_planner_config: RRTConnectkConfigDefault
     planner_configs:
       - RRTConnectkConfigDefault
