@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <!-- 👇 ADD THIS LINE: Declare initial_positions_file as an input arg -->
+  <!-- ADD THIS LINE: Declare initial_positions_file as an input arg -->
   <xacro:arg name="initial_positions_file" default="initial_positions.yaml"/>
 
   <xacro:macro name="myrobot_description_ros2_control"
@@ -33,43 +33,47 @@
         <param name="error_timeout_sec">0.2</param>
         <param name="dynamixel_model_folder">/param/dxl_model</param>
           <!-- 14 joints with 14 transmissions (each transmission drives a single joint) -->
-          <param name="number_of_joints">14</param>
-          <param name="number_of_transmissions">14</param>
-          <!-- transmission_to_joint_matrix is a 14x14 identity matrix -->
+          <param name="number_of_joints">16</param>
+          <param name="number_of_transmissions">16</param>
+          <!-- transmission_to_joint_matrix is a 16x16 identity matrix -->
           <!-- Each row: transmission i drives joint i -->
           <param name="transmission_to_joint_matrix">
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-          0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
           </param>
-          <!-- joint_to_transmission_matrix is a 14x14 identity matrix -->
+          <!-- joint_to_transmission_matrix is a 16x16 identity matrix -->
           <!-- Each joint is fully driven by its corresponding transmission -->
           <param name="joint_to_transmission_matrix">
-          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-          0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+          1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
           </param>
         <param name="ros_update_freq">200</param>
         <param name="dynamixel_state_pub_msg_name">dynamixel_hardware_interface/dxl_state</param>
@@ -193,7 +197,7 @@
       </joint>
       
       <!-- Head Joints -->
-      <!-- <joint name="j31">
+      <joint name="j31">
         <command_interface name="position"/>
         <state_interface name="position">
           <param name="initial_value">${initial_positions['j31']}</param>
@@ -206,7 +210,7 @@
           <param name="initial_value">${initial_positions['j_32']}</param>
         </state_interface>
         <state_interface name="velocity"/>
-      </joint> -->
+      </joint>
 
       <!-- GPIO Blocks for each dynamixel (IDs 0 to 15 for 16 joints) -->
       <gpio name="dxl1">
@@ -433,9 +437,10 @@
         <param name="Profile Acceleration">50</param>
         <param name="Drive Mode">0</param>
       </gpio>
-      <!-- <gpio name="dxl15">
+      <gpio name="dxl15">
         <param name="type">dxl</param>
-        <param name="ID">14</param>
+        <param name="ID">31</param>
+        <param name="model">XL430-W250</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
@@ -451,7 +456,8 @@
       </gpio>
       <gpio name="dxl16">
         <param name="type">dxl</param>
-        <param name="ID">15</param>
+        <param name="ID">32</param>
+        <param name="model">XL430-W250</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
@@ -464,6 +470,40 @@
         <param name="Profile Velocity">200</param>
         <param name="Profile Acceleration">50</param>
         <param name="Drive Mode">0</param>
+      </gpio>
+      <!-- <gpio name="dxl15">
+        <param name="type">dxl</param>
+        <param name="ID">31</param>
+        <param name="model">XL430-W250</param>
+        <command_interface name="Goal Position"/>
+        <state_interface name="Present Position"/>
+        <state_interface name="Present Velocity"/>
+        <state_interface name="Present Input Voltage"/>
+        <state_interface name="Present Temperature"/>
+        <param name="Torque Enable">1</param>
+        <param name="Drive Mode">0</param>
+        <param name="Position P Gain">800</param>
+        <param name="Position I Gain">100</param>
+        <param name="Position D Gain">100</param>
+        <param name="Profile Velocity">200</param>
+        <param name="Profile Acceleration">50</param>
+      </gpio>
+      <gpio name="dxl16">
+        <param name="type">dxl</param>
+        <param name="ID">32</param>
+        <param name="model">XL430-W250</param>
+        <command_interface name="Goal Position"/>
+        <state_interface name="Present Position"/>
+        <state_interface name="Present Velocity"/>
+        <state_interface name="Present Input Voltage"/>
+        <state_interface name="Present Temperature"/>
+        <param name="Torque Enable">1</param>
+        <param name="Drive Mode">0</param>
+        <param name="Position P Gain">800</param>
+        <param name="Position I Gain">100</param>
+        <param name="Position D Gain">100</param>
+        <param name="Profile Velocity">200</param>
+        <param name="Profile Acceleration">50</param>
       </gpio> -->
     </ros2_control>
   </xacro:macro>

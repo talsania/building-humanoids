@@ -53,16 +53,11 @@ def generate_launch_description():
             arguments=["dual_arm_controller", "--controller-manager", "/controller_manager"],
             output="screen"
         ),
-        # Node(
-        #     package="controller_manager",
-        #     executable="spawner",
-        #     arguments=["left_arm_controller", "--controller-manager", "/controller_manager"],
-        #     output="screen"
-        # ),
-        # Node(
-        #     package="controller_manager",
-        #     executable="spawner",
-        #     arguments=["right_arm_controller", "--controller-manager", "/controller_manager"],
-        #     output="screen"
-        # ),
+
+        Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["head_controller", "--controller-manager", "/controller_manager"],
+            output="screen"
+        ),
     ])

@@ -68,6 +68,12 @@ ompl:
       - RRTConnectkConfigDefault
       - RRTstarkConfigDefault
 
+  head:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
   # If you have an 'all_manipulators' group or other groups, configure them similarly.
   # all_manipulators:
   #   default_planner_config: RRTConnectkConfigDefault
