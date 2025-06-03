@@ -3,11 +3,6 @@ ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 
 ## Commands
 
-#### install dependences
-> chmod +x ./bootstrap.sh
-> 
-> ./bootstrap.sh
-
 #### build workspace
 > colcon build
 > 
