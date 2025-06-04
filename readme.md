@@ -4,6 +4,8 @@ ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 ## Commands
 
 #### build workspace
+> cd ~/humanoid_ws
+>
 > colcon build
 > 
 > source install/setup.bash
@@ -16,14 +18,14 @@ ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 > source ~/humanoid_ws/install/setup.bash
 
 #### run in seperate terminals
-> ros2 launch myrobot_moveit_config umbrella.launch.py  \# planning_and_control + move_group
+> ros2 launch myrobot_moveit_config umbrella.launch.py  *\# planning_and_control + move_group*
 > 
-> \# Topic Name: humanoid_command ->
+> *\# Topic Name: humanoid_command ->*
 > 
 > ros2 run half_humanoid_control_actions humanoid_command_listener.py
 > ros2 run half_humanoid_control_actions humanoid_command_publisher.py
 >
-> \# Run Pick&Place node ->
+> *\# Run Pick&Place node ->*
 > 
 > ros2 run ik_pick_place ik_pick_place_node
 
