@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <!-- 👇 ADD THIS LINE: Declare initial_positions_file as an input arg -->
+  <!-- ADD THIS LINE: Declare initial_positions_file as an input arg -->
   <xacro:arg name="initial_positions_file" default="initial_positions.yaml"/>
 
   <xacro:macro name="myrobot_description_ros2_control"
