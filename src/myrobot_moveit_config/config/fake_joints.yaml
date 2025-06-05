@@ -13,6 +13,4 @@ fake_joint_controller:
       - f19  
       - f28
       - f29
-      - j31
-      - j32
     interface_name: position

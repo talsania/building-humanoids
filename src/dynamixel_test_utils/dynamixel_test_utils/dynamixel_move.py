@@ -12,7 +12,7 @@ PROTOCOL_VERSION = 2.0
 # Default settings
 BAUDRATE = 4000000
 DEVICENAME = '/dev/ttyUSB0'  # Change this to match your port
-DXL_ID = 11  # Change this to your motor ID
+DXL_ID = 31  # Change this to your motor ID
 
 # Control table addresses (may vary by model)
 ADDR_TORQUE_ENABLE = 64
