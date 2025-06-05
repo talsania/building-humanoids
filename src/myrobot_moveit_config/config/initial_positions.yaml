@@ -18,5 +18,5 @@ initial_positions:
   j27: 0.0            # in [-1.571, 1.571]
 
   # Head
-  j31: 0.0           
+  j31: 0.0
   j_32: 0.0

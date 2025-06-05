@@ -5,7 +5,7 @@ from rclpy.node import Node
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
 
-from geometry_msgs.msg import PoseStamped, Pose, TransformStamped
+from geometry_msgs.msg import PoseStamped, Pose
 from std_msgs.msg import Float64MultiArray, String
 from moveit_msgs.action import MoveGroup
 from moveit_msgs.msg import (
@@ -18,8 +18,6 @@ from moveit_msgs.msg import (
 )
 from moveit_msgs.srv import GetPositionIK
 from sensor_msgs.msg import JointState
-import tf2_ros
-import tf2_geometry_msgs
 
 import numpy as np
 from rclpy.action import ActionClient
@@ -31,10 +29,6 @@ class SeparatePickPlaceNode(Node):
         
         # Use reentrant callback group for action clients
         self.callback_group = ReentrantCallbackGroup()
-        
-        # TF2 Buffer and Listener for coordinate transformations
-        self.tf_buffer = tf2_ros.Buffer()
-        self.tf_listener = tf2_ros.TransformListener(self.tf_buffer, self)
         
         # Action client for MoveGroup
         self.move_group_client = ActionClient(
@@ -112,7 +106,6 @@ class SeparatePickPlaceNode(Node):
         # Robot configuration
         self.planning_group = "dual_arm"
         self.base_frame = "base_link"
-        self.camera_frame = "camera_link"
         
         # Joint names for both arms
         self.right_arm_joints = ["j11", "j12", "j13", "j14", "j15", "j16", "j17"]
@@ -135,26 +128,11 @@ class SeparatePickPlaceNode(Node):
         self.last_pick_pose = None
         self.last_arm_used = None
         
-        # Wait for transform to be available
-        self.get_logger().info(f'Waiting for transform from {self.camera_frame} to {self.base_frame}...')
-        try:
-            self.tf_buffer.lookup_transform(
-                self.base_frame, 
-                self.camera_frame, 
-                rclpy.time.Time(),
-                timeout=rclpy.duration.Duration(seconds=10.0)
-            )
-            self.get_logger().info('Transform available!')
-        except Exception as e:
-            self.get_logger().warning(f'Transform not available: {str(e)}')
-            self.get_logger().warning('Will continue without transform - make sure robot_state_publisher is running')
-        
         self.get_logger().info('=== Separate Pick and Place Node Initialized ===')
         self.get_logger().info('Available Commands:')
         self.get_logger().info('  1. PICK: ros2 topic pub --once /pick_command std_msgs/msg/Float64MultiArray "data: [...]"')
         self.get_logger().info('  2. PLACE: ros2 topic pub --once /place_command std_msgs/msg/Float64MultiArray "data: [...]"')
         self.get_logger().info('  3. HOME: ros2 topic pub --once /home_command std_msgs/msg/String "data: go_home"')
-        self.get_logger().info('IMPORTANT: Input poses are expected in camera_link frame!')
         self.get_logger().info('If y > 0: Left arm will move, if y < 0: Right arm will move')
 
     def joint_state_callback(self, msg):
@@ -164,33 +142,6 @@ class SeparatePickPlaceNode(Node):
             return
         self._joint_state_received = True
         self.get_logger().info(f"Received joint states for joints: {msg.name[:5]}...")
-
-    def transform_pose_to_base_link(self, pose_in_camera_frame):
-        """Transform pose from camera_link to base_link"""
-        try:
-            # Create a PoseStamped in camera frame
-            pose_stamped = PoseStamped()
-            pose_stamped.header.frame_id = self.camera_frame
-            pose_stamped.header.stamp = self.get_clock().now().to_msg()
-            pose_stamped.pose = pose_in_camera_frame
-            
-            # Transform to base_link
-            transformed_pose = self.tf_buffer.transform(
-                pose_stamped, 
-                self.base_frame,
-                timeout=rclpy.duration.Duration(seconds=1.0)
-            )
-            
-            self.get_logger().info(f"Transformed pose:")
-            self.get_logger().info(f"  Camera frame: ({pose_in_camera_frame.position.x:.3f}, {pose_in_camera_frame.position.y:.3f}, {pose_in_camera_frame.position.z:.3f})")
-            self.get_logger().info(f"  Base frame:   ({transformed_pose.pose.position.x:.3f}, {transformed_pose.pose.position.y:.3f}, {transformed_pose.pose.position.z:.3f})")
-            
-            return transformed_pose.pose
-            
-        except Exception as e:
-            self.get_logger().error(f"Failed to transform pose: {str(e)}")
-            self.get_logger().warning("Using original pose (assuming it's already in base_link)")
-            return pose_in_camera_frame
 
     def pick_command_callback(self, msg):
         """Handle pick command"""
@@ -210,29 +161,29 @@ class SeparatePickPlaceNode(Node):
             # Convert to 4x4 numpy matrix
             matrix = np.array(msg.data).reshape(4, 4)
             self.get_logger().info(f'=== PICK COMMAND ===')
-            self.get_logger().info(f'Target matrix (camera_link frame):\n{matrix}')
+            self.get_logger().info(f'Target matrix:\n{matrix}')
             
-            # Convert matrix to pose in camera frame
-            target_pose_camera = self.matrix_to_pose(matrix)
+            # Convert matrix to pose
+            target_pose = self.matrix_to_pose(matrix)
             
-            # Transform pose to base_link frame
-            target_pose_base = self.transform_pose_to_base_link(target_pose_camera)
-            
-            # Determine which arm to use (using base_link coordinates)
-            if target_pose_base.position.y > 0:
+            # Determine which arm to use
+            if target_pose.position.y > 0:
                 arm_type = "left"
                 end_effector_link = self.left_end_effector
-                self.get_logger().info(f"Target y={target_pose_base.position.y:.3f} > 0, using LEFT arm")
+                self.get_logger().info(f"Target y={target_pose.position.y:.3f} > 0, using LEFT arm")
             else:
                 arm_type = "right"
                 end_effector_link = self.right_end_effector
-                self.get_logger().info(f"Target y={target_pose_base.position.y:.3f} < 0, using RIGHT arm")
+                self.get_logger().info(f"Target y={target_pose.position.y:.3f} < 0, using RIGHT arm")
             
             # Store target pose temporarily for later use
-            self._temp_target_pose = target_pose_base
+            self._temp_target_pose = target_pose
             
             # Execute pick operation asynchronously
-            self.execute_pick(target_pose_base, arm_type, end_effector_link)
+            self.execute_pick(target_pose, arm_type, end_effector_link)
+            
+            # Note: Success/failure will be determined by callbacks
+            # Don't set is_busy = False here - let callbacks handle it
             
         except Exception as e:
             self.is_busy = False
@@ -258,18 +209,15 @@ class SeparatePickPlaceNode(Node):
             # Convert to 4x4 numpy matrix
             matrix = np.array(msg.data).reshape(4, 4)
             self.get_logger().info(f'=== PLACE COMMAND ===')
-            self.get_logger().info(f'Target matrix (camera_link frame):\n{matrix}')
+            self.get_logger().info(f'Target matrix:\n{matrix}')
             
-            # Convert matrix to pose in camera frame
-            target_pose_camera = self.matrix_to_pose(matrix)
-            
-            # Transform pose to base_link frame
-            target_pose_base = self.transform_pose_to_base_link(target_pose_camera)
+            # Convert matrix to pose
+            target_pose = self.matrix_to_pose(matrix)
             
             # Use same arm as last pick operation
             if self.last_arm_used is None:
                 self.get_logger().warning("No previous pick operation found. Using arm based on Y coordinate.")
-                if target_pose_base.position.y > 0:
+                if target_pose.position.y > 0:
                     arm_type = "left"
                     end_effector_link = self.left_end_effector
                 else:
@@ -281,7 +229,10 @@ class SeparatePickPlaceNode(Node):
                 self.get_logger().info(f"Using {arm_type} arm from previous pick operation")
             
             # Execute place operation asynchronously
-            self.execute_place(target_pose_base, arm_type, end_effector_link)
+            self.execute_place(target_pose, arm_type, end_effector_link)
+            
+            # Note: Success/failure will be determined by callbacks
+            # Don't set is_busy = False here - let callbacks handle it
             
         except Exception as e:
             self.is_busy = False
@@ -306,6 +257,9 @@ class SeparatePickPlaceNode(Node):
             # Execute home operation asynchronously
             self.execute_home()
             
+            # Note: Success/failure will be determined by callbacks
+            # Don't set is_busy = False here - let callbacks handle it
+            
         except Exception as e:
             self.is_busy = False
             self.current_operation = None
@@ -321,8 +275,7 @@ class SeparatePickPlaceNode(Node):
         pose.position.y = float(matrix[1, 3])
         pose.position.z = float(matrix[2, 3])
         
-        # Extract rotation (3x3 rotation matrix to quaternion)
-        # For now, use known working orientation - you can enhance this later
+        # Use known working orientation
         pose.orientation.x = 0.6081581904825833
         pose.orientation.y = -0.36075423122806877
         pose.orientation.z = -0.6081581904825835
@@ -349,7 +302,7 @@ class SeparatePickPlaceNode(Node):
             
             # Start async movement
             self.move_to_joint_state_async(target_joints, arm_type, "PICK")
-            return True
+            return True  # Return immediately, completion handled by callback
             
         except Exception as e:
             self.get_logger().error(f"Error in execute_pick: {str(e)}")
@@ -369,7 +322,7 @@ class SeparatePickPlaceNode(Node):
             
             # Start async movement
             self.move_to_joint_state_async(target_joints, arm_type, "PLACE")
-            return True
+            return True  # Return immediately, completion handled by callback
             
         except Exception as e:
             self.get_logger().error(f"Error in execute_place: {str(e)}")
@@ -382,7 +335,7 @@ class SeparatePickPlaceNode(Node):
             
             # Start async movement
             self.move_to_joint_state_async(self.dual_home_joints, "both", "HOME")
-            return True
+            return True  # Return immediately, completion handled by callback
             
         except Exception as e:
             self.get_logger().error(f"Error in execute_home: {str(e)}")
@@ -441,17 +394,19 @@ class SeparatePickPlaceNode(Node):
             ik_request.ik_request.timeout.nanosec = 0
             
             # Call IK service
-            self.get_logger().info(f"Solving IK for pose (base_link): ({target_pose.position.x:.3f}, {target_pose.position.y:.3f}, {target_pose.position.z:.3f})")
+            self.get_logger().info(f"Solving IK for pose: ({target_pose.position.x:.3f}, {target_pose.position.y:.3f}, {target_pose.position.z:.3f})")
             self.get_logger().info(f"Using planning group: {ik_planning_group}, end effector: {end_effector_link}")
             
             future = self.ik_client.call_async(ik_request)
             
-            # Use threading to prevent blocking
+            # Use a very short timeout to prevent blocking
             import threading
             result_container = [None]
             
             def ik_thread():
+                # This runs in a separate thread to avoid blocking
                 try:
+                    # Give it a short time to complete
                     import time
                     start_time = time.time()
                     while not future.done() and (time.time() - start_time) < 3.0:
@@ -465,9 +420,10 @@ class SeparatePickPlaceNode(Node):
                     self.get_logger().error(f"IK thread error: {str(e)}")
                     result_container[0] = "ERROR"
             
+            # Start thread and wait briefly
             thread = threading.Thread(target=ik_thread)
             thread.start()
-            thread.join(timeout=3.5)
+            thread.join(timeout=3.5)  # Wait max 3.5 seconds
             
             response = result_container[0]
             

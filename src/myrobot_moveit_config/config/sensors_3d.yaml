@@ -24,7 +24,6 @@ kinect_depthimage:
   sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
   shadow_threshold: 0.2
 
-
 # sensors:
 #   - realsense_pointcloud
 

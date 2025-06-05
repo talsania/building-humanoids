@@ -7,6 +7,7 @@ move_group:
       controller_names:
         - dual_arm_controller
         - head_controller
+
       dual_arm_controller:
         type: FollowJointTrajectory
         action_ns: follow_joint_trajectory
@@ -26,6 +27,7 @@ move_group:
           - j25
           - j26
           - j27
+      
       head_controller:
         type: FollowJointTrajectory
         action_ns: follow_joint_trajectory
