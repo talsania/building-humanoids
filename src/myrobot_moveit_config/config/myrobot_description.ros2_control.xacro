@@ -55,7 +55,7 @@
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
           </param>
-          <!-- joint_to_transmission_matrix is a 14x14 identity matrix -->
+          <!-- joint_to_transmission_matrix is a 16x16 identity matrix -->
           <!-- Each joint is fully driven by its corresponding transmission -->
           <param name="joint_to_transmission_matrix">
           1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
