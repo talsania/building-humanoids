@@ -1,0 +1,42 @@
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/simultaneous.cpp:[m[K In constructor ‘[01m[KReachyController::ReachyController(const SharedPtr&)[m[K’:
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/simultaneous.cpp:89:50:[m[K [01;35m[Kwarning: [m[K‘[01m[KReachyController::right_gripper_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   89 |   moveit::planning_interface::MoveGroupInterface [01;35m[Kright_gripper_[m[K;
+      |                                                  [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/simultaneous.cpp:84:54:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kmoveit::planning_interface::PlanningSceneInterface ReachyController::planning_scene_interface_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   84 |   moveit::planning_interface::PlanningSceneInterface [01;35m[Kplanning_scene_interface_[m[K;
+      |                                                      [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/simultaneous.cpp:30:3:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   30 |   [01;35m[KReachyController[m[K(const rclcpp::Node::SharedPtr &node)
+      |   [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:[m[K In constructor ‘[01m[KReachyController::ReachyController(const SharedPtr&)[m[K’:
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:329:27:[m[K [01;35m[Kwarning: [m[K‘[01m[KReachyController::node_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  329 |   rclcpp::Node::SharedPtr [01;35m[Knode_[m[K;
+      |                           [01;35m[K^~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:72:50:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kmoveit::planning_interface::MoveGroupInterface ReachyController::move_group_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   72 |   moveit::planning_interface::MoveGroupInterface [01;35m[Kmove_group_[m[K;
+      |                                                  [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:54:3:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   54 |   [01;35m[KReachyController[m[K(const rclcpp::Node::SharedPtr &node)
+      |   [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:75:50:[m[K [01;35m[Kwarning: [m[K‘[01m[KReachyController::head_group_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   75 |   moveit::planning_interface::MoveGroupInterface [01;35m[Khead_group_[m[K;
+      |                                                  [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:73:50:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kmoveit::planning_interface::MoveGroupInterface ReachyController::left_gripper_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   73 |   moveit::planning_interface::MoveGroupInterface [01;35m[Kleft_gripper_[m[K;
+      |                                                  [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:54:3:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   54 |   [01;35m[KReachyController[m[K(const rclcpp::Node::SharedPtr &node)
+      |   [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:333:30:[m[K [01;35m[Kwarning: [m[K‘[01m[KReachyController::tf_listener_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  333 |   tf2_ros::TransformListener [01;35m[Ktf_listener_[m[K;
+      |                              [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:330:54:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kmoveit::planning_interface::PlanningSceneInterface ReachyController::planning_scene_interface_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  330 |   moveit::planning_interface::PlanningSceneInterface [01;35m[Kplanning_scene_interface_[m[K;
+      |                                                      [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:54:3:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   54 |   [01;35m[KReachyController[m[K(const rclcpp::Node::SharedPtr &node)
+      |   [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:[m[K In member function ‘[01m[Krclcpp_action::GoalResponse ReachyControlServer::handle_goal(const GoalUUID&, std::shared_ptr<const dual_panda_moveit2_interface::action::Move_Goal_<std::allocator<void> > >)[m[K’:
+[01m[K/home/kptal/humanoid_ws/src/dual_panda_moveit2/src/temp.cpp:523:110:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kgoal[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  523 |   rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID &, [01;35m[Kstd::shared_ptr<const Move::Goal> goal[m[K)
+      |                                                                            [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~[m[K

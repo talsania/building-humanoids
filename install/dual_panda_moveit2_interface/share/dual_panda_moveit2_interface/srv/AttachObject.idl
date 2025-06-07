@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from dual_panda_moveit2_interface/srv/AttachObject.srv
+// generated code does not contain a copyright notice
+
+
+module dual_panda_moveit2_interface {
+  module srv {
+    struct AttachObject_Request {
+      string id;
+
+      string link;
+    };
+    struct AttachObject_Response {
+      boolean success;
+    };
+  };
+};

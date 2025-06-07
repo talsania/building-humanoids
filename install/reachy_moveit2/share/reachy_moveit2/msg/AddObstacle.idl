@@ -1,0 +1,33 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from reachy_moveit2/msg/AddObstacle.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/PoseStamped.idl"
+#include "shape_msgs/msg/SolidPrimitive.idl"
+#include "std_msgs/msg/Header.idl"
+
+module reachy_moveit2 {
+  module msg {
+    @verbatim (language="comment", text=
+      "AddObstacle.msg")
+    struct AddObstacle {
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "Unique identifier for the obstacle.")
+      string id;
+
+      @verbatim (language="comment", text=
+        "Operation to perform: \"ADD\" or \"REMOVE\"")
+      string operation;
+
+      @verbatim (language="comment", text=
+        "Shape of the obstacle.")
+      shape_msgs::msg::SolidPrimitive primitive;
+
+      @verbatim (language="comment", text=
+        "Pose of the obstacle in the planning frame.")
+      geometry_msgs::msg::PoseStamped pose;
+    };
+  };
+};

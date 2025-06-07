@@ -1,0 +1,242 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-6d71aef038eaf02d2d84.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				},
+				{
+					"build" : "reachy_moveit2__py",
+					"jsonFile" : "directory-reachy_moveit2__py-1d4fd3f397601c883040.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/kptal/humanoid_ws/build/reachy_moveit2/reachy_moveit2__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "reachy_moveit2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_reachy_moveit2_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_reachy_moveit2_egg-f95fc465f46f859db2db.json",
+					"name" : "ament_cmake_python_build_reachy_moveit2_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_reachy_moveit2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_reachy_moveit2-41b7225f02e6d9c413d5.json",
+					"name" : "ament_cmake_python_copy_reachy_moveit2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2-695f99a202b4eb709091.json",
+					"name" : "reachy_moveit2",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__cpp-d67dece4e3b9872ccbb3.json",
+					"name" : "reachy_moveit2__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "reachy_moveit2__py::@f3834883f1637a47293a",
+					"jsonFile" : "target-reachy_moveit2__py-b31b9c853850d7bc4505.json",
+					"name" : "reachy_moveit2__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_generator_c-d62dac70fa145e948d20.json",
+					"name" : "reachy_moveit2__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_generator_py-5149215fa01fddbf4cef.json",
+					"name" : "reachy_moveit2__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_c-6c6fae36c50573bac816.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_c__pyext-f42a799d0df3d8288cc2.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_cpp-022030d9fe834c43d0a7.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_fastrtps_c-2929c359cc209a778976.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_fastrtps_c__pyext-97940fc450e8e243c35b.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_fastrtps_cpp-6562596542a732f7a5a8.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_introspection_c-339a52d0cbf7be584c4d.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_introspection_c__pyext-8bdcb3750713151d8b35.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2__rosidl_typesupport_introspection_cpp-1114428d70e14e6577e1.json",
+					"name" : "reachy_moveit2__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_moveit2_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_moveit2_uninstall-8dc396a36db1bd2d6e07.json",
+					"name" : "reachy_moveit2_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reachy_sdk::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reachy_sdk-5f2d01882d4f3390757c.json",
+					"name" : "reachy_sdk",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-29a4e34d660992d620e7.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/kptal/humanoid_ws/build/reachy_moveit2",
+		"source" : "/home/kptal/humanoid_ws/src/reachy_moveit2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

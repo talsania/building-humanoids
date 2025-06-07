@@ -1,0 +1,9 @@
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:msg/ObjectSpec.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:msg/RobotPose.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:msg/SpawnBatch.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:action/Move.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:srv/GripperControl.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:srv/SpawnObject.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:srv/RemoveObject.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:srv/AttachObject.idl
+/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/rosidl_adapter/dual_panda_moveit2_interface:srv/DetachObject.idl

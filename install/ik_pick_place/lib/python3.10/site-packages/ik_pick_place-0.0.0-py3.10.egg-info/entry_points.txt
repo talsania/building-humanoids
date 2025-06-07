@@ -1,0 +1,5 @@
+[console_scripts]
+debug_ik_node = ik_pick_place.debug_ik_node:main
+ik_pick_place_node = ik_pick_place.ik_pick_place_node:main
+simple_ik_test = ik_pick_place.simple_ik_test:main
+

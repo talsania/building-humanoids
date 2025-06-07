@@ -1,0 +1,233 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-708ccea0c042192764f9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				},
+				{
+					"build" : "dual_panda_moveit2_interface__py",
+					"jsonFile" : "directory-dual_panda_moveit2_interface__py-dd85d348142b0ce5976a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/dual_panda_moveit2_interface__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "dual_panda_moveit2_interface",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_dual_panda_moveit2_interface_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_dual_panda_moveit2_interface_egg-82d8fea9318ecbf00334.json",
+					"name" : "ament_cmake_python_build_dual_panda_moveit2_interface_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_dual_panda_moveit2_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_dual_panda_moveit2_interface-d266d57b5eaa745f50a1.json",
+					"name" : "ament_cmake_python_copy_dual_panda_moveit2_interface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface-3a85b52c377492eb22b9.json",
+					"name" : "dual_panda_moveit2_interface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__cpp-06f7826fafc5393b47a9.json",
+					"name" : "dual_panda_moveit2_interface__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "dual_panda_moveit2_interface__py::@25f2f4d0f80aeaed0a99",
+					"jsonFile" : "target-dual_panda_moveit2_interface__py-ff9c09e98846763e313f.json",
+					"name" : "dual_panda_moveit2_interface__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_generator_c-61e04e15f51ff1edc911.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_generator_py-345fd13998e659f2f90c.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_c-6c490edf8539da1b7439.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_c__pyext-5651aebbced2bf4060b9.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_cpp-109aa91b9cb54119489f.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_c-056bfc7b39a49fda98f8.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_c__pyext-d9cf039df456a0f0bc58.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_cpp-119617ab1e2e2e286e98.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_introspection_c-c279f967b05464ecbfd4.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_introspection_c__pyext-9ac36004754e0bedf467.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface__rosidl_typesupport_introspection_cpp-e3d0a282516167fdb976.json",
+					"name" : "dual_panda_moveit2_interface__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dual_panda_moveit2_interface_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dual_panda_moveit2_interface_uninstall-04fedd92a7542e2ecb02.json",
+					"name" : "dual_panda_moveit2_interface_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-c7830c10d868bc5d9dd4.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface",
+		"source" : "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

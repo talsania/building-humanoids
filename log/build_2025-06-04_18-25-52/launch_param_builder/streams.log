@@ -1,0 +1,50 @@
+[0.493s] Invoking command in '/home/kptal/humanoid_ws/src/launch_param_builder': PYTHONPATH=/home/kptal/humanoid_ws/build/launch_param_builder/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/launch_param_builder build --build-base /home/kptal/humanoid_ws/build/launch_param_builder/build install --record /home/kptal/humanoid_ws/build/launch_param_builder/install.log --single-version-externally-managed install_data
+[0.675s] running egg_info
+[0.675s] creating ../../build/launch_param_builder/launch_param_builder.egg-info
+[0.675s] writing ../../build/launch_param_builder/launch_param_builder.egg-info/PKG-INFO
+[0.675s] writing dependency_links to ../../build/launch_param_builder/launch_param_builder.egg-info/dependency_links.txt
+[0.675s] writing entry points to ../../build/launch_param_builder/launch_param_builder.egg-info/entry_points.txt
+[0.675s] writing requirements to ../../build/launch_param_builder/launch_param_builder.egg-info/requires.txt
+[0.675s] writing top-level names to ../../build/launch_param_builder/launch_param_builder.egg-info/top_level.txt
+[0.676s] writing manifest file '../../build/launch_param_builder/launch_param_builder.egg-info/SOURCES.txt'
+[0.677s] reading manifest file '../../build/launch_param_builder/launch_param_builder.egg-info/SOURCES.txt'
+[0.677s] adding license file 'LICENSE'
+[0.678s] writing manifest file '../../build/launch_param_builder/launch_param_builder.egg-info/SOURCES.txt'
+[0.678s] running build
+[0.678s] running build_py
+[0.678s] creating /home/kptal/humanoid_ws/build/launch_param_builder/build
+[0.678s] creating /home/kptal/humanoid_ws/build/launch_param_builder/build/lib
+[0.678s] creating /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder
+[0.678s] copying launch_param_builder/launch_param_builder.py -> /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder
+[0.678s] copying launch_param_builder/utils.py -> /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder
+[0.678s] copying launch_param_builder/__init__.py -> /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder
+[0.678s] running install
+[0.679s] running install_lib
+[0.679s] creating /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder
+[0.679s] copying /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder/launch_param_builder.py -> /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder
+[0.679s] copying /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder/utils.py -> /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder
+[0.679s] copying /home/kptal/humanoid_ws/build/launch_param_builder/build/lib/launch_param_builder/__init__.py -> /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder
+[0.680s] byte-compiling /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder/launch_param_builder.py to launch_param_builder.cpython-310.pyc
+[0.680s] byte-compiling /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder/utils.py to utils.cpython-310.pyc
+[0.681s] byte-compiling /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder/__init__.py to __init__.cpython-310.pyc
+[0.681s] running install_data
+[0.681s] creating /home/kptal/humanoid_ws/install/launch_param_builder/share/ament_index
+[0.681s] creating /home/kptal/humanoid_ws/install/launch_param_builder/share/ament_index/resource_index
+[0.681s] creating /home/kptal/humanoid_ws/install/launch_param_builder/share/ament_index/resource_index/packages
+[0.681s] copying resource/launch_param_builder -> /home/kptal/humanoid_ws/install/launch_param_builder/share/ament_index/resource_index/packages
+[0.681s] creating /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/launch
+[0.681s] copying example/launch_param_builder_example.launch.py -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/launch
+[0.681s] creating /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/config
+[0.681s] copying test/data/parameter.xacro -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/config
+[0.682s] copying test/data/parameters.yaml -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/config
+[0.682s] copying test/data/parameters_injection.yaml -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/config
+[0.683s] copying test/data/param_file_to_inject.yaml -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/config
+[0.683s] copying test/data/parameter_file -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder/config
+[0.684s] copying package.xml -> /home/kptal/humanoid_ws/install/launch_param_builder/share/launch_param_builder
+[0.684s] creating /home/kptal/humanoid_ws/install/launch_param_builder/lib/launch_param_builder
+[0.684s] copying example/example_node.py -> /home/kptal/humanoid_ws/install/launch_param_builder/lib/launch_param_builder
+[0.684s] running install_egg_info
+[0.686s] Copying ../../build/launch_param_builder/launch_param_builder.egg-info to /home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages/launch_param_builder-0.1.1-py3.10.egg-info
+[0.687s] running install_scripts
+[0.711s] writing list of installed files to '/home/kptal/humanoid_ws/build/launch_param_builder/install.log'
+[0.749s] Invoked command in '/home/kptal/humanoid_ws/src/launch_param_builder' returned '0': PYTHONPATH=/home/kptal/humanoid_ws/build/launch_param_builder/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/launch_param_builder/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/launch_param_builder build --build-base /home/kptal/humanoid_ws/build/launch_param_builder/build install --record /home/kptal/humanoid_ws/build/launch_param_builder/install.log --single-version-externally-managed install_data

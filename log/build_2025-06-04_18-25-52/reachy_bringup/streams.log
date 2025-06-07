@@ -1,0 +1,55 @@
+[0.016s] Invoking command in '/home/kptal/humanoid_ws/build/reachy_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake /home/kptal/humanoid_ws/src/reachy_bringup -DCMAKE_INSTALL_PREFIX=/home/kptal/humanoid_ws/install/reachy_bringup
+[0.103s] -- The C compiler identification is GNU 11.4.0
+[0.178s] -- The CXX compiler identification is GNU 11.4.0
+[0.187s] -- Detecting C compiler ABI info
+[0.290s] -- Detecting C compiler ABI info - done
+[0.298s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.298s] -- Detecting C compile features
+[0.299s] -- Detecting C compile features - done
+[0.302s] -- Detecting CXX compiler ABI info
+[0.416s] -- Detecting CXX compiler ABI info - done
+[0.424s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.424s] -- Detecting CXX compile features
+[0.425s] -- Detecting CXX compile features - done
+[0.432s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.661s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.838s] -- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.054s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.064s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.073s] -- Added test 'lint_cmake' to check CMake code style
+[1.081s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[1.090s] -- Added test 'xmllint' to check XML markup files
+[1.109s] -- Configuring done
+[1.138s] -- Generating done
+[1.146s] -- Build files have been written to: /home/kptal/humanoid_ws/build/reachy_bringup
+[1.168s] Invoked command in '/home/kptal/humanoid_ws/build/reachy_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake /home/kptal/humanoid_ws/src/reachy_bringup -DCMAKE_INSTALL_PREFIX=/home/kptal/humanoid_ws/install/reachy_bringup
+[1.169s] Invoking command in '/home/kptal/humanoid_ws/build/reachy_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/kptal/humanoid_ws/build/reachy_bringup -- -j18 -l18
+[1.445s] Invoked command in '/home/kptal/humanoid_ws/build/reachy_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/kptal/humanoid_ws/build/reachy_bringup -- -j18 -l18
+[1.447s] Invoking command in '/home/kptal/humanoid_ws/build/reachy_bringup': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/kptal/humanoid_ws/build/reachy_bringup
+[1.488s] -- Install configuration: ""
+[1.489s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config
+[1.489s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_no_orbita_controllers.yaml
+[1.497s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_starter_kit_left_controllers.yaml
+[1.497s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_right_arm_controllers.yaml
+[1.504s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_antenna_controllers.yaml
+[1.505s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_full_kit_controllers.yaml
+[1.505s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_controllers.yaml
+[1.506s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/config/reachy_starter_kit_right_controllers.yaml
+[1.508s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/launch
+[1.508s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/launch/reachy.launch.py
+[1.509s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/ament_index/resource_index/package_run_dependencies/reachy_bringup
+[1.517s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/ament_index/resource_index/parent_prefix_path/reachy_bringup
+[1.517s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/environment/ament_prefix_path.sh
+[1.517s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/environment/ament_prefix_path.dsv
+[1.518s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/environment/path.sh
+[1.518s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/environment/path.dsv
+[1.518s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/local_setup.bash
+[1.518s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/local_setup.sh
+[1.518s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/local_setup.zsh
+[1.518s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/local_setup.dsv
+[1.528s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/package.dsv
+[1.529s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/ament_index/resource_index/packages/reachy_bringup
+[1.529s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/cmake/reachy_bringupConfig.cmake
+[1.529s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/cmake/reachy_bringupConfig-version.cmake
+[1.529s] -- Installing: /home/kptal/humanoid_ws/install/reachy_bringup/share/reachy_bringup/package.xml
+[1.533s] Invoked command in '/home/kptal/humanoid_ws/build/reachy_bringup' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/kptal/humanoid_ws/build/reachy_bringup

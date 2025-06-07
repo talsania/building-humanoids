@@ -1,0 +1,6 @@
+[console_scripts]
+humanoid_action_client = half_humanoid_control_actions.humanoid_action_client:main
+humanoid_command_listener = half_humanoid_control_actions.humanoid_command_listener:main
+humanoid_command_publisher = half_humanoid_control_actions.humanoid_command_publisher:main
+obstacle_publisher = half_humanoid_control_actions.obstacle_publisher:main
+

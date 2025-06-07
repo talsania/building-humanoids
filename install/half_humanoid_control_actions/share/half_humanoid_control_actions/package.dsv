@@ -1,0 +1,6 @@
+source;share/half_humanoid_control_actions/hook/pythonpath.ps1
+source;share/half_humanoid_control_actions/hook/pythonpath.dsv
+source;share/half_humanoid_control_actions/hook/pythonpath.sh
+source;share/half_humanoid_control_actions/hook/ament_prefix_path.ps1
+source;share/half_humanoid_control_actions/hook/ament_prefix_path.dsv
+source;share/half_humanoid_control_actions/hook/ament_prefix_path.sh

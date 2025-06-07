@@ -1,0 +1,4 @@
+source;share/reachy_bringup/local_setup.bash
+source;share/reachy_bringup/local_setup.dsv
+source;share/reachy_bringup/local_setup.sh
+source;share/reachy_bringup/local_setup.zsh

@@ -1,0 +1,8 @@
+<ros2_control name="DynamixelHardware" type="system">
+  <hardware>
+    <plugin>dynamixel_hardware_interface/DynamixelHardwareInterface</plugin>
+    <param name="port_name">/dev/ttyUSB0</param>
+    <param name="baud_rate">4000000</param>
+  </hardware>
+  <!-- The joints and GPIOs are defined in the separate dynamixel_controllers.xml file -->
+</ros2_control>

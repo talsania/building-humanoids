@@ -1,0 +1,5 @@
+[console_scripts]
+dynamixel_cli = dynamixel_test_utils.dynamixel_cli:main
+dynamixel_move = dynamixel_test_utils.dynamixel_move:main
+dynamixel_scan = dynamixel_test_utils.dynamixel_scan:main
+

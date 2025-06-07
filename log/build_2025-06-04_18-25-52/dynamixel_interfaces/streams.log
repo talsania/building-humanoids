@@ -1,0 +1,342 @@
+[0.034s] Invoking command in '/home/kptal/humanoid_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake /home/kptal/humanoid_ws/src/dynamixel_interfaces -DCMAKE_INSTALL_PREFIX=/home/kptal/humanoid_ws/install/dynamixel_interfaces
+[0.249s] -- The C compiler identification is GNU 11.4.0
+[0.382s] -- The CXX compiler identification is GNU 11.4.0
+[0.399s] -- Detecting C compiler ABI info
+[0.631s] -- Detecting C compiler ABI info - done
+[0.661s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.662s] -- Detecting C compile features
+[0.664s] -- Detecting C compile features - done
+[0.676s] -- Detecting CXX compiler ABI info
+[1.024s] -- Detecting CXX compiler ABI info - done
+[1.044s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.045s] -- Detecting CXX compile features
+[1.047s] -- Detecting CXX compile features - done
+[1.060s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.732s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[2.266s] -- Found std_msgs: 4.8.0 (/opt/ros/humble/share/std_msgs/cmake)
+[2.624s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[2.684s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[2.764s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[2.887s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.048s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.251s] -- Found geometry_msgs: 4.8.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[3.332s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[4.558s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[6.228s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[6.828s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[6.905s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[6.932s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[7.012s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[7.012s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[7.012s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[7.012s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[7.065s] -- Found PythonExtra: .so  
+[7.586s] -- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[7.710s] -- Added test 'copyright' to check source files copyright and LICENSE
+[7.716s] -- Added test 'lint_cmake' to check CMake code style
+[7.721s] -- Added test 'xmllint' to check XML markup files
+[7.731s] -- Configuring done
+[7.804s] -- Generating done
+[7.828s] -- Build files have been written to: /home/kptal/humanoid_ws/build/dynamixel_interfaces
+[7.845s] Invoked command in '/home/kptal/humanoid_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake /home/kptal/humanoid_ws/src/dynamixel_interfaces -DCMAKE_INSTALL_PREFIX=/home/kptal/humanoid_ws/install/dynamixel_interfaces
+[7.851s] Invoking command in '/home/kptal/humanoid_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/kptal/humanoid_ws/build/dynamixel_interfaces -- -j18 -l18
+[8.009s] [  1%] [34m[1mGenerating C code for ROS interfaces[0m
+[8.092s] [  3%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[8.111s] [  3%] Built target ament_cmake_python_copy_dynamixel_interfaces
+[8.676s] running egg_info
+[8.677s] creating dynamixel_interfaces.egg-info
+[8.678s] writing dynamixel_interfaces.egg-info/PKG-INFO
+[8.678s] writing dependency_links to dynamixel_interfaces.egg-info/dependency_links.txt
+[8.678s] writing top-level names to dynamixel_interfaces.egg-info/top_level.txt
+[8.679s] writing manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
+[8.683s] reading manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
+[8.683s] writing manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
+[8.764s] [  3%] Built target ament_cmake_python_build_dynamixel_interfaces_egg
+[9.932s] [  7%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_c.dir/rosidl_generator_c/dynamixel_interfaces/msg/detail/dynamixel_state__functions.c.o[0m
+[9.932s] [  7%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_c.dir/rosidl_generator_c/dynamixel_interfaces/srv/detail/reboot_dxl__functions.c.o[0m
+[9.955s] [ 10%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_c.dir/rosidl_generator_c/dynamixel_interfaces/srv/detail/get_data_from_dxl__functions.c.o[0m
+[9.955s] [ 10%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_c.dir/rosidl_generator_c/dynamixel_interfaces/srv/detail/set_data_to_dxl__functions.c.o[0m
+[10.144s] [ 12%] [32m[1mLinking C shared library libdynamixel_interfaces__rosidl_generator_c.so[0m
+[10.333s] [ 12%] Built target dynamixel_interfaces__rosidl_generator_c
+[10.399s] [ 18%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[10.400s] [ 18%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[10.400s] [ 18%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[10.590s] [ 18%] Built target dynamixel_interfaces__cpp
+[10.652s] [ 20%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[10.653s] [ 21%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[10.653s] [ 23%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[11.778s] [ 25%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/dynamixel_interfaces/msg/detail/dynamixel_state__type_support_c.cpp.o[0m
+[11.801s] [ 27%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support_c.cpp.o[0m
+[11.808s] [ 29%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/dynamixel_interfaces/srv/detail/reboot_dxl__type_support_c.cpp.o[0m
+[11.809s] [ 30%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support_c.cpp.o[0m
+[12.301s] [ 32%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.c.o[0m
+[12.310s] [ 34%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.c.o[0m
+[12.316s] [ 36%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.c.o[0m
+[12.316s] [ 38%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.c.o[0m
+[12.384s] [ 40%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/dynamixel_interfaces/srv/reboot_dxl__type_support.cpp.o[0m
+[12.407s] [ 41%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/dynamixel_interfaces/srv/set_data_to_dxl__type_support.cpp.o[0m
+[12.416s] [ 43%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/dynamixel_interfaces/msg/dynamixel_state__type_support.cpp.o[0m
+[12.419s] [ 45%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/dynamixel_interfaces/srv/get_data_from_dxl__type_support.cpp.o[0m
+[12.510s] [ 47%] [32m[1mLinking C shared library libdynamixel_interfaces__rosidl_typesupport_introspection_c.so[0m
+[12.583s] [ 49%] [32m[1mLinking CXX shared library libdynamixel_interfaces__rosidl_typesupport_c.so[0m
+[12.627s] [ 49%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_c
+[12.677s] [ 54%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/dynamixel_interfaces/srv/get_data_from_dxl__type_support.cpp.o[0m
+[12.677s] [ 54%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/dynamixel_interfaces/srv/set_data_to_dxl__type_support.cpp.o[0m
+[12.678s] [ 54%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/dynamixel_interfaces/srv/reboot_dxl__type_support.cpp.o[0m
+[12.694s] [ 56%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/dynamixel_interfaces/msg/dynamixel_state__type_support.cpp.o[0m
+[12.739s] [ 56%] Built target dynamixel_interfaces__rosidl_typesupport_c
+[12.861s] [ 58%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.cpp.o[0m
+[12.867s] [ 60%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.cpp.o[0m
+[12.867s] [ 61%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.cpp.o[0m
+[12.874s] [ 63%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.cpp.o[0m
+[13.398s] [ 67%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/dynamixel_interfaces/srv/detail/dds_fastrtps/reboot_dxl__type_support.cpp.o[0m
+[13.398s] [ 67%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/dynamixel_interfaces/srv/detail/dds_fastrtps/set_data_to_dxl__type_support.cpp.o[0m
+[13.406s] [ 69%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/dynamixel_interfaces/srv/detail/dds_fastrtps/get_data_from_dxl__type_support.cpp.o[0m
+[13.427s] [ 70%] [32mBuilding CXX object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/dynamixel_interfaces/msg/detail/dds_fastrtps/dynamixel_state__type_support.cpp.o[0m
+[13.454s] [ 72%] [32m[1mLinking CXX shared library libdynamixel_interfaces__rosidl_typesupport_fastrtps_c.so[0m
+[13.708s] [ 74%] [32m[1mLinking CXX shared library libdynamixel_interfaces__rosidl_typesupport_cpp.so[0m
+[13.807s] [ 74%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_c
+[13.999s] [ 74%] Built target dynamixel_interfaces__rosidl_typesupport_cpp
+[14.249s] [ 76%] [32m[1mLinking CXX shared library libdynamixel_interfaces__rosidl_typesupport_introspection_cpp.so[0m
+[14.534s] [ 76%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_cpp
+[15.426s] [ 78%] [32m[1mLinking CXX shared library libdynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.so[0m
+[15.768s] [ 78%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp
+[15.868s] [ 78%] Built target dynamixel_interfaces
+[15.929s] [ 80%] [34m[1mGenerating Python code for ROS interfaces[0m
+[18.551s] [ 80%] Built target dynamixel_interfaces__py
+[18.639s] [ 83%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_py.dir/rosidl_generator_py/dynamixel_interfaces/srv/_set_data_to_dxl_s.c.o[0m
+[18.640s] [ 83%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_py.dir/rosidl_generator_py/dynamixel_interfaces/msg/_dynamixel_state_s.c.o[0m
+[18.640s] [ 87%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_py.dir/rosidl_generator_py/dynamixel_interfaces/srv/_reboot_dxl_s.c.o[0m
+[18.640s] [ 87%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_generator_py.dir/rosidl_generator_py/dynamixel_interfaces/srv/_get_data_from_dxl_s.c.o[0m
+[18.996s] [ 89%] [32m[1mLinking C shared library rosidl_generator_py/dynamixel_interfaces/libdynamixel_interfaces__rosidl_generator_py.so[0m
+[19.117s] [ 89%] Built target dynamixel_interfaces__rosidl_generator_py
+[19.189s] [ 90%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_c.c.o[0m
+[19.198s] [ 92%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[19.199s] [ 94%] [32mBuilding C object CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[19.421s] [ 96%] [32m[1mLinking C shared library rosidl_generator_py/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[19.453s] [ 98%] [32m[1mLinking C shared library rosidl_generator_py/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[19.486s] [100%] [32m[1mLinking C shared library rosidl_generator_py/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[19.529s] [100%] Built target dynamixel_interfaces__rosidl_typesupport_c__pyext
+[19.553s] [100%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[19.578s] [100%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_c__pyext
+[19.604s] Invoked command in '/home/kptal/humanoid_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/kptal/humanoid_ws/build/dynamixel_interfaces -- -j18 -l18
+[19.607s] Invoking command in '/home/kptal/humanoid_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/kptal/humanoid_ws/build/dynamixel_interfaces
+[19.628s] -- Install configuration: ""
+[19.628s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/ament_index/resource_index/rosidl_interfaces/dynamixel_interfaces
+[19.629s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces
+[19.629s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg
+[19.629s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_generator_c__visibility_control.h
+[19.629s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/dynamixel_state.h
+[19.629s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail
+[19.629s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__functions.h
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.h
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__functions.c
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__struct.h
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/set_data_to_dxl.h
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/get_data_from_dxl.h
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail
+[19.630s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__functions.h
+[19.631s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.h
+[19.631s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.h
+[19.631s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__functions.h
+[19.631s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__functions.c
+[19.631s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__functions.c
+[19.631s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.h
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.h
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__functions.h
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__functions.c
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.h
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__struct.h
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/reboot_dxl.h
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/library_path.sh
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/library_path.dsv
+[19.632s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_c.so
+[19.632s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_c.so" to ""
+[19.632s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces
+[19.633s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg
+[19.633s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[19.633s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail
+[19.633s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_fastrtps_c.h
+[19.633s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv
+[19.633s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail
+[19.633s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_fastrtps_c.h
+[19.633s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_fastrtps_c.h
+[19.633s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_fastrtps_c.h
+[19.633s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_c.so
+[19.634s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+[19.634s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces
+[19.634s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg
+[19.634s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[19.634s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail
+[19.634s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__builder.hpp
+[19.634s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__struct.hpp
+[19.634s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.hpp
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__traits.hpp
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/dynamixel_state.hpp
+[19.635s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/get_data_from_dxl.hpp
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/reboot_dxl.hpp
+[19.635s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.hpp
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__builder.hpp
+[19.635s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__builder.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__traits.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__traits.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__builder.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__struct.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__traits.hpp
+[19.636s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.hpp
+[19.637s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/set_data_to_dxl.hpp
+[19.637s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces
+[19.637s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg
+[19.637s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail
+[19.637s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_fastrtps_cpp.hpp
+[19.637s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dds_fastrtps
+[19.637s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[19.637s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv
+[19.637s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail
+[19.637s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_fastrtps_cpp.hpp
+[19.638s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_fastrtps_cpp.hpp
+[19.638s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/dds_fastrtps
+[19.638s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_fastrtps_cpp.hpp
+[19.638s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[19.638s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+[19.638s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces
+[19.638s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg
+[19.638s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[19.638s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail
+[19.638s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.c
+[19.639s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_introspection_c.h
+[19.639s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv
+[19.639s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail
+[19.639s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_introspection_c.h
+[19.639s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.c
+[19.639s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.c
+[19.639s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_introspection_c.h
+[19.639s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_introspection_c.h
+[19.640s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.c
+[19.640s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_c.so
+[19.640s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_c.so" to ""
+[19.640s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_c.so
+[19.640s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_c.so" to ""
+[19.640s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces
+[19.640s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg
+[19.640s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail
+[19.640s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_introspection_cpp.hpp
+[19.641s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.cpp
+[19.641s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv
+[19.641s] -- Up-to-date: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail
+[19.642s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.cpp
+[19.642s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.cpp
+[19.642s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_introspection_cpp.hpp
+[19.642s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_introspection_cpp.hpp
+[19.642s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.cpp
+[19.642s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_introspection_cpp.hpp
+[19.643s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_cpp.so
+[19.643s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+[19.643s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_cpp.so
+[19.643s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_cpp.so" to ""
+[19.643s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/pythonpath.sh
+[19.643s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/pythonpath.dsv
+[19.644s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces-1.0.1-py3.10.egg-info
+[19.644s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces-1.0.1-py3.10.egg-info/SOURCES.txt
+[19.644s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces-1.0.1-py3.10.egg-info/PKG-INFO
+[19.644s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces-1.0.1-py3.10.egg-info/dependency_links.txt
+[19.644s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces-1.0.1-py3.10.egg-info/top_level.txt
+[19.644s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces
+[19.645s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg
+[19.645s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg/_dynamixel_state.py
+[19.645s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg/_dynamixel_state_s.c
+[19.645s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg/__init__.py
+[19.645s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/libdynamixel_interfaces__rosidl_generator_py.so
+[19.646s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[19.646s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[19.646s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_c.c
+[19.646s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[19.646s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[19.646s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_reboot_dxl_s.c
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_reboot_dxl.py
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_get_data_from_dxl_s.c
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_set_data_to_dxl.py
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_set_data_to_dxl_s.c
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_get_data_from_dxl.py
+[19.647s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/__init__.py
+[19.648s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/__init__.py
+[19.762s] Listing '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces'...
+[19.762s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/__init__.py'...
+[19.762s] Listing '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg'...
+[19.762s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg/__init__.py'...
+[19.763s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/msg/_dynamixel_state.py'...
+[19.763s] Listing '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv'...
+[19.763s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/__init__.py'...
+[19.763s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_get_data_from_dxl.py'...
+[19.763s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_reboot_dxl.py'...
+[19.763s] Compiling '/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/srv/_set_data_to_dxl.py'...
+[19.773s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[19.774s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[19.774s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[19.775s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[19.775s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[19.776s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/local/lib/python3.10/dist-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[19.776s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_py.so
+[19.777s] -- Set runtime path of "/home/kptal/humanoid_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_py.so" to ""
+[19.777s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.idl
+[19.778s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.idl
+[19.778s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.idl
+[19.779s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.idl
+[19.779s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.msg
+[19.779s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.srv
+[19.779s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl_Request.msg
+[19.780s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl_Response.msg
+[19.780s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.srv
+[19.780s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl_Request.msg
+[19.780s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl_Response.msg
+[19.780s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.srv
+[19.781s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl_Request.msg
+[19.781s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl_Response.msg
+[19.781s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/ament_index/resource_index/package_run_dependencies/dynamixel_interfaces
+[19.781s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/ament_index/resource_index/parent_prefix_path/dynamixel_interfaces
+[19.782s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/ament_prefix_path.sh
+[19.782s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/ament_prefix_path.dsv
+[19.782s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/path.sh
+[19.782s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/path.dsv
+[19.783s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.bash
+[19.783s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.sh
+[19.783s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.zsh
+[19.784s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.dsv
+[19.784s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.dsv
+[19.784s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/ament_index/resource_index/packages/dynamixel_interfaces
+[19.785s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cExport.cmake
+[19.785s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cExport-noconfig.cmake
+[19.785s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[19.786s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[19.786s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cppExport.cmake
+[19.786s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[19.787s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[19.787s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[19.787s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[19.787s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cExport.cmake
+[19.788s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cExport-noconfig.cmake
+[19.788s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[19.788s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[19.789s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cppExport.cmake
+[19.789s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cppExport-noconfig.cmake
+[19.789s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_pyExport.cmake
+[19.790s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_pyExport-noconfig.cmake
+[19.790s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake-extras.cmake
+[19.790s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[19.791s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[19.791s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[19.791s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[19.791s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[19.792s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[19.792s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfacesConfig.cmake
+[19.792s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfacesConfig-version.cmake
+[19.792s] -- Installing: /home/kptal/humanoid_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.xml
+[19.799s] Invoked command in '/home/kptal/humanoid_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/kptal/humanoid_ws/build/dynamixel_interfaces

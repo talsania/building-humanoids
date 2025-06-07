@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "dual_panda_moveit2_interface__py",
+		"source" : "/home/kptal/humanoid_ws/build/dual_panda_moveit2_interface/dual_panda_moveit2_interface__py"
+	}
+}

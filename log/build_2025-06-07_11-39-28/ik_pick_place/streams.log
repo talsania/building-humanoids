@@ -1,0 +1,23 @@
+[0.715s] Invoking command in '/home/kptal/humanoid_ws/src/ik_pick_place': PYTHONPATH=/home/kptal/humanoid_ws/build/ik_pick_place/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/ik_pick_place/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/ik_pick_place build --build-base /home/kptal/humanoid_ws/build/ik_pick_place/build install --record /home/kptal/humanoid_ws/build/ik_pick_place/install.log --single-version-externally-managed install_data
+[0.993s] running egg_info
+[0.994s] writing ../../build/ik_pick_place/ik_pick_place.egg-info/PKG-INFO
+[0.994s] writing dependency_links to ../../build/ik_pick_place/ik_pick_place.egg-info/dependency_links.txt
+[0.994s] writing entry points to ../../build/ik_pick_place/ik_pick_place.egg-info/entry_points.txt
+[0.994s] writing requirements to ../../build/ik_pick_place/ik_pick_place.egg-info/requires.txt
+[0.994s] writing top-level names to ../../build/ik_pick_place/ik_pick_place.egg-info/top_level.txt
+[0.996s] reading manifest file '../../build/ik_pick_place/ik_pick_place.egg-info/SOURCES.txt'
+[0.997s] writing manifest file '../../build/ik_pick_place/ik_pick_place.egg-info/SOURCES.txt'
+[0.997s] running build
+[0.997s] running build_py
+[0.997s] running install
+[0.998s] running install_lib
+[0.999s] running install_data
+[0.999s] running install_egg_info
+[1.001s] removing '/home/kptal/humanoid_ws/install/ik_pick_place/lib/python3.10/site-packages/ik_pick_place-0.0.0-py3.10.egg-info' (and everything under it)
+[1.001s] Copying ../../build/ik_pick_place/ik_pick_place.egg-info to /home/kptal/humanoid_ws/install/ik_pick_place/lib/python3.10/site-packages/ik_pick_place-0.0.0-py3.10.egg-info
+[1.002s] running install_scripts
+[1.022s] Installing debug_ik_node script to /home/kptal/humanoid_ws/install/ik_pick_place/lib/ik_pick_place
+[1.023s] Installing ik_pick_place_node script to /home/kptal/humanoid_ws/install/ik_pick_place/lib/ik_pick_place
+[1.023s] Installing simple_ik_test script to /home/kptal/humanoid_ws/install/ik_pick_place/lib/ik_pick_place
+[1.023s] writing list of installed files to '/home/kptal/humanoid_ws/build/ik_pick_place/install.log'
+[1.046s] Invoked command in '/home/kptal/humanoid_ws/src/ik_pick_place' returned '0': PYTHONPATH=/home/kptal/humanoid_ws/build/ik_pick_place/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/ik_pick_place/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/ik_pick_place build --build-base /home/kptal/humanoid_ws/build/ik_pick_place/build install --record /home/kptal/humanoid_ws/build/ik_pick_place/install.log --single-version-externally-managed install_data

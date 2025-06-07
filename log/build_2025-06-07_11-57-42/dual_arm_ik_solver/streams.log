@@ -1,0 +1,21 @@
+[1.519s] Invoking command in '/home/kptal/humanoid_ws/src/dual_arm_ik_solver': PYTHONPATH=/home/kptal/humanoid_ws/build/dual_arm_ik_solver/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/dual_arm_ik_solver/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/dual_arm_ik_solver build --build-base /home/kptal/humanoid_ws/build/dual_arm_ik_solver/build install --record /home/kptal/humanoid_ws/build/dual_arm_ik_solver/install.log --single-version-externally-managed install_data
+[2.059s] running egg_info
+[2.061s] writing ../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/PKG-INFO
+[2.062s] writing dependency_links to ../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/dependency_links.txt
+[2.062s] writing entry points to ../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/entry_points.txt
+[2.062s] writing requirements to ../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/requires.txt
+[2.062s] writing top-level names to ../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/top_level.txt
+[2.065s] reading manifest file '../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/SOURCES.txt'
+[2.067s] writing manifest file '../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info/SOURCES.txt'
+[2.068s] running build
+[2.068s] running build_py
+[2.068s] running install
+[2.069s] running install_lib
+[2.071s] running install_data
+[2.071s] running install_egg_info
+[2.074s] removing '/home/kptal/humanoid_ws/install/dual_arm_ik_solver/lib/python3.10/site-packages/dual_arm_ik_solver-0.0.0-py3.10.egg-info' (and everything under it)
+[2.075s] Copying ../../build/dual_arm_ik_solver/dual_arm_ik_solver.egg-info to /home/kptal/humanoid_ws/install/dual_arm_ik_solver/lib/python3.10/site-packages/dual_arm_ik_solver-0.0.0-py3.10.egg-info
+[2.076s] running install_scripts
+[2.121s] Installing dual_arm_ik_solver script to /home/kptal/humanoid_ws/install/dual_arm_ik_solver/lib/dual_arm_ik_solver
+[2.122s] writing list of installed files to '/home/kptal/humanoid_ws/build/dual_arm_ik_solver/install.log'
+[2.166s] Invoked command in '/home/kptal/humanoid_ws/src/dual_arm_ik_solver' returned '0': PYTHONPATH=/home/kptal/humanoid_ws/build/dual_arm_ik_solver/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/dual_arm_ik_solver/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/dual_arm_ik_solver build --build-base /home/kptal/humanoid_ws/build/dual_arm_ik_solver/build install --record /home/kptal/humanoid_ws/build/dual_arm_ik_solver/install.log --single-version-externally-managed install_data

@@ -1,0 +1,14 @@
+{
+  "package_name": "dual_panda_moveit2_interface",
+  "non_idl_tuples": [
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:msg/ObjectSpec.msg",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:msg/RobotPose.msg",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:msg/SpawnBatch.msg",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:action/Move.action",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:srv/GripperControl.srv",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:srv/SpawnObject.srv",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:srv/RemoveObject.srv",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:srv/AttachObject.srv",
+    "/home/kptal/humanoid_ws/src/dual_panda_moveit2_interface:srv/DetachObject.srv"
+  ]
+}

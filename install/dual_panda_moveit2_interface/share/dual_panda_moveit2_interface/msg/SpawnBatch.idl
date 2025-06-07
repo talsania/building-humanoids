@@ -1,0 +1,13 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from dual_panda_moveit2_interface/msg/SpawnBatch.msg
+// generated code does not contain a copyright notice
+
+#include "dual_panda_moveit2_interface/msg/ObjectSpec.idl"
+
+module dual_panda_moveit2_interface {
+  module msg {
+    struct SpawnBatch {
+      sequence<dual_panda_moveit2_interface::msg::ObjectSpec> objects;
+    };
+  };
+};

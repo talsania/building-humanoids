@@ -1,0 +1,4 @@
+source;share/dual_panda_moveit2_interface/local_setup.bash
+source;share/dual_panda_moveit2_interface/local_setup.dsv
+source;share/dual_panda_moveit2_interface/local_setup.sh
+source;share/dual_panda_moveit2_interface/local_setup.zsh

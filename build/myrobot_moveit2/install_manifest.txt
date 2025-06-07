@@ -1,0 +1,16 @@
+/home/kptal/humanoid_ws/install/myrobot_moveit2/lib/myrobot_moveit2/demo
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/ament_index/resource_index/package_run_dependencies/myrobot_moveit2
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/ament_index/resource_index/parent_prefix_path/myrobot_moveit2
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/environment/ament_prefix_path.sh
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/environment/ament_prefix_path.dsv
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/environment/path.sh
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/environment/path.dsv
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/local_setup.bash
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/local_setup.sh
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/local_setup.zsh
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/local_setup.dsv
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/package.dsv
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/ament_index/resource_index/packages/myrobot_moveit2
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/cmake/myrobot_moveit2Config.cmake
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/cmake/myrobot_moveit2Config-version.cmake
+/home/kptal/humanoid_ws/install/myrobot_moveit2/share/myrobot_moveit2/package.xml

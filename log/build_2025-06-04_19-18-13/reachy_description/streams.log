@@ -1,0 +1,49 @@
+[0.023s] Invoking command in '/home/kptal/humanoid_ws/build/reachy_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/kptal/humanoid_ws/build/reachy_description -- -j18 -l18
+[0.097s] Invoked command in '/home/kptal/humanoid_ws/build/reachy_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/kptal/humanoid_ws/build/reachy_description -- -j18 -l18
+[0.099s] Invoking command in '/home/kptal/humanoid_ws/build/reachy_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/kptal/humanoid_ws/build/reachy_description
+[0.118s] -- Install configuration: ""
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/config
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/config/reachy.rviz
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/launch
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/launch/display.launch.py
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/torso.dae
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_thumb.dae
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/shoulder-pitch-right.dae
+[0.118s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/forearm.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/shoulder_x.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_thumb.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/r_gripper_finger.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/upper_arm.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/wrist.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/head.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/orbita_arm.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/shoulder.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/antenna.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/wrist2hand.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/meshes/l_gripper_finger.dae
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/urdf
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/urdf/reachy.urdf.xacro
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/urdf/head.urdf.xacro
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/urdf/reachy.urdf
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/urdf/arm.urdf.xacro
+[0.119s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/ros2_control
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/ros2_control/joint.ros2_control.xacro
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/ros2_control/arm.ros2_control.xacro
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/ros2_control/head.ros2_control.xacro
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/ament_index/resource_index/package_run_dependencies/reachy_description
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/ament_index/resource_index/parent_prefix_path/reachy_description
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/environment/ament_prefix_path.sh
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/environment/ament_prefix_path.dsv
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/environment/path.sh
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/environment/path.dsv
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/local_setup.bash
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/local_setup.sh
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/local_setup.zsh
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/local_setup.dsv
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/package.dsv
+[0.120s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/ament_index/resource_index/packages/reachy_description
+[0.121s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/cmake/reachy_descriptionConfig.cmake
+[0.121s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/cmake/reachy_descriptionConfig-version.cmake
+[0.121s] -- Up-to-date: /home/kptal/humanoid_ws/install/reachy_description/share/reachy_description/package.xml
+[0.122s] Invoked command in '/home/kptal/humanoid_ws/build/reachy_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/kptal/humanoid_ws/install/moveit_configs_utils:/home/kptal/humanoid_ws/install/launch_param_builder:/home/kptal/humanoid_ws/install/ik_pick_place:/home/kptal/humanoid_ws/install/half_humanoid_control_actions:/home/kptal/humanoid_ws/install/dynamixel_test_utils:/home/kptal/ws_moveit2/install/moveit_configs_utils:/home/kptal/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/kptal/humanoid_ws/build/reachy_description

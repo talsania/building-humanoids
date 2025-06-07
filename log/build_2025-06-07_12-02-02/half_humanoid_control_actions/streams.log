@@ -1,0 +1,24 @@
+[1.247s] Invoking command in '/home/kptal/humanoid_ws/src/half_humanoid_control_actions': PYTHONPATH=/home/kptal/humanoid_ws/build/half_humanoid_control_actions/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/half_humanoid_control_actions build --build-base /home/kptal/humanoid_ws/build/half_humanoid_control_actions/build install --record /home/kptal/humanoid_ws/build/half_humanoid_control_actions/install.log --single-version-externally-managed install_data
+[1.628s] running egg_info
+[1.629s] writing ../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/PKG-INFO
+[1.630s] writing dependency_links to ../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/dependency_links.txt
+[1.630s] writing entry points to ../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/entry_points.txt
+[1.630s] writing requirements to ../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/requires.txt
+[1.630s] writing top-level names to ../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/top_level.txt
+[1.632s] reading manifest file '../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/SOURCES.txt'
+[1.634s] writing manifest file '../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info/SOURCES.txt'
+[1.634s] running build
+[1.634s] running build_py
+[1.634s] running install
+[1.634s] running install_lib
+[1.636s] running install_data
+[1.637s] running install_egg_info
+[1.639s] removing '/home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/python3.10/site-packages/half_humanoid_control_actions-0.0.0-py3.10.egg-info' (and everything under it)
+[1.639s] Copying ../../build/half_humanoid_control_actions/half_humanoid_control_actions.egg-info to /home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/python3.10/site-packages/half_humanoid_control_actions-0.0.0-py3.10.egg-info
+[1.640s] running install_scripts
+[1.673s] Installing humanoid_action_client script to /home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/half_humanoid_control_actions
+[1.673s] Installing humanoid_command_listener script to /home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/half_humanoid_control_actions
+[1.673s] Installing humanoid_command_publisher script to /home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/half_humanoid_control_actions
+[1.674s] Installing obstacle_publisher script to /home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/half_humanoid_control_actions
+[1.674s] writing list of installed files to '/home/kptal/humanoid_ws/build/half_humanoid_control_actions/install.log'
+[1.708s] Invoked command in '/home/kptal/humanoid_ws/src/half_humanoid_control_actions' returned '0': PYTHONPATH=/home/kptal/humanoid_ws/build/half_humanoid_control_actions/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/kptal/humanoid_ws/install/half_humanoid_control_actions/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/half_humanoid_control_actions build --build-base /home/kptal/humanoid_ws/build/half_humanoid_control_actions/build install --record /home/kptal/humanoid_ws/build/half_humanoid_control_actions/install.log --single-version-externally-managed install_data
