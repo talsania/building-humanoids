@@ -1,6 +1,0 @@
-msg/AddObstacle.idl
-msg/AddObstacle.msg
-msg/ExecuteRequest.idl
-msg/ExecuteRequest.msg
-msg/RobotControlCommand.idl
-msg/RobotControlCommand.msg

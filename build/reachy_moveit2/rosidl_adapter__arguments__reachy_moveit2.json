@@ -1,8 +1,0 @@
-{
-  "package_name": "reachy_moveit2",
-  "non_idl_tuples": [
-    "/home/kptal/humanoid_ws/src/reachy_moveit2:msg/RobotControlCommand.msg",
-    "/home/kptal/humanoid_ws/src/reachy_moveit2:msg/AddObstacle.msg",
-    "/home/kptal/humanoid_ws/src/reachy_moveit2:msg/ExecuteRequest.msg"
-  ]
-}

@@ -1,1 +1,0 @@
-dual_panda_moveit2_interface/ObjectSpec[] objects

@@ -1,4 +1,0 @@
-# generated from rosidl_cmake/cmake/rosidl_cmake-extras.cmake.in
-
-set(dual_panda_moveit2_interface_IDL_FILES "msg/ObjectSpec.idl;msg/RobotPose.idl;msg/SpawnBatch.idl;action/Move.idl;srv/GripperControl.idl;srv/SpawnObject.idl;srv/RemoveObject.idl;srv/AttachObject.idl;srv/DetachObject.idl")
-set(dual_panda_moveit2_interface_INTERFACE_FILES "msg/ObjectSpec.msg;msg/RobotPose.msg;msg/SpawnBatch.msg;action/Move.action;srv/GripperControl.srv;srv/GripperControl_Request.msg;srv/GripperControl_Response.msg;srv/SpawnObject.srv;srv/SpawnObject_Request.msg;srv/SpawnObject_Response.msg;srv/RemoveObject.srv;srv/RemoveObject_Request.msg;srv/RemoveObject_Response.msg;srv/AttachObject.srv;srv/AttachObject_Request.msg;srv/AttachObject_Response.msg;srv/DetachObject.srv;srv/DetachObject_Request.msg;srv/DetachObject_Response.msg")
