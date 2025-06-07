@@ -1,8 +1,5 @@
-# Configuration for ros2_control controller_manager
-
 controller_manager:
   ros__parameters:
-    # General ros2_control settings
     use_sim_time: false
     update_rate: 100  # Hz
 
@@ -16,11 +13,12 @@ controller_manager:
     head_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-# Individual controller configurations
+# Joint State Broadcaster config
 joint_state_broadcaster:
   ros__parameters:
     publish_rate: 50.0
 
+# Dual Arm - Current-based Position Mode (OpMode 5) on XM430s
 dual_arm_controller:
   ros__parameters:
     joints:
@@ -46,6 +44,7 @@ dual_arm_controller:
     allow_nonzero_velocity_at_trajectory_end: true
     action_monitor_rate: 20.0
 
+# Head - Standard Position Mode (OpMode 3) on XL430s
 head_controller:
   ros__parameters:
     joints:
