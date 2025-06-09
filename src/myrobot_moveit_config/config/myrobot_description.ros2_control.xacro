@@ -384,7 +384,8 @@
       <gpio name="dxl15">
         <param name="type">dxl</param>
         <param name="ID">31</param>  <!-- XL430 ID -->
-        <param name="Operating Mode">3</param>  <!-- Position Control Mode -->
+        <param name="Operating Mode">3</param>
+        <param name="Current Limit">400</param> 
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
@@ -398,6 +399,7 @@
         <param name="type">dxl</param>
         <param name="ID">32</param>  <!-- XL430 ID -->
         <param name="Operating Mode">3</param>
+        <param name="Current Limit">400</param> 
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
