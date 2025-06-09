@@ -22,12 +22,53 @@ import time
 
 class DualArmIKSolver(Node):
     def __init__(self):
-        super().__init__('dual_arm_ik_solver')
+        super().__init__('pick_place_node')
 
         self.joint_values = []
         self.new_ik_solution = False  # Flag to track new IK solutions
 
         self._action_client = ActionClient(self, MoveGroup, 'move_action')
+
+        # Camera frame transformation matrix (camera -> base_link)
+        self.T_camera_to_base_link = np.array([
+            [-0.01694981,  -0.56415425,   0.82549542,   0.11293099],
+            [-0.99984696,   0.00598689,  -0.01643823,  -0.00151968],
+            [ 0.00433155,  -0.82564771,  -0.56416939,   0.41848761],
+            [ 0.00000000,   0.00000000,   0.00000000,   1.00000000]
+        ])
+
+        # Pick default joint positions
+        self.pick_default_positions = [
+            0.5235,  # j11
+            0.0,     # j12
+            0.0,     # j13
+            1.0471,  # j14
+            0.0,     # j15
+            0.0,     # j16
+            0.0,     # j17
+            -0.5235, # j21
+            0.0,     # j22
+            0.0,     # j23
+            1.0471,  # j24
+            0.0,     # j25
+            0.0,     # j26
+            0.0      # j27
+        ]
+
+        # Flag to track if we need to return to pick_default after a place command
+        self.should_return_to_default = False
+        self.last_action_type = ""  # Track what type of action was last executed
+        self.place_action_completed = False  # New flag to track place completion
+
+        # Publishers for transformed matrices (base_link frame)
+        self.pick_transform_publisher = self.create_publisher(Float64MultiArray, '/pick_transform', 10)
+        self.place_transform_publisher = self.create_publisher(Float64MultiArray, '/place_transform', 10)
+
+        # Subscribers for camera frame transformation matrices
+        self.pick_camera_subscriber = self.create_subscription(
+            Float64MultiArray, '/pick_camera_tf', self.pick_camera_callback, 10)
+        self.place_camera_subscriber = self.create_subscription(
+            Float64MultiArray, '/place_camera_tf', self.place_camera_callback, 10)
         
         # Subscribers for transformation matrices
         self.pick_subscriber = self.create_subscription(
@@ -60,7 +101,66 @@ class DualArmIKSolver(Node):
         
         self.get_logger().info("Dual Arm IK Solver Node initialized")
         self.get_logger().info("Send 4x4 transformation matrix as Float64MultiArray with 16 elements")
-        self.get_logger().info("Topics: /pick_transform and /place_transform")
+        self.get_logger().info("Topics: /pick_transform and /place_transform for base_link frame")
+        self.get_logger().info("Topics: /pick_camera_tf and /place_camera_tf for camera frame (auto-converted)")
+
+    def pick_camera_callback(self, msg):
+        """Handle camera frame pick transform requests and convert to base_link"""
+        if len(msg.data) != 16:
+            self.get_logger().error("Camera transform matrix must have 16 elements (4x4)")
+            return
+        
+        # Reshape incoming camera frame transform
+        T_camera = np.array(msg.data).reshape(4, 4)
+        self.get_logger().info(f"Received camera frame pick transform")
+        
+        # METHOD 3: Full transformation (position AND orientation)
+        # Transform the complete pose (position + orientation) from camera frame to base_link frame
+        T_base_link = self.T_camera_to_base_link @ T_camera
+        
+        self.get_logger().info("=== TRANSFORMATION ANALYSIS ===")
+        self.get_logger().info(f"Camera position: [{T_camera[0,3]:.3f}, {T_camera[1,3]:.3f}, {T_camera[2,3]:.3f}]")
+        self.get_logger().info(f"Base position: [{T_base_link[0,3]:.3f}, {T_base_link[1,3]:.3f}, {T_base_link[2,3]:.3f}]")
+        self.get_logger().info(f"Orientation fully transformed from camera frame to base_link frame")
+        
+        # Publish to base_link frame topic
+        base_msg = Float64MultiArray()
+        base_msg.data = T_base_link.flatten().tolist()
+        self.pick_transform_publisher.publish(base_msg)
+        
+        self.get_logger().info(f"Converted and published to /pick_transform (base_link frame)")
+
+    def place_camera_callback(self, msg):
+        """Handle camera frame place transform requests and convert to base_link"""
+        if len(msg.data) != 16:
+            self.get_logger().error("Camera transform matrix must have 16 elements (4x4)")
+            return
+        
+        # Reshape incoming camera frame transform
+        T_camera = np.array(msg.data).reshape(4, 4)
+        self.get_logger().info(f"Received camera frame place transform")
+        
+        # METHOD 3: Full transformation (position AND orientation)
+        # Transform the complete pose (position + orientation) from camera frame to base_link frame
+        T_base_link = self.T_camera_to_base_link @ T_camera
+        
+        self.get_logger().info("=== TRANSFORMATION ANALYSIS ===")
+        self.get_logger().info(f"Camera position: [{T_camera[0,3]:.3f}, {T_camera[1,3]:.3f}, {T_camera[2,3]:.3f}]")
+        self.get_logger().info(f"Base position: [{T_base_link[0,3]:.3f}, {T_base_link[1,3]:.3f}, {T_base_link[2,3]:.3f}]")
+        self.get_logger().info(f"Orientation fully transformed from camera frame to base_link frame")
+        
+        # Publish to base_link frame topic
+        base_msg = Float64MultiArray()
+        base_msg.data = T_base_link.flatten().tolist()
+        self.place_transform_publisher.publish(base_msg)
+        
+        self.get_logger().info(f"Converted and published to /place_transform (base_link frame)")
+        
+        # Set flag to return to pick_default after this place command completes
+        self.should_return_to_default = True
+        self.last_action_type = "place_camera"
+        self.place_action_completed = False  # Reset completion flag
+        self.get_logger().info("*** PLACE CAMERA COMMAND RECEIVED - FLAG SET TO RETURN TO PICK_DEFAULT ***")
 
     def setup_urdf_models(self):
         """Load and parse separate URDF files for left and right arms"""
@@ -180,6 +280,10 @@ class DualArmIKSolver(Node):
         # Send to MoveIt only if we have a new IK solution
         if self.new_ik_solution and self.joint_values:
             joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
+            
+            self.get_logger().info(f"*** SENDING GOAL TO MOVEIT - FLAG STATUS: {self.should_return_to_default} ***")
+            self.get_logger().info(f"*** LAST ACTION TYPE: {self.last_action_type} ***")
+            
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=self.joint_values)
             self.get_logger().info(f'Sent the joint angles: {self.joint_values} to MoveIt!')
             
@@ -206,34 +310,77 @@ class DualArmIKSolver(Node):
         j31_angle = self.current_joint_states.get('j31', 0.0)  # neck yaw
         j32_angle = self.current_joint_states.get('j_32', 0.0)  # neck pitch
         
-        # Build the transformation chain step by step
-        # 1. Base_link to neck_yaw (j31 joint)
+        # For debugging, let's start with a simpler approach
+        # Since neck joints are at zero, let's calculate the static transformation first
+        
+        # Step 1: base_link to neck_yaw origin
+        # xyz="0.00875 0 0.1486" rpy="1.5708 0 1.5708"
         T1 = self.create_transformation_matrix([0.00875, 0, 0.1486], [1.5708, 0, 1.5708])
         
-        # 2. Apply j31 rotation (neck yaw around Y axis)
+        # Step 2: neck_yaw to neck_pitch origin (no rotation since j31=0)
+        # xyz="0 0.030398 0" rpy="-1.5708 0 1.5708"  
+        T2 = self.create_transformation_matrix([0, 0.030398, 0], [-1.5708, 0, 1.5708])
+        
+        # Step 3: neck_pitch to camera origin (no rotation since j32=0)
+        # xyz="0.23949 -0.10418 0.0015188" rpy="-0.34907 -1.5533 1.3204"
+        T3 = self.create_transformation_matrix([0.23949, -0.10418, 0.0015188], [-0.34907, -1.5533, 1.3204])
+        
+        # Apply joint rotations (currently zero but keeping for future)
         R_j31 = np.eye(4)
         R_j31[:3, :3] = Rotation.from_rotvec(j31_angle * np.array([0, 1, 0])).as_matrix()
         
-        # 3. Neck_yaw to neck_pitch (j_32 joint)  
-        T2 = self.create_transformation_matrix([0, 0.030398, 0], [-1.5708, 0, 1.5708])
-        
-        # 4. Apply j_32 rotation (neck pitch around Z axis)
-        R_j32 = np.eye(4)
+        R_j32 = np.eye(4) 
         R_j32[:3, :3] = Rotation.from_rotvec(j32_angle * np.array([0, 0, 1])).as_matrix()
         
-        # 5. Neck_pitch to camera (fixed joint j33)
-        T3 = self.create_transformation_matrix([0.23949, -0.10418, 0.0015188], [-0.34907, -1.5533, 1.3204])
-        
-        # Complete chain: base_link -> neck_yaw -> (j31 rotation) -> neck_pitch -> (j32 rotation) -> camera
+        # Build transformation chain
         T_base_to_camera = T1 @ R_j31 @ T2 @ R_j32 @ T3
         
-        # Get camera to base transformation (inverse)
+        # Get camera to base transformation
         T_camera_to_base = np.linalg.inv(T_base_to_camera)
         
-        # Debug logging
-        camera_pos_in_base = T_base_to_camera[:3, 3]
-        self.get_logger().info(f"Camera position in base_link: [{camera_pos_in_base[0]:.3f}, {camera_pos_in_base[1]:.3f}, {camera_pos_in_base[2]:.3f}]")
-        self.get_logger().info(f"Neck joint angles: j31={j31_angle:.3f}, j_32={j32_angle:.3f}")
+        # OUTPUT THE EXACT MATHEMATICAL TRANSFORMATION MATRIX
+        self.get_logger().info("="*60)
+        self.get_logger().info("CAMERA TO BASE_LINK TRANSFORMATION MATRIX:")
+        self.get_logger().info("="*60)
+        self.get_logger().info("T_camera_to_base = ")
+        for i in range(4):
+            row_str = "  [" + ", ".join([f"{T_camera_to_base[i,j]:8.5f}" for j in range(4)]) + "]"
+            self.get_logger().info(row_str)
+        
+        self.get_logger().info("")
+        self.get_logger().info("Matrix in copy-pasteable format:")
+        matrix_str = "T_camera_to_base = np.array([\n"
+        for i in range(4):
+            row_values = [f"{T_camera_to_base[i,j]:.6f}" for j in range(4)]
+            matrix_str += f"    [{', '.join(row_values)}]"
+            if i < 3:
+                matrix_str += ",\n"
+            else:
+                matrix_str += "\n"
+        matrix_str += "])"
+        self.get_logger().info(matrix_str)
+        
+        self.get_logger().info("")
+        self.get_logger().info("Usage: base_transform = T_camera_to_base @ camera_transform")
+        self.get_logger().info("="*60)
+        
+        # Debug: Test coordinate mapping
+        # Test points to verify the transformation makes sense
+        test_points_camera = [
+            [0, 0, 0, 1],      # Camera origin
+            [0, 1, 0, 1],      # +Y in camera (should map to -Y in base for right arm selection)
+            [0, -1, 0, 1],     # -Y in camera (should map to +Y in base for left arm selection)
+        ]
+        
+        self.get_logger().info("=== Camera to Base Coordinate Mapping ===")
+        for i, point in enumerate(test_points_camera):
+            point_in_base = T_camera_to_base @ np.array(point)
+            if i == 0:
+                self.get_logger().info(f"Camera origin [0,0,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}]")
+            elif i == 1:
+                self.get_logger().info(f"Camera +Y [0,1,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}] (should be negative Y for right arm)")
+            else:
+                self.get_logger().info(f"Camera -Y [0,-1,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}] (should be positive Y for left arm)")
         
         return T_camera_to_base
     
@@ -365,7 +512,7 @@ class DualArmIKSolver(Node):
                 rot_error = 1.0 - (np.trace(R_current.T @ R_target) - 1.0) / 2.0
                 rot_error = max(0.0, rot_error)  # Ensure non-negative
                 
-                total_error = pos_error + 0.5 * rot_error
+                total_error = pos_error + 0.5 * rot_error  # Restored original orientation weight
                 return total_error
             
             # Try multiple starting points for better convergence
@@ -431,7 +578,7 @@ class DualArmIKSolver(Node):
             self.get_logger().error("Transform matrix must have 16 elements (4x4)")
             return
         
-        # Reshape incoming camera frame transform   
+        # Reshape incoming camera frame transform
         camera_transform = np.array(msg.data).reshape(4, 4)
         self.get_logger().info(f"Received pick transform in camera frame, y={camera_transform[1, 3]:.3f}")
         
@@ -465,17 +612,25 @@ class DualArmIKSolver(Node):
         base_transform = self.transform_camera_to_base(camera_transform)
         self.get_logger().info(f"Transformed to base_link frame, y={base_transform[1, 3]:.3f}")
         
+        # Set flag to return to pick_default after this place command completes
+        self.should_return_to_default = True
+        self.last_action_type = "place"
+        self.place_action_completed = False  # Reset completion flag
+        self.get_logger().info("*** PLACE COMMAND RECEIVED - FLAG SET TO RETURN TO PICK_DEFAULT ***")
+        
         self.process_transform_request(base_transform, "place")
     
     def process_transform_request(self, transform, action_type):
         """Process transform request and determine which arm to use"""
-        # Determine which arm to use based on y coordinate
-        if transform[1, 3] > 0:  # y > 0
+        # Determine which arm to use based on y coordinate IN BASE_LINK FRAME
+        base_link_y = transform[1, 3]
+        
+        if base_link_y > 0:  # y > 0 in base_link frame
             arm_type = 'left'
-            self.get_logger().info(f"Using left arm for {action_type}")
-        else:
+            self.get_logger().info(f"Using left arm for {action_type} (base_link y={base_link_y:.3f} > 0)")
+        else:  # y <= 0 in base_link frame
             arm_type = 'right'
-            self.get_logger().info(f"Using right arm for {action_type}")
+            self.get_logger().info(f"Using right arm for {action_type} (base_link y={base_link_y:.3f} <= 0)")
         
         # Solve IK using separate URDF
         success, solution = self.solve_ik_from_urdf(transform, arm_type)
@@ -559,6 +714,97 @@ class DualArmIKSolver(Node):
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info(f'Result: {result.error_code.val}')
+        
+        # Check if this was a place action and we need to return to pick_default
+        if self.should_return_to_default and self.last_action_type in ["place", "place_camera"]:
+            # Check if the action was successful (error_code 1 means success in MoveIt)
+            if result.error_code.val == 1:
+                self.get_logger().info("*** PLACE ACTION COMPLETED SUCCESSFULLY - RETURNING TO PICK_DEFAULT ***")
+                self.return_to_pick_default()
+            else:
+                self.get_logger().warn(f"Place action failed with error code: {result.error_code.val}")
+                # Reset flags to prevent infinite loop
+                self.should_return_to_default = False
+                self.last_action_type = ""
+                self.place_action_completed = False
+
+    def return_to_pick_default(self):
+        """Return robot to pick_default pose after place action"""
+        try:
+            self.get_logger().info("*** EXECUTING RETURN TO PICK_DEFAULT ***")
+            
+            # Use the predefined pick_default positions
+            joint_names = ['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
+            
+            self.get_logger().info(f"Pick default positions: {[f'{val:.4f}' for val in self.pick_default_positions]}")
+            
+            # Send goal to MoveIt
+            self.send_goal_to_pick_default(group_name='dual_arm', joint_names=joint_names, joint_positions=self.pick_default_positions)
+            
+            # Reset flags to prevent infinite loop
+            self.should_return_to_default = False
+            self.last_action_type = "pick_default"
+            self.place_action_completed = True
+            
+        except Exception as e:
+            self.get_logger().error(f"Error returning to pick_default: {str(e)}")
+            # Reset flags on error to prevent infinite loop
+            self.should_return_to_default = False
+            self.last_action_type = ""
+            self.place_action_completed = False
+
+    def send_goal_to_pick_default(self, group_name, joint_names, joint_positions):
+        """Send goal to MoveIt for pick_default pose"""
+        if not self._action_client.wait_for_server(timeout_sec=5.0):
+            self.get_logger().error("MoveGroup action server not available for pick_default!")
+            return
+
+        goal_msg = MoveGroup.Goal()
+        goal_msg.request = MotionPlanRequest()
+        goal_msg.request.group_name = group_name
+
+        constraint = Constraints()
+        for name, pos in zip(joint_names, joint_positions):
+            jc = JointConstraint()
+            jc.joint_name = name
+            jc.position = pos
+            jc.tolerance_above = 0.01
+            jc.tolerance_below = 0.01
+            jc.weight = 1.0
+            constraint.joint_constraints.append(jc)
+
+        goal_msg.request.goal_constraints.append(constraint)
+        goal_msg.planning_options.planning_scene_diff.is_diff = True
+        goal_msg.planning_options.plan_only = False
+        goal_msg.planning_options.look_around = False
+        goal_msg.planning_options.replan = False
+
+        self.get_logger().info(f"Sending pick_default goal to MoveGroup for group: {group_name}...")
+        send_goal_future = self._action_client.send_goal_async(goal_msg)
+        send_goal_future.add_done_callback(self.pick_default_goal_response_callback)
+
+    def pick_default_goal_response_callback(self, future):
+        """Handle goal response for pick_default action"""
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error('Pick_default goal rejected by MoveGroup.')
+            return
+        self.get_logger().info('Pick_default goal accepted.')
+        result_future = goal_handle.get_result_async()
+        result_future.add_done_callback(self.pick_default_result_callback)
+
+    def pick_default_result_callback(self, future):
+        """Handle result for pick_default action"""
+        result = future.result().result
+        self.get_logger().info(f'Pick_default result: {result.error_code.val}')
+        
+        if result.error_code.val == 1:
+            self.get_logger().info("*** SUCCESSFULLY RETURNED TO PICK_DEFAULT - READY FOR NEW PICK COMMANDS ***")
+        else:
+            self.get_logger().warn(f"Pick_default action failed with error code: {result.error_code.val}")
+        
+        # Action completed, ready for next commands
+        self.place_action_completed = True
 
 def main(args=None):
     rclpy.init(args=args)

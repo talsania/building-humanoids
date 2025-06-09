@@ -20,9 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ik_pick_place_node = ik_pick_place.ik_pick_place_node:main',
-            'debug_ik_node = ik_pick_place.debug_ik_node:main',
-            'simple_ik_test = ik_pick_place.simple_ik_test:main',
+            'pick_place_node = ik_pick_place.pick_place_node:main',
         ],
     },
 )
