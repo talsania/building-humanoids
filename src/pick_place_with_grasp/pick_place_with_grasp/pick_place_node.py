@@ -23,6 +23,10 @@ import time
 class DualArmIKSolver(Node):
     def __init__(self):
         super().__init__('pick_place_node')
+        # ——— Pre-grasp offset and storage ———
+        self.pre_grasp_distance = 0.1  # meters
+        self._stored_grasp_transform = None
+        self._pre_grasp_timer = None
 
         self.joint_values = []
         self.new_ik_solution = False  # Flag to track new IK solutions
@@ -99,10 +103,10 @@ class DualArmIKSolver(Node):
         # Test forward kinematics with zero angles
         self.test_forward_kinematics()
         
-        self.get_logger().info("Dual Arm IK Solver Node initialized")
-        self.get_logger().info("Send 4x4 transformation matrix as Float64MultiArray with 16 elements")
-        self.get_logger().info("Topics: /pick_transform and /place_transform for base_link frame")
-        self.get_logger().info("Topics: /pick_camera_tf and /place_camera_tf for camera frame (auto-converted)")
+        #self.get_logger().info("Dual Arm IK Solver Node initialized")
+        #self.get_logger().info("Send 4x4 transformation matrix as Float64MultiArray with 16 elements")
+        #self.get_logger().info("Topics: /pick_transform and /place_transform for base_link frame")
+        #self.get_logger().info("Topics: /pick_camera_tf and /place_camera_tf for camera frame (auto-converted)")
 
     def pick_camera_callback(self, msg):
         """Handle camera frame pick transform requests and convert to base_link"""
@@ -112,23 +116,23 @@ class DualArmIKSolver(Node):
         
         # Reshape incoming camera frame transform
         T_camera = np.array(msg.data).reshape(4, 4)
-        self.get_logger().info(f"Received camera frame pick transform")
+        #self.get_logger().info(f"Received camera frame pick transform")
         
         # METHOD 3: Full transformation (position AND orientation)
         # Transform the complete pose (position + orientation) from camera frame to base_link frame
         T_base_link = self.T_camera_to_base_link @ T_camera
         
-        self.get_logger().info("=== TRANSFORMATION ANALYSIS ===")
-        self.get_logger().info(f"Camera position: [{T_camera[0,3]:.3f}, {T_camera[1,3]:.3f}, {T_camera[2,3]:.3f}]")
-        self.get_logger().info(f"Base position: [{T_base_link[0,3]:.3f}, {T_base_link[1,3]:.3f}, {T_base_link[2,3]:.3f}]")
-        self.get_logger().info(f"Orientation fully transformed from camera frame to base_link frame")
+        #self.get_logger().info("=== TRANSFORMATION ANALYSIS ===")
+        #self.get_logger().info(f"Camera position: [{T_camera[0,3]:.3f}, {T_camera[1,3]:.3f}, {T_camera[2,3]:.3f}]")
+        #self.get_logger().info(f"Base position: [{T_base_link[0,3]:.3f}, {T_base_link[1,3]:.3f}, {T_base_link[2,3]:.3f}]")
+        #self.get_logger().info(f"Orientation fully transformed from camera frame to base_link frame")
         
         # Publish to base_link frame topic
         base_msg = Float64MultiArray()
         base_msg.data = T_base_link.flatten().tolist()
         self.pick_transform_publisher.publish(base_msg)
         
-        self.get_logger().info(f"Converted and published to /pick_transform (base_link frame)")
+        #self.get_logger().info(f"Converted and published to /pick_transform (base_link frame)")
 
     def place_camera_callback(self, msg):
         """Handle camera frame place transform requests and convert to base_link"""
@@ -138,29 +142,29 @@ class DualArmIKSolver(Node):
         
         # Reshape incoming camera frame transform
         T_camera = np.array(msg.data).reshape(4, 4)
-        self.get_logger().info(f"Received camera frame place transform")
+        #self.get_logger().info(f"Received camera frame place transform")
         
         # METHOD 3: Full transformation (position AND orientation)
         # Transform the complete pose (position + orientation) from camera frame to base_link frame
         T_base_link = self.T_camera_to_base_link @ T_camera
         
-        self.get_logger().info("=== TRANSFORMATION ANALYSIS ===")
-        self.get_logger().info(f"Camera position: [{T_camera[0,3]:.3f}, {T_camera[1,3]:.3f}, {T_camera[2,3]:.3f}]")
-        self.get_logger().info(f"Base position: [{T_base_link[0,3]:.3f}, {T_base_link[1,3]:.3f}, {T_base_link[2,3]:.3f}]")
-        self.get_logger().info(f"Orientation fully transformed from camera frame to base_link frame")
+        #self.get_logger().info("=== TRANSFORMATION ANALYSIS ===")
+        #self.get_logger().info(f"Camera position: [{T_camera[0,3]:.3f}, {T_camera[1,3]:.3f}, {T_camera[2,3]:.3f}]")
+        #self.get_logger().info(f"Base position: [{T_base_link[0,3]:.3f}, {T_base_link[1,3]:.3f}, {T_base_link[2,3]:.3f}]")
+        #self.get_logger().info(f"Orientation fully transformed from camera frame to base_link frame")
         
         # Publish to base_link frame topic
         base_msg = Float64MultiArray()
         base_msg.data = T_base_link.flatten().tolist()
         self.place_transform_publisher.publish(base_msg)
         
-        self.get_logger().info(f"Converted and published to /place_transform (base_link frame)")
+        #self.get_logger().info(f"Converted and published to /place_transform (base_link frame)")
         
         # Set flag to return to pick_default after this place command completes
         self.should_return_to_default = True
         self.last_action_type = "place_camera"
         self.place_action_completed = False  # Reset completion flag
-        self.get_logger().info("*** PLACE CAMERA COMMAND RECEIVED - FLAG SET TO RETURN TO PICK_DEFAULT ***")
+        #self.get_logger().info("*** PLACE CAMERA COMMAND RECEIVED - FLAG SET TO RETURN TO PICK_DEFAULT ***")
 
     def setup_urdf_models(self):
         """Load and parse separate URDF files for left and right arms"""
@@ -179,9 +183,9 @@ class DualArmIKSolver(Node):
             self.left_arm_model = self.parse_urdf(self.left_urdf_content)
             self.right_arm_model = self.parse_urdf(self.right_urdf_content)
             
-            self.get_logger().info("Successfully loaded separate URDF files")
-            self.get_logger().info(f"Left arm joints: {list(self.left_arm_model['joints'].keys())}")
-            self.get_logger().info(f"Right arm joints: {list(self.right_arm_model['joints'].keys())}")
+            #self.get_logger().info("Successfully loaded separate URDF files")
+            #self.get_logger().info(f"Left arm joints: {list(self.left_arm_model['joints'].keys())}")
+            #self.get_logger().info(f"Right arm joints: {list(self.right_arm_model['joints'].keys())}")
             
         except Exception as e:
             self.get_logger().error(f"Error loading URDF files: {str(e)}")
@@ -193,27 +197,27 @@ class DualArmIKSolver(Node):
             
             # Test left arm
             left_fk = self.forward_kinematics(zero_angles, self.left_arm_model, 'left')
-            self.get_logger().info(f"Left arm FK (zero angles): pos=[{left_fk[0,3]:.3f}, {left_fk[1,3]:.3f}, {left_fk[2,3]:.3f}]")
+            #self.get_logger().info(f"Left arm FK (zero angles): pos=[{left_fk[0,3]:.3f}, {left_fk[1,3]:.3f}, {left_fk[2,3]:.3f}]")
             
             # Test right arm  
             right_fk = self.forward_kinematics(zero_angles, self.right_arm_model, 'right')
-            self.get_logger().info(f"Right arm FK (zero angles): pos=[{right_fk[0,3]:.3f}, {right_fk[1,3]:.3f}, {right_fk[2,3]:.3f}]")
+            #self.get_logger().info(f"Right arm FK (zero angles): pos=[{right_fk[0,3]:.3f}, {right_fk[1,3]:.3f}, {right_fk[2,3]:.3f}]")
             
             # Debug: Test if IK can solve for the zero position
-            self.get_logger().info("Testing IK for zero position...")
+            #self.get_logger().info("Testing IK for zero position...")
             success, solution = self.solve_ik_from_urdf(left_fk, 'left')
             if success:
-                self.get_logger().info("✓ IK successfully solved for zero position")
+                #self.get_logger().info("✓ IK successfully solved for zero position")
                 # Verify the solution
                 verify_fk = self.forward_kinematics(list(solution.values()), self.left_arm_model, 'left')
                 error = np.linalg.norm(verify_fk[:3, 3] - left_fk[:3, 3])
-                self.get_logger().info(f"Verification error: {error:.6f}")
+                #self.get_logger().info(f"Verification error: {error:.6f}")
             else:
                 self.get_logger().error("✗ IK failed for zero position - FK model needs fixing")
             
             # Suggest reachable targets
-            self.get_logger().info("Try these reachable targets:")
-            self.get_logger().info(f"Near zero pose: [1,0,0,{left_fk[0,3]:.3f}, 0,1,0,{left_fk[1,3]:.3f}, 0,0,1,{left_fk[2,3]:.3f}, 0,0,0,1]")
+            #self.get_logger().info("Try these reachable targets:")
+            #self.get_logger().info(f"Near zero pose: [1,0,0,{left_fk[0,3]:.3f}, 0,1,0,{left_fk[1,3]:.3f}, 0,0,1,{left_fk[2,3]:.3f}, 0,0,0,1]")
             
         except Exception as e:
             self.get_logger().error(f"Error testing FK: {str(e)}")
@@ -281,11 +285,11 @@ class DualArmIKSolver(Node):
         if self.new_ik_solution and self.joint_values:
             joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
             
-            self.get_logger().info(f"*** SENDING GOAL TO MOVEIT - FLAG STATUS: {self.should_return_to_default} ***")
-            self.get_logger().info(f"*** LAST ACTION TYPE: {self.last_action_type} ***")
+            #self.get_logger().info(f"*** SENDING GOAL TO MOVEIT - FLAG STATUS: {self.should_return_to_default} ***")
+            #self.get_logger().info(f"*** LAST ACTION TYPE: {self.last_action_type} ***")
             
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=self.joint_values)
-            self.get_logger().info(f'Sent the joint angles: {self.joint_values} to MoveIt!')
+            #self.get_logger().info(f'Sent the joint angles: {self.joint_values} to MoveIt!')
             
             # Reset the flag and clear joint values to prevent continuous sending
             self.new_ik_solution = False
@@ -339,16 +343,16 @@ class DualArmIKSolver(Node):
         T_camera_to_base = np.linalg.inv(T_base_to_camera)
         
         # OUTPUT THE EXACT MATHEMATICAL TRANSFORMATION MATRIX
-        self.get_logger().info("="*60)
-        self.get_logger().info("CAMERA TO BASE_LINK TRANSFORMATION MATRIX:")
-        self.get_logger().info("="*60)
-        self.get_logger().info("T_camera_to_base = ")
+        #self.get_logger().info("="*60)
+        #self.get_logger().info("CAMERA TO BASE_LINK TRANSFORMATION MATRIX:")
+        #self.get_logger().info("="*60)
+        #self.get_logger().info("T_camera_to_base = ")
         for i in range(4):
             row_str = "  [" + ", ".join([f"{T_camera_to_base[i,j]:8.5f}" for j in range(4)]) + "]"
-            self.get_logger().info(row_str)
+            #self.get_logger().info(row_str)
         
-        self.get_logger().info("")
-        self.get_logger().info("Matrix in copy-pasteable format:")
+        #self.get_logger().info("")
+        #self.get_logger().info("Matrix in copy-pasteable format:")
         matrix_str = "T_camera_to_base = np.array([\n"
         for i in range(4):
             row_values = [f"{T_camera_to_base[i,j]:.6f}" for j in range(4)]
@@ -358,11 +362,11 @@ class DualArmIKSolver(Node):
             else:
                 matrix_str += "\n"
         matrix_str += "])"
-        self.get_logger().info(matrix_str)
+        #self.get_logger().info(matrix_str)
         
-        self.get_logger().info("")
-        self.get_logger().info("Usage: base_transform = T_camera_to_base @ camera_transform")
-        self.get_logger().info("="*60)
+        #self.get_logger().info("")
+        #self.get_logger().info("Usage: base_transform = T_camera_to_base @ camera_transform")
+        #self.get_logger().info("="*60)
         
         # Debug: Test coordinate mapping
         # Test points to verify the transformation makes sense
@@ -372,15 +376,15 @@ class DualArmIKSolver(Node):
             [0, -1, 0, 1],     # -Y in camera (should map to +Y in base for left arm selection)
         ]
         
-        self.get_logger().info("=== Camera to Base Coordinate Mapping ===")
-        for i, point in enumerate(test_points_camera):
-            point_in_base = T_camera_to_base @ np.array(point)
-            if i == 0:
-                self.get_logger().info(f"Camera origin [0,0,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}]")
-            elif i == 1:
-                self.get_logger().info(f"Camera +Y [0,1,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}] (should be negative Y for right arm)")
-            else:
-                self.get_logger().info(f"Camera -Y [0,-1,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}] (should be positive Y for left arm)")
+        #self.get_logger().info("=== Camera to Base Coordinate Mapping ===")
+        # for i, point in enumerate(test_points_camera):
+        #     point_in_base = T_camera_to_base @ np.array(point)
+        #     if i == 0:
+        #         #self.get_logger().info(f"Camera origin [0,0,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}]")
+        #     elif i == 1:
+        #         #self.get_logger().info(f"Camera +Y [0,1,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}] (should be negative Y for right arm)")
+        #     else:
+        #         #self.get_logger().info(f"Camera -Y [0,-1,0] -> Base [{point_in_base[0]:.3f}, {point_in_base[1]:.3f}, {point_in_base[2]:.3f}] (should be positive Y for left arm)")
         
         return T_camera_to_base
     
@@ -394,8 +398,8 @@ class DualArmIKSolver(Node):
         # Debug logging
         camera_pos = camera_transform[:3, 3]
         base_pos = base_transform[:3, 3]
-        self.get_logger().info(f"Camera frame position: [{camera_pos[0]:.3f}, {camera_pos[1]:.3f}, {camera_pos[2]:.3f}]")
-        self.get_logger().info(f"Base frame position: [{base_pos[0]:.3f}, {base_pos[1]:.3f}, {base_pos[2]:.3f}]")
+        #self.get_logger().info(f"Camera frame position: [{camera_pos[0]:.3f}, {camera_pos[1]:.3f}, {camera_pos[2]:.3f}]")
+        #self.get_logger().info(f"Base frame position: [{base_pos[0]:.3f}, {base_pos[1]:.3f}, {base_pos[2]:.3f}]")
         
         return base_transform
     
@@ -413,11 +417,11 @@ class DualArmIKSolver(Node):
         # Debug: Show joint information for first run
         if not hasattr(self, '_debug_shown'):
             self._debug_shown = True
-            self.get_logger().info(f"FK Debug for {arm_type} arm:")
+            #self.get_logger().info(f"FK Debug for {arm_type} arm:")
             for i, joint_name in enumerate(joint_order):
                 if joint_name in arm_model['joints']:
                     joint_info = arm_model['joints'][joint_name]
-                    self.get_logger().info(f"  {joint_name}: origin={joint_info['origin_xyz']}, axis={joint_info['axis']}")
+                    #self.get_logger().info(f"  {joint_name}: origin={joint_info['origin_xyz']}, axis={joint_info['axis']}")
         
         # Apply transformations for each joint in the kinematic chain
         for i, joint_name in enumerate(joint_order):
@@ -493,8 +497,8 @@ class DualArmIKSolver(Node):
             for joint_name in joint_names:
                 current_joints.append(self.current_joint_states.get(joint_name, 0.0))
             
-            self.get_logger().info(f"Target position: [{target_transform[0,3]:.3f}, {target_transform[1,3]:.3f}, {target_transform[2,3]:.3f}]")
-            self.get_logger().info(f"Initial guess: {[f'{x:.3f}' for x in current_joints]}")
+            #self.get_logger().info(f"Target position: [{target_transform[0,3]:.3f}, {target_transform[1,3]:.3f}, {target_transform[2,3]:.3f}]")
+            #self.get_logger().info(f"Initial guess: {[f'{x:.3f}' for x in current_joints]}")
             
             # Define objective function for IK
             def objective(joint_angles):
@@ -549,18 +553,18 @@ class DualArmIKSolver(Node):
                     best_result = result
                     best_error = result.fun
                 
-                self.get_logger().info(f"Attempt {attempt + 1}: Error = {result.fun:.6f}, Success = {result.success}")
+                #self.get_logger().info(f"Attempt {attempt + 1}: Error = {result.fun:.6f}, Success = {result.success}")
                 
                 # If we get a good solution, break early
                 if result.fun < 0.01:
                     break
             
             if best_result is not None and best_error < 0.5:  # Increased tolerance from 0.25 to 0.5
-                self.get_logger().info(f"IK solved with final error: {best_error:.6f}")
+                #self.get_logger().info(f"IK solved with final error: {best_error:.6f}")
                 
                 # Verify the solution
                 final_transform = self.forward_kinematics(best_result.x, arm_model, arm_type)
-                self.get_logger().info(f"Final position: [{final_transform[0,3]:.3f}, {final_transform[1,3]:.3f}, {final_transform[2,3]:.3f}]")
+                #self.get_logger().info(f"Final position: [{final_transform[0,3]:.3f}, {final_transform[1,3]:.3f}, {final_transform[2,3]:.3f}]")
                 
                 return True, dict(zip(joint_names, best_result.x))
             else:
@@ -574,25 +578,50 @@ class DualArmIKSolver(Node):
     
     def pick_callback(self, msg):
         """Handle pick transform requests"""
+        self.get_logger().info(f"-----------------------------------------------------------")
         if len(msg.data) != 16:
             self.get_logger().error("Transform matrix must have 16 elements (4x4)")
             return
         
         # Reshape incoming camera frame transform
         camera_transform = np.array(msg.data).reshape(4, 4)
-        self.get_logger().info(f"Received pick transform in camera frame, y={camera_transform[1, 3]:.3f}")
+        #self.get_logger().info(f"Received pick transform in camera frame, y={camera_transform[1, 3]:.3f}")
         
         # FOR TESTING: Skip camera transformation and use direct input
         # Uncomment the next two lines to test without camera transformation
-        # self.get_logger().info("TESTING: Using camera transform directly as base_link transform")
+        # #self.get_logger().info("TESTING: Using camera transform directly as base_link transform")
         # self.process_transform_request(camera_transform, "pick")
         
         # Transform from camera frame to base_link frame
+        # Transform from camera frame to base_link frame
         base_transform = self.transform_camera_to_base(camera_transform)
         self.get_logger().info(f"Transformed to base_link frame, y={base_transform[1, 3]:.3f}")
-        
-        self.process_transform_request(base_transform, "pick")
-    
+        self.get_logger().info(f"-----------------------------------------------------------")
+        # ✅ STORE THE ACTUAL GRASP TRANSFORM
+        self._stored_grasp_transform = base_transform.copy()
+
+        # — compute a “backed-off” pre-grasp pose along the tool’s own Z —
+        R = base_transform[:3, :3]
+        t = base_transform[:3, 3]
+        local_forward = np.array([0.0, -1.0, 0.0])
+        approach_vec = R.dot(local_forward)
+        t_pre = t - self.pre_grasp_distance * approach_vec
+        T_pre = base_transform.copy()
+        T_pre[:3, 3] = t_pre
+        self.get_logger().info(f"-----------------------------------------------------------")
+        self.get_logger().info(f"Pre-grasp position: {T_pre}")
+        self.get_logger().info(f"grasp transform: {self._stored_grasp_transform}")
+        self.get_logger().info(f"-----------------------------------------------------------")
+
+        # — send the pre-grasp goal first —
+        self.last_action_type = "pre_pick"
+        self.process_transform_request(T_pre, "pre_pick")
+
+        # TEMP: Send grasp directly instead of pre-grasp
+        # self.last_action_type = "pick"
+        # self.process_transform_request(self._stored_grasp_transform, "pick")
+
+ 
     def place_callback(self, msg):
         """Handle place transform requests"""
         if len(msg.data) != 16:
@@ -601,22 +630,22 @@ class DualArmIKSolver(Node):
         
         # Reshape incoming camera frame transform
         camera_transform = np.array(msg.data).reshape(4, 4)
-        self.get_logger().info(f"Received place transform in camera frame, y={camera_transform[1, 3]:.3f}")
+        #self.get_logger().info(f"Received place transform in camera frame, y={camera_transform[1, 3]:.3f}")
         
         # FOR TESTING: Skip camera transformation and use direct input
         # Uncomment the next two lines to test without camera transformation
-        # self.get_logger().info("TESTING: Using camera transform directly as base_link transform")
+        # #self.get_logger().info("TESTING: Using camera transform directly as base_link transform")
         # self.process_transform_request(camera_transform, "place")
         
         # Transform from camera frame to base_link frame
         base_transform = self.transform_camera_to_base(camera_transform)
-        self.get_logger().info(f"Transformed to base_link frame, y={base_transform[1, 3]:.3f}")
+        #self.get_logger().info(f"Transformed to base_link frame, y={base_transform[1, 3]:.3f}")
         
         # Set flag to return to pick_default after this place command completes
         self.should_return_to_default = True
         self.last_action_type = "place"
         self.place_action_completed = False  # Reset completion flag
-        self.get_logger().info("*** PLACE COMMAND RECEIVED - FLAG SET TO RETURN TO PICK_DEFAULT ***")
+        #self.get_logger().info("*** PLACE COMMAND RECEIVED - FLAG SET TO RETURN TO PICK_DEFAULT ***")
         
         self.process_transform_request(base_transform, "place")
     
@@ -627,16 +656,16 @@ class DualArmIKSolver(Node):
         
         if base_link_y > 0:  # y > 0 in base_link frame
             arm_type = 'left'
-            self.get_logger().info(f"Using left arm for {action_type} (base_link y={base_link_y:.3f} > 0)")
+            #self.get_logger().info(f"Using left arm for {action_type} (base_link y={base_link_y:.3f} > 0)")
         else:  # y <= 0 in base_link frame
             arm_type = 'right'
-            self.get_logger().info(f"Using right arm for {action_type} (base_link y={base_link_y:.3f} <= 0)")
+            #self.get_logger().info(f"Using right arm for {action_type} (base_link y={base_link_y:.3f} <= 0)")
         
         # Solve IK using separate URDF
         success, solution = self.solve_ik_from_urdf(transform, arm_type)
         
         if success:
-            self.get_logger().info(f"IK solution found for {arm_type} arm using separate URDF")
+            #self.get_logger().info(f"IK solution found for {arm_type} arm using separate URDF")
             self.create_joint_values_list(solution, arm_type)
         else:
             self.get_logger().error(f"Failed to find IK solution for {arm_type} arm")
@@ -654,15 +683,15 @@ class DualArmIKSolver(Node):
                 if joint_name in ik_solution:
                     # Use IK solution for the active arm
                     self.joint_values.append(ik_solution[joint_name])
-                    self.get_logger().info(f"{joint_name}: {ik_solution[joint_name]:.4f} (IK solution)")
+                    #self.get_logger().info(f"{joint_name}: {ik_solution[joint_name]:.4f} (IK solution)")
                 else:
                     # Keep current position for the other arm
                     current_pos = self.current_joint_states.get(joint_name, 0.0)
                     self.joint_values.append(current_pos)
-                    self.get_logger().info(f"{joint_name}: {current_pos:.4f} (current position)")
+                    #self.get_logger().info(f"{joint_name}: {current_pos:.4f} (current position)")
             
-            self.get_logger().info(f"Complete joint values list created for {active_arm} arm IK:")
-            self.get_logger().info(f"Joint values: {[f'{val:.4f}' for val in self.joint_values]}")
+            #self.get_logger().info(f"Complete joint values list created for {active_arm} arm IK:")
+            #self.get_logger().info(f"Joint values: {[f'{val:.4f}' for val in self.joint_values]}")
             
             # Set flag to indicate new IK solution is ready
             self.new_ik_solution = True
@@ -698,7 +727,7 @@ class DualArmIKSolver(Node):
         goal_msg.planning_options.look_around = False
         goal_msg.planning_options.replan = False
 
-        self.get_logger().info(f"Sending goal to MoveGroup for group: {group_name}...")
+        #self.get_logger().info(f"Sending goal to MoveGroup for group: {group_name}...")
         send_goal_future = self._action_client.send_goal_async(goal_msg)
         send_goal_future.add_done_callback(self.goal_response_callback)
 
@@ -707,19 +736,30 @@ class DualArmIKSolver(Node):
         if not goal_handle.accepted:
             self.get_logger().error('Goal rejected by MoveGroup.')
             return
-        self.get_logger().info('Goal accepted.')
+        #self.get_logger().info('Goal accepted.')
         result_future = goal_handle.get_result_async()
         result_future.add_done_callback(self.get_result_callback)
 
     def get_result_callback(self, future):
         result = future.result().result
-        self.get_logger().info(f'Result: {result.error_code.val}')
+        #self.get_logger().info(f'Result: {result.error_code.val}')
+
+        # — when pre-grasp finishes successfully, wait 1s then do actual pick —
+        if self.last_action_type == "pre_pick":
+            if result.error_code.val == 1:
+                #self.get_logger().info("Pre-grasp reached — waiting 1s then executing actual pick")
+                self._pre_grasp_timer = self.create_timer(1.0, self._execute_actual_pick)
+            else:
+                self.get_logger().warn("Pre-grasp failed — attempting grasp anyway")
+                self._execute_actual_pick()  # Force actual pick even on failure
+            return
+
         
         # Check if this was a place action and we need to return to pick_default
         if self.should_return_to_default and self.last_action_type in ["place", "place_camera"]:
             # Check if the action was successful (error_code 1 means success in MoveIt)
             if result.error_code.val == 1:
-                self.get_logger().info("*** PLACE ACTION COMPLETED SUCCESSFULLY - RETURNING TO PICK_DEFAULT ***")
+                #self.get_logger().info("*** PLACE ACTION COMPLETED SUCCESSFULLY - RETURNING TO PICK_DEFAULT ***")
                 self.return_to_pick_default()
             else:
                 self.get_logger().warn(f"Place action failed with error code: {result.error_code.val}")
@@ -727,16 +767,31 @@ class DualArmIKSolver(Node):
                 self.should_return_to_default = False
                 self.last_action_type = ""
                 self.place_action_completed = False
+    
+    def _execute_actual_pick(self):
+        if self._pre_grasp_timer:
+            self._pre_grasp_timer.cancel()
+            self._pre_grasp_timer = None
+
+        if self._stored_grasp_transform is None:
+            self.get_logger().error("No stored grasp transform! Cannot execute actual pick.")
+            return
+
+        #self.get_logger().info("Now sending actual pick goal")
+        self.last_action_type = "pick"
+        self.process_transform_request(self._stored_grasp_transform, "pick")
+
+
 
     def return_to_pick_default(self):
         """Return robot to pick_default pose after place action"""
         try:
-            self.get_logger().info("*** EXECUTING RETURN TO PICK_DEFAULT ***")
+            #self.get_logger().info("*** EXECUTING RETURN TO PICK_DEFAULT ***")
             
             # Use the predefined pick_default positions
             joint_names = ['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
             
-            self.get_logger().info(f"Pick default positions: {[f'{val:.4f}' for val in self.pick_default_positions]}")
+            #self.get_logger().info(f"Pick default positions: {[f'{val:.4f}' for val in self.pick_default_positions]}")
             
             # Send goal to MoveIt
             self.send_goal_to_pick_default(group_name='dual_arm', joint_names=joint_names, joint_positions=self.pick_default_positions)
@@ -768,8 +823,9 @@ class DualArmIKSolver(Node):
             jc = JointConstraint()
             jc.joint_name = name
             jc.position = pos
-            jc.tolerance_above = 0.01
-            jc.tolerance_below = 0.01
+            jc.tolerance_above = 0.1
+            jc.tolerance_below = 0.1
+
             jc.weight = 1.0
             constraint.joint_constraints.append(jc)
 
@@ -779,7 +835,7 @@ class DualArmIKSolver(Node):
         goal_msg.planning_options.look_around = False
         goal_msg.planning_options.replan = False
 
-        self.get_logger().info(f"Sending pick_default goal to MoveGroup for group: {group_name}...")
+        #self.get_logger().info(f"Sending pick_default goal to MoveGroup for group: {group_name}...")
         send_goal_future = self._action_client.send_goal_async(goal_msg)
         send_goal_future.add_done_callback(self.pick_default_goal_response_callback)
 
@@ -789,19 +845,19 @@ class DualArmIKSolver(Node):
         if not goal_handle.accepted:
             self.get_logger().error('Pick_default goal rejected by MoveGroup.')
             return
-        self.get_logger().info('Pick_default goal accepted.')
+        #self.get_logger().info('Pick_default goal accepted.')
         result_future = goal_handle.get_result_async()
         result_future.add_done_callback(self.pick_default_result_callback)
 
     def pick_default_result_callback(self, future):
         """Handle result for pick_default action"""
         result = future.result().result
-        self.get_logger().info(f'Pick_default result: {result.error_code.val}')
+        #self.get_logger().info(f'Pick_default result: {result.error_code.val}')
         
-        if result.error_code.val == 1:
-            self.get_logger().info("*** SUCCESSFULLY RETURNED TO PICK_DEFAULT - READY FOR NEW PICK COMMANDS ***")
-        else:
-            self.get_logger().warn(f"Pick_default action failed with error code: {result.error_code.val}")
+        # if result.error_code.val == 1:
+        #     #self.get_logger().info("*** SUCCESSFULLY RETURNED TO PICK_DEFAULT - READY FOR NEW PICK COMMANDS ***")
+        # else:
+        #     self.get_logger().warn(f"Pick_default action failed with error code: {result.error_code.val}")
         
         # Action completed, ready for next commands
         self.place_action_completed = True

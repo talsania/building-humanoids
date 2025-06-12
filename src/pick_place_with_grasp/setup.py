@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'ik_pick_place'
+package_name = 'pick_place_with_grasp'
 
 setup(
     name=package_name,
@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'pick_place_node = ik_pick_place.pick_place_node:main',
+            'pick_place_node = pick_place_with_grasp.pick_place_node:main',
         ],
     },
 )
