@@ -2,9 +2,19 @@
 
 ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 
-## Setup
+## Dev Updates
 
-### Build Workspace
+- Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions
+- Integrate Dynamixel actuators for hardware-software communication
+- Use only OMPL for planning and execution
+- Develope ROS 2 actions using listeners and publishers for gestures
+- Add pick & place functionality, pre-grasp positions for pre-pick and pre-place
+- Solve Gripper URDF issue, add gripper controls node seperately
+- End-to-end backend pipeline with AI team
+
+## Workspace Setup
+
+### Build ws
 
 ```bash
 cd ~/humanoid_ws
@@ -12,7 +22,7 @@ colcon build
 source install/setup.bash
 ```
 
-### Environment Configuration
+### Env Config
 
 Add to your `~/.bashrc` file:
 ```bash
@@ -70,7 +80,7 @@ ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'close'"    
 ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"    
 ```
 
-## Hardware IDs
+## Hardware Info
 *180° in Dynamixel Wizard = 0° in Rviz*
 
 - XM430-W350 for Arms, and XL430-W250 for Head and Grippers
@@ -80,14 +90,3 @@ ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"
 - **Right Arm:** 21 -> 27
 - **Grippers:** 28, 18 (90 = close, 180 = open)
 - **Head:** 31, 32
-
-## Dev Updates
-
-- Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions
-- Integrate Dynamixel actuators with hardware-software communication
-- Use only OMPL for planning and execution
-- Develope ROS 2 actions using listeners and publishers for gestures
-- Add pick & place functionality, add pre-grasp and pre-place positions
-- Solve Gripper URDF issue, add gripper controls seperately
-- End-to-end backend pipeline with AI team
-  
