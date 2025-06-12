@@ -83,7 +83,7 @@ ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"
 ## Hardware Info
 *180° in Dynamixel Wizard = 0° in Rviz*
 
-- **XM430-W350** for Arms, and **XL430-W250** for Head and Grippers
+- **XM430-W350** for Arms, **XL430-W250** for Head and Grippers
 - **Protocol:** 2.0
 - **Baud Rate:** 4000000
 - **Left Arm:** 11 -> 17
