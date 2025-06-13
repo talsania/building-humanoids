@@ -10,6 +10,7 @@ ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
 - Develope ROS 2 actions using listeners and publishers for gestures
 - Add pick & place functionality, pre-grasp positions for pre-pick and pre-place
 - Solve Gripper URDF issue, add gripper controls node seperately
+- Solve arm limit by using extended position control in geared motors
 - End-to-end backend pipeline with AI team
 
 ## Workspace Setup
