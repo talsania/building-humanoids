@@ -31,7 +31,7 @@ class DualArmIKSolver(Node):
 
 
         # ——— Pre-grasp offset and storage ———
-        self.pre_grasp_distance = 0.1  # meters
+        self.pre_grasp_distance = 0.25  # meters
         self._stored_grasp_transform = None
         self._pre_grasp_timer = None
 

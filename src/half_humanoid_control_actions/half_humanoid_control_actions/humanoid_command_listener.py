@@ -35,7 +35,7 @@ class HumanoidCommandListener(Node):
             # self.send_goal(joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27',],
             #                joint_positions=[1.5708, 0.0, 0.0, 1.309, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
                 # Initial raised hand pose
-            hi_pose = [1.5708, 0.0, 0.0, 1.309, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            hi_pose = [d_to_r(60),d_to_r(0), d_to_r(0), d_to_r(70), d_to_r(0), d_to_r(50), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0)]  
             joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
 
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= hi_pose)
@@ -64,7 +64,7 @@ class HumanoidCommandListener(Node):
 
         elif command == "wave_right":
             # Initial raised hand pose
-            wave_pose = [1.5708, 0.0, 0.0, 1.309, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            wave_pose = [1.0, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
             wave1 = wave_pose.copy()
             wave2 = wave_pose.copy()
 
@@ -170,7 +170,32 @@ class HumanoidCommandListener(Node):
                 
             self.send_goal(group_name='head', joint_names=joint_names, joint_positions=def_head_pose)
 
-        
+        elif command.startswith("hold"):
+            joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
+            # Default hold pose
+            hold_pose = [d_to_r(45),d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0)]
+            
+            # Parse command for joint modifications
+            # Format: "hold j11:30 j14:45 j21:-20"
+            parts = command.split()[1:]  # Skip "hold" part
+            
+            for part in parts:
+                if ':' in part:
+                    try:
+                        joint_name, angle_str = part.split(':')
+                        angle_degrees = float(angle_str)
+                        
+                        # Find joint index
+                        if joint_name in joint_names:
+                            joint_index = joint_names.index(joint_name)
+                            hold_pose[joint_index] = d_to_r(angle_degrees)
+                            self.get_logger().info(f"Set {joint_name} to {angle_degrees} degrees")
+                        else:
+                            self.get_logger().warn(f"Unknown joint: {joint_name}")
+                    except ValueError:
+                        self.get_logger().warn(f"Invalid angle format: {part}")
+            
+            self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=hold_pose)
         else:
             self.get_logger().warn(f"Unknown command: {command}")
 

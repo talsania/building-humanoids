@@ -16,9 +16,6 @@ ADDR_GOAL_POSITION = 116
 ADDR_PRESENT_POSITION = 132
 ADDR_PROFILE_VELOCITY = 112
 
-DXL_ID_LEFT = 28
-DXL_ID_RIGHT = 18
-
 POSITION_OPEN = 2048    # 180 degrees
 POSITION_CLOSE = 1024   # 90 degrees
 SAFE_VELOCITY = 100
@@ -40,40 +37,49 @@ class DualGripperControlNode(Node):
 
         self.get_logger().info("✅ Serial port opened and baudrate set")
 
-        for dxl_id, label in [(DXL_ID_LEFT, "left"), (DXL_ID_RIGHT, "right")]:
-            model_number, comm_result, error = self.packetHandler.ping(self.portHandler, dxl_id)
-            if comm_result != COMM_SUCCESS:
-                self.get_logger().error(f"❌ Could not ping {label} motor ID {dxl_id}")
-            else:
-                self.get_logger().info(f"✅ {label} motor ID {dxl_id} found, model: {model_number}")
+        # Scan for motors and initialize only 38 & 48
+        self.motor_map = {}
+        self.virtual_goal_positions = {}
 
-            result, error = self.packetHandler.write1ByteTxRx(
-                self.portHandler, dxl_id, ADDR_TORQUE_ENABLE, 1
-            )
-            if result != COMM_SUCCESS:
-                self.get_logger().error(f"❌ Failed to enable torque for {label} motor")
-            else:
-                self.get_logger().info(f"✅ Torque enabled for {label} motor")
+        self.get_logger().info("🔍 Scanning for motors...")
+        for test_id in range(1, 61):  # up to ID 60
+            model_number, comm_result, error = self.packetHandler.ping(self.portHandler, test_id)
+            if comm_result == COMM_SUCCESS:
+                if test_id == 48:
+                    label = "left"
+                elif test_id == 38:
+                    label = "right"
+                else:
+                    continue  # ignore other devices
 
-        self.virtual_goal_positions = {DXL_ID_LEFT: None, DXL_ID_RIGHT: None}
+                self.motor_map[label] = test_id
+                self.virtual_goal_positions[test_id] = None
+                self.get_logger().info(f"✅ {label.upper()} gripper motor found with ID {test_id}, model {model_number}")
+
+                result, error = self.packetHandler.write1ByteTxRx(
+                    self.portHandler, test_id, ADDR_TORQUE_ENABLE, 1
+                )
+                if result == COMM_SUCCESS:
+                    self.get_logger().info(f"✅ Torque enabled for {label} motor")
+                else:
+                    self.get_logger().error(f"❌ Failed to enable torque for {label} motor")
 
         self.create_subscription(String, '/left_gripper_command', self.left_callback, 10)
         self.create_subscription(String, '/right_gripper_command', self.right_callback, 10)
 
     def left_callback(self, msg):
-        self.handle_gripper_command(DXL_ID_LEFT, msg.data, "left")
+        if "left" in self.motor_map:
+            self.handle_gripper_command(self.motor_map["left"], msg.data, "left")
 
     def right_callback(self, msg):
-        self.handle_gripper_command(DXL_ID_RIGHT, msg.data, "right")
+        if "right" in self.motor_map:
+            self.handle_gripper_command(self.motor_map["right"], msg.data, "right")
 
     def handle_gripper_command(self, motor_id, command, label):
         command = command.strip().lower()
+        goal_pos = POSITION_OPEN if command == "open" else POSITION_CLOSE if command == "close" else None
 
-        if command == "open":
-            goal_pos = POSITION_OPEN
-        elif command == "close":
-            goal_pos = POSITION_CLOSE
-        else:
+        if goal_pos is None:
             self.get_logger().warn(f"⚠️ Invalid command for {label} gripper: {command}")
             return
 

@@ -37,18 +37,18 @@ moveit_simple_controller_manager:
       - j31
       - j_32
 
-  left_hand_controller:
-    type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
-    default: true
-    joints:
-      - f28
-      - f29
+  # left_hand_controller:
+  #   type: FollowJointTrajectory
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+  #   joints:
+  #     - f28
+  #     - f29
 
-  right_hand_controller:
-    type: FollowJointTrajectory
-    action_ns: follow_joint_trajectory
-    default: true
-    joints:
-      - f18
-      - f19
+  # right_hand_controller:
+  #   type: FollowJointTrajectory
+  #   action_ns: follow_joint_trajectory
+  #   default: true
+  #   joints:
+  #     - f18
+  #     - f19
