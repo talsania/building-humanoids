@@ -14,9 +14,9 @@ class HumanoidCommandPublisher(Node):
 
     def run(self):   
         while rclpy.ok():
-            user_input = input("Enter a command for the humanoid (hi / wave_left / wave_right / bro / nod_yes /nod_no / handshake / cross_arms ): ").strip().lower()
-            
-            if user_input in ['hi', 'wave_left', 'wave_right', 'nod_yes', 'bro', 'nod_no', 'handshake', 'cross_arms','hold']:
+            user_input = input("Enter a command for the humanoid (hi / wave_left / wave_right / nod_yes /nod_no / hand_explain_front / hand_explain_left / hand_explain_right / handshake / cross_arms ): ").strip().lower()
+
+            if user_input in ['hi', 'wave_left', 'wave_right', 'nod_yes', 'bro', 'nod_no', 'hand_explain_front', 'hand_explain_left', 'hand_explain_right', 'handshake', 'cross_arms','hold']:
                 msg = String()
                 msg.data = user_input
                 self.publisher.publish(msg)
