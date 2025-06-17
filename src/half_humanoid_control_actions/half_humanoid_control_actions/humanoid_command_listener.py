@@ -39,7 +39,7 @@ class HumanoidCommandListener(Node):
             joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
 
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= hi_pose)
-            time.sleep(1.5)
+            time.sleep(2)
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= def_pose)
 
         elif command == "handshake":
@@ -61,33 +61,33 @@ class HumanoidCommandListener(Node):
                         'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
 
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=hands_pose)
-            time.sleep(2.0)
+            time.sleep(1.5)
 
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=def_pose)
         
         elif command == "hand_explain_right":
-            explain_pose = def_pose.copy()
+            explain2_pose = def_pose.copy()
 
             # Raise right forearm (j14: elbow, j15–j17: wrist motion)
-            explain_pose[3] = d_to_r(45)   # j14 elbow
-            explain_pose[4] = d_to_r(15)   # j15 roll
-            explain_pose[5] = d_to_r(10)   # j16 wrist pitch
-            explain_pose[6] = d_to_r(0)    # j17 wrist yaw
+            explain2_pose[3] = d_to_r(45)   # j14 elbow
+            explain2_pose[4] = d_to_r(15)   # j15 roll
+            explain2_pose[5] = d_to_r(10)   # j16 wrist pitch
+            explain2_pose[6] = d_to_r(0)    # j17 wrist yaw
 
-            self.send_goal('dual_arm', joint_names, explain_pose)
+            self.send_goal('dual_arm', joint_names, explain2_pose)
             time.sleep(2.0)
             self.send_goal('dual_arm', joint_names, def_pose)
 
         elif command == "hand_explain_left":
-            explain_pose = def_pose.copy()
+            explain1_pose = def_pose.copy()
 
             # Raise left forearm (j24: elbow, j25–j27: wrist motion)
-            explain_pose[10] = d_to_r(45)   # j24 elbow
-            explain_pose[11] = d_to_r(15)   # j25 roll
-            explain_pose[12] = d_to_r(10)   # j26 wrist pitch
-            explain_pose[13] = d_to_r(0)    # j27 wrist yaw
+            explain1_pose[10] = d_to_r(45)   # j24 elbow
+            explain1_pose[11] = d_to_r(15)   # j25 roll
+            explain1_pose[12] = d_to_r(10)   # j26 wrist pitch
+            explain1_pose[13] = d_to_r(0)    # j27 wrist yaw
 
-            self.send_goal('dual_arm', joint_names, explain_pose)
+            self.send_goal('dual_arm', joint_names, explain1_pose)
             time.sleep(2.0)
             self.send_goal('dual_arm', joint_names, def_pose)
 
@@ -98,7 +98,7 @@ class HumanoidCommandListener(Node):
             cross_pose = [d_to_r(17),d_to_r(6), d_to_r(90), d_to_r(62), d_to_r(4), d_to_r(2), d_to_r(0), d_to_r(-37), d_to_r(-6), d_to_r(-80), d_to_r(63), d_to_r(0), d_to_r(0), d_to_r(0)]  
             joint_names = ['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= cross_pose)
-            time.sleep(1.5)
+            time.sleep(2)
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= def_pose)
 
         elif command == "wave_right":
@@ -116,7 +116,7 @@ class HumanoidCommandListener(Node):
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= wave_pose)
             time.sleep(1.5)
 
-            for _ in range(3):
+            for _ in range(1):
                 self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= wave1)
                 time.sleep(2.0)
                 self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= wave2)
@@ -127,7 +127,7 @@ class HumanoidCommandListener(Node):
         elif command == "wave_left":
             # Initial raised hand pose for left hand
             wave_pose = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # j11–j17 (right arm, ignored here)
-                        1.0, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0]  # j21–j27 (left arm active)
+                        -1.0, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0]  # j21–j27 (left arm active)
 
             wave1 = wave_pose.copy()
             wave2 = wave_pose.copy()
@@ -142,7 +142,7 @@ class HumanoidCommandListener(Node):
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=wave_pose)
             time.sleep(1.5)
 
-            for _ in range(3):
+            for _ in range(1):
                 self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=wave1)
                 time.sleep(2.0)
                 self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions=wave2)
@@ -184,7 +184,7 @@ class HumanoidCommandListener(Node):
 
             self.send_goal(group_name='head', joint_names=joint_names, joint_positions=def_head_pose)
 
-            for _ in range(3):
+            for _ in range(2):
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes1)
                 time.sleep(1.0)
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes2)
@@ -203,7 +203,7 @@ class HumanoidCommandListener(Node):
 
             self.send_goal(group_name='head', joint_names=joint_names, joint_positions=def_head_pose)
 
-            for _ in range(3):
+            for _ in range(2):
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes1)
                 time.sleep(1.0)
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes2)
