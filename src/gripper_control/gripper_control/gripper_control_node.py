@@ -66,6 +66,35 @@ class DualGripperControlNode(Node):
 
         self.create_subscription(String, '/left_gripper_command', self.left_callback, 10)
         self.create_subscription(String, '/right_gripper_command', self.right_callback, 10)
+    
+    def reconnect_serial_port(self):
+        try:
+            self.get_logger().info("🔁 Attempting to reopen serial port...")
+
+            self.portHandler.closePort()
+            time.sleep(0.5)
+
+            if not self.portHandler.openPort():
+                self.get_logger().error("❌ Re-open failed")
+                return
+
+            if not self.portHandler.setBaudRate(BAUDRATE):
+                self.get_logger().error("❌ Re-set baudrate failed")
+                return
+
+            self.get_logger().info("✅ Serial port re-opened and baudrate re-set")
+
+            # Re-enable torque for existing motors
+            for label, motor_id in self.motor_map.items():
+                result, error = self.packetHandler.write1ByteTxRx(
+                    self.portHandler, motor_id, ADDR_TORQUE_ENABLE, 1
+                )
+                if result == COMM_SUCCESS:
+                    self.get_logger().info(f"✅ Re-enabled torque for {label} motor")
+                else:
+                    self.get_logger().warn(f"⚠️ Failed to re-enable torque for {label}")
+        except Exception as e:
+            self.get_logger().error(f"❌ Serial recovery failed: {e}")
 
     def left_callback(self, msg):
         if "left" in self.motor_map:
@@ -106,9 +135,18 @@ class DualGripperControlNode(Node):
         start_time = time.time()
 
         while time.time() - start_time < timeout:
-            present_pos, comm_result, error = self.packetHandler.read4ByteTxRx(
-                self.portHandler, motor_id, ADDR_PRESENT_POSITION
-            )
+            # present_pos, comm_result, error = self.packetHandler.read4ByteTxRx(
+            #     self.portHandler, motor_id, ADDR_PRESENT_POSITION
+            # )
+            try:
+                present_pos, comm_result, error = self.packetHandler.read4ByteTxRx(
+                    self.portHandler, motor_id, ADDR_PRESENT_POSITION
+                )
+            except Exception as e:
+                self.get_logger().warn(f"[{label}] Serial exception occurred: {e}")
+                self.reconnect_serial_port()
+                return
+
             if comm_result != COMM_SUCCESS:
                 self.get_logger().warn(f"[{label}] Read error: {self.packetHandler.getTxRxResult(comm_result)}")
                 break
