@@ -310,7 +310,7 @@ class HumanoidCommandListener(Node):
 
             self.send_goal(group_name='head', joint_names=joint_names, joint_positions=def_head_pose)
 
-            for _ in range(2):
+            for _ in range(1):
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes1)
                 time.sleep(1.0)
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes2)
@@ -329,7 +329,7 @@ class HumanoidCommandListener(Node):
 
             self.send_goal(group_name='head', joint_names=joint_names, joint_positions=def_head_pose)
 
-            for _ in range(2):
+            for _ in range(1):
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes1)
                 time.sleep(1.0)
                 self.send_goal(group_name='head', joint_names=joint_names, joint_positions=yes2)
