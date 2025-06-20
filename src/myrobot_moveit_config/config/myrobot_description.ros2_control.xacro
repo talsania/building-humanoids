@@ -11,22 +11,6 @@
 
     <ros2_control name="${name}" type="system">
       <hardware>
-        <!-- Conditional configuration for fake versus real hardware -->
-        <!-- <xacro:if value="${use_fake_hardware}">
-          <plugin>mock_components/GenericSystem</plugin>
-          <param name="fake_sensor_commands">${fake_sensor_commands}</param>
-          <param name="state_following_offset">0.0</param>
-        </xacro:if> -->
-        <!-- <xacro:if value="$(eval use_fake_hardware == 'true')">
-          <plugin>mock_components/GenericSystem</plugin>
-          <param name="fake_sensor_commands">${fake_sensor_commands}</param>
-          <param name="state_following_offset">0.0</param>
-        </xacro:if> -->
-
-
-        <!-- <xacro:unless value="${use_fake_hardware}"> -->
-        <!-- <xacro:else> -->
-        
         <plugin>dynamixel_hardware_interface/DynamixelHardware</plugin>
         <param name="port_name">${port_name}</param>
         <param name="baud_rate">4000000</param>
@@ -81,7 +65,6 @@
         <param name="set_dynamixel_data_srv_name">dynamixel_hardware_interface/set_dxl_data</param>
         <param name="reboot_dxl_srv_name">dynamixel_hardware_interface/reboot_dxl</param>
         <param name="set_dxl_torque_srv_name">dynamixel_hardware_interface/set_dxl_torque</param>
-        <!-- </xacro:else> -->
       </hardware>
 
       <!-- Joint Definitions with initial positions and velocity interfaces -->
