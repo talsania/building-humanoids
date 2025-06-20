@@ -120,7 +120,7 @@ class HumanoidCommandListener(Node):
             time.sleep(2.0)
 
             self.send_goal('dual_arm', joint_names, normal)
-            time.sleep(1.5)
+            time.sleep(2.0)
 
             self.send_goal('head', head_joints, nod_yes1)
             time.sleep(1.5)
@@ -131,7 +131,7 @@ class HumanoidCommandListener(Node):
             self.send_goal('head', head_joints, nod_no2)
             time.sleep(1.5)
             self.send_goal('head', head_joints, head_center)
-            time.sleep(1.5)
+            time.sleep(2.5)
 
         # elif command == "range_of_motion":
         #     joint_names = ['j11','j12','j13','j14','j15','j16','j17',
