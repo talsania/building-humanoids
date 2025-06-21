@@ -42,6 +42,8 @@ ros2 launch myrobot_moveit_config umbrella.launch.py
 
 ### Gesture Control
 
+*Topic name:* ```/humanoid_command```
+
 Start the gesture subscriber:
 ```bash
 ros2 run half_humanoid_control_actions humanoid_command_listener
@@ -53,6 +55,10 @@ ros2 topic pub /humanoid_command std_msgs/msg/String "{data: 'hi'}"
 ```
 
 ### Pick & Place Operations
+
+*Topic name for camera frame:* ```/pick_camera_tf``` ```/place_camera_tf```
+
+*Topic name for base_link frame:* ```/pick_transform``` ```/place_transform```
 
 Start the IK solver:
 ```bash
@@ -66,6 +72,8 @@ ros2 topic pub --once /pick_transform std_msgs/msg/Float64MultiArray
 ```
 
 ### Gripper Open & Close
+
+*Topic name:* ```/left_gripper_command``` ```/right_gripper_command```
 
 Start Gripper Node
 ```bash
@@ -82,6 +90,7 @@ ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"
 ```
 
 ## Hardware Info
+
 *180° in Dynamixel Wizard = 0° in Rviz*
 
 - **XM430-W350** for Arms, **XL430-W250** for Head and Grippers
