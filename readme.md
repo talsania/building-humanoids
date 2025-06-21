@@ -74,10 +74,10 @@ ros2 run gripper_control gripper_control_node
 
 Gripper Ops
 ```bash
-ros2 topic pub --once /left_gripper_command std_msgs/String "data: 'close'"    # Left Hand (ID:28)
+ros2 topic pub --once /left_gripper_command std_msgs/String "data: 'close'"    # Left Hand
 ros2 topic pub --once /left_gripper_command std_msgs/String "data: 'open'"    
 
-ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'close'"    # Right Hand (ID:18)
+ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'close'"    # Right Hand
 ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"    
 ```
 
@@ -89,5 +89,5 @@ ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"
 - **Baud Rate:** 4000000
 - **Left Arm:** 11 -> 17
 - **Right Arm:** 21 -> 27
-- **Grippers:** 28, 18 (90 = close, 180 = open)
+- **Grippers:** 48, 38 (90 = close, 180 = open)
 - **Head:** 31, 32
