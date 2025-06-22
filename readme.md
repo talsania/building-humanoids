@@ -90,7 +90,8 @@ ros2 topic pub --once /right_gripper_command std_msgs/String "data: 'open'"
 ```
 ### Realsense Camera
 
-```bash ros2 run realsense2_camera realsense2_camera_node --ros-args   -p align_depth.enable:=true   -p pointcloud.enable:=true   -p depth_module.profile:="640x480x30"   -p enable_color:=true   -p enable_depth:=true   -p enable_accel:=false   -p enable_gyro:=false
+```bash
+ros2 run realsense2_camera realsense2_camera_node --ros-args   -p align_depth.enable:=true   -p pointcloud.enable:=true   -p depth_module.profile:="640x480x30"   -p enable_color:=true   -p enable_depth:=true   -p enable_accel:=false   -p enable_gyro:=false
 ```
 
 ## Hardware Info
