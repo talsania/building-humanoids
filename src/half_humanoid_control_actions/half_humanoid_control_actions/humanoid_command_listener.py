@@ -72,29 +72,25 @@ class HumanoidCommandListener(Node):
             # Start with neutral pose
             base = def_pose.copy()
 
-            # 1. Hands forward (arms slightly bent)
+            # 1. Raise arms forward (shoulder pitch)
             forward = base.copy()
-            forward[0] = d_to_r(45)
-            forward[1] = d_to_r(0)
-            forward[3] = d_to_r(0)
-            forward[7] = d_to_r(-45)
-            forward[8] = d_to_r(0)
-            forward[10] = d_to_r(0)
+            forward[0] = d_to_r(45)     # right shoulder pitch
+            forward[7] = d_to_r(-45)    # left shoulder pitch
 
-            # 3. Hands out to the side
-            sideways = base.copy()
-            sideways[1] = d_to_r(-30)
-            sideways[8] = d_to_r(30)
+            # 2. Add sideways movement (shoulder roll) to arms while still up
+            forward_sideways = forward.copy()
+            forward_sideways[1] = d_to_r(-30)  # right shoulder roll
+            forward_sideways[8] = d_to_r(30)   # left shoulder roll
 
-            # ELBOWS UP AND DOWN
-            elbows_up = base.copy()
-            elbows_up[3] = d_to_r(60)    # right elbow
-            elbows_up[10] = d_to_r(60)   # left elbow
+            # 3. Add elbow bend while arms are still up and out
+            full_pose = forward_sideways.copy()
+            full_pose[3] = d_to_r(50)   # right elbow
+            full_pose[10] = d_to_r(50)  # left elbow
 
-            # 4. Neutral arms
+            # 4. Back to neutral
             normal = base.copy()
 
-            # Head joint names (as MoveIt group "head")
+            # Head joint names (MoveIt group "head")
             head_joints = ['j31', 'j32']
             head_center = [0.0, 0.0]
             nod_yes1 = [0.0, d_to_r(20)]
@@ -104,24 +100,23 @@ class HumanoidCommandListener(Node):
 
             # ---- EXECUTE SEQUENCE ----
 
+            # Step 1: Arms forward
             self.send_goal('dual_arm', joint_names, forward)
             time.sleep(1.5)
 
-            self.send_goal('dual_arm', joint_names, normal)
+            # Step 2: Add sideways while keeping them up
+            self.send_goal('dual_arm', joint_names, forward_sideways)
             time.sleep(1.5)
 
-            self.send_goal('dual_arm', joint_names, elbows_up)
+            # Step 3: Add elbows while everything still up
+            self.send_goal('dual_arm', joint_names, full_pose)
             time.sleep(2.0)
 
-            self.send_goal('dual_arm', joint_names, normal)
-            time.sleep(1.5)
-
-            self.send_goal('dual_arm', joint_names, sideways)
-            time.sleep(2.0)
-
+            # Step 4: Return to neutral
             self.send_goal('dual_arm', joint_names, normal)
             time.sleep(2.0)
 
+            # Head nodding and shaking
             self.send_goal('head', head_joints, nod_yes1)
             time.sleep(1.5)
             self.send_goal('head', head_joints, nod_yes2)
@@ -140,28 +135,24 @@ class HumanoidCommandListener(Node):
         #     # Start with neutral pose
         #     base = def_pose.copy()
 
-        #     # 1. Hands forward (arms slightly bent)
+        #     # 1. Hands forward
         #     forward = base.copy()
-        #     forward[0] = d_to_r(30)
-        #     forward[1] = d_to_r(-25)
-        #     forward[3] = d_to_r(40)
-        #     forward[7] = d_to_r(-30)
-        #     forward[8] = d_to_r(25)
-        #     forward[10] = d_to_r(40)
-
-        #     # 2. Hands slightly back
-        #     backward = base.copy()
-        #     backward[0] = d_to_r(-30)
-        #     backward[1] = d_to_r(0)
-        #     backward[3] = d_to_r(0)
-        #     backward[7] = d_to_r(30)
-        #     backward[8] = d_to_r(0)
-        #     backward[10] = d_to_r(0)
+        #     forward[0] = d_to_r(45)
+        #     forward[1] = d_to_r(0)
+        #     forward[3] = d_to_r(0)
+        #     forward[7] = d_to_r(-45)
+        #     forward[8] = d_to_r(0)
+        #     forward[10] = d_to_r(0)
 
         #     # 3. Hands out to the side
         #     sideways = base.copy()
         #     sideways[1] = d_to_r(-30)
         #     sideways[8] = d_to_r(30)
+
+        #     # ELBOWS UP AND DOWN
+        #     elbows_up = base.copy()
+        #     elbows_up[3] = d_to_r(60)    # right elbow
+        #     elbows_up[10] = d_to_r(60)   # left elbow
 
         #     # 4. Neutral arms
         #     normal = base.copy()
@@ -169,32 +160,41 @@ class HumanoidCommandListener(Node):
         #     # Head joint names (as MoveIt group "head")
         #     head_joints = ['j31', 'j32']
         #     head_center = [0.0, 0.0]
-        #     nod_yes1 = [0.0, d_to_r(15)]
-        #     nod_yes2 = [0.0, d_to_r(-15)]
-        #     nod_no1 = [d_to_r(15), 0.0]
-        #     nod_no2 = [d_to_r(-15), 0.0]
+        #     nod_yes1 = [0.0, d_to_r(20)]
+        #     nod_yes2 = [0.0, d_to_r(-20)]
+        #     nod_no1 = [d_to_r(20), 0.0]
+        #     nod_no2 = [d_to_r(-20), 0.0]
 
         #     # ---- EXECUTE SEQUENCE ----
 
         #     self.send_goal('dual_arm', joint_names, forward)
-        #     self.send_goal('head', head_joints, nod_yes1)
-        #     time.sleep(3.0)
-        #     self.send_goal('head', head_joints, nod_yes2)
-        #     time.sleep(3.0)
-
-        #     self.send_goal('dual_arm', joint_names, backward)
-        #     self.send_goal('head', head_joints, head_center)
-        #     time.sleep(3.0)
-
-        #     self.send_goal('dual_arm', joint_names, sideways)
-        #     self.send_goal('head', head_joints, nod_no1)
-        #     time.sleep(3.0)
-        #     self.send_goal('head', head_joints, nod_no2)
-        #     time.sleep(3.0)
+        #     time.sleep(1.5)
 
         #     self.send_goal('dual_arm', joint_names, normal)
-        #     self.send_goal('head', head_joints, head_center)
         #     time.sleep(1.5)
+
+        #     self.send_goal('dual_arm', joint_names, elbows_up)
+        #     time.sleep(2.0)
+
+        #     self.send_goal('dual_arm', joint_names, normal)
+        #     time.sleep(1.5)
+
+        #     self.send_goal('dual_arm', joint_names, sideways)
+        #     time.sleep(2.0)
+
+        #     self.send_goal('dual_arm', joint_names, normal)
+        #     time.sleep(2.0)
+
+        #     self.send_goal('head', head_joints, nod_yes1)
+        #     time.sleep(1.5)
+        #     self.send_goal('head', head_joints, nod_yes2)
+        #     time.sleep(1.5)
+        #     self.send_goal('head', head_joints, nod_no1)
+        #     time.sleep(1.5)
+        #     self.send_goal('head', head_joints, nod_no2)
+        #     time.sleep(1.5)
+        #     self.send_goal('head', head_joints, head_center)
+        #     time.sleep(2.5)
 
         elif command == "cross_arms":
             # self.send_goal(joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27',],
