@@ -2,3 +2,5 @@ build/
 install/
 log/
 .vscode
+src/myrobot_moveit_config.zip
+src/FAKEconfig.zip
