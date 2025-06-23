@@ -17,7 +17,24 @@
 #         output="screen"
 #     )
 
-#     # 2. Delay MoveGroup by 5 seconds
+#     # 2. Launch realsense2_camera_node immediately
+#     realsense_camera = Node(
+#         package='realsense2_camera',
+#         executable='realsense2_camera_node',
+#         name='realsense2_camera',
+#         parameters=[{
+#             'align_depth.enable': True,
+#             'pointcloud.enable': True,
+#             'depth_module.profile': '640x480x30',
+#             'enable_color': True,
+#             'enable_depth': True,
+#             'enable_accel': False,
+#             'enable_gyro': False,
+#         }],
+#         output='screen'
+#     )
+
+#     # 3. Delay MoveGroup by 5 seconds
 #     move_group = TimerAction(
 #         period=5.0,
 #         actions=[
@@ -29,7 +46,7 @@
 #         ]
 #     )
 
-#     # 3. Delay planning_and_control by 5 seconds
+#     # 4. Delay planning_and_control by 5 seconds
 #     planning_and_control = TimerAction(
 #         period=5.0,
 #         actions=[
@@ -43,6 +60,7 @@
 
 #     return LaunchDescription([
 #         gripper_node,
+#         realsense_camera,
 #         move_group,
 #         planning_and_control
 #     ])
@@ -52,6 +70,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+from launch_ros.actions import Node
 
 def generate_launch_description():
     pkg_moveit = FindPackageShare("myrobot_moveit_config")
@@ -70,7 +89,25 @@ def generate_launch_description():
         )
     )
 
+    # Launch Realsense camera node
+    realsense_camera = Node(
+        package='realsense2_camera',
+        executable='realsense2_camera_node',
+        name='realsense2_camera',
+        parameters=[{
+            'align_depth.enable': True,
+            'pointcloud.enable': True,
+            'depth_module.profile': '640x480x30',
+            'enable_color': True,
+            'enable_depth': True,
+            'enable_accel': False,
+            'enable_gyro': False,
+        }],
+        output='screen'
+    )
+
     return LaunchDescription([
         move_group,
         planning_and_control,
+        realsense_camera,
     ])
