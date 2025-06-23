@@ -76,16 +76,22 @@ class HumanoidCommandListener(Node):
             forward = base.copy()
             forward[0] = d_to_r(45)     # right shoulder pitch
             forward[7] = d_to_r(-45)    # left shoulder pitch
+            forward[5] = d_to_r(-60)     # right wrist pitch
+            forward[12] = d_to_r(-60)   # left wrist pitch
 
             # 2. Add sideways movement (shoulder roll) to arms while still up
             forward_sideways = forward.copy()
             forward_sideways[1] = d_to_r(-30)  # right shoulder roll
             forward_sideways[8] = d_to_r(30)   # left shoulder roll
+            forward_sideways[6] = d_to_r(0)    # right wrist roll
+            forward_sideways[13] = d_to_r(0)  # left wrist roll
 
             # 3. Add elbow bend while arms are still up and out
             full_pose = forward_sideways.copy()
             full_pose[3] = d_to_r(50)   # right elbow
             full_pose[10] = d_to_r(50)  # left elbow
+            full_pose[6] = d_to_r(-60)    # right wrist roll
+            full_pose[13] = d_to_r(-60)  # left wrist roll
 
             # 4. Back to neutral
             normal = base.copy()
