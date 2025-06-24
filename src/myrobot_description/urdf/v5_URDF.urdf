@@ -565,6 +565,7 @@
       upper="0"
       effort="0"
       velocity="0" />
+    <!-- <mimic joint="right_finger_1_joint" multiplier="-1.0" offset="0.0" /> -->
   </joint>
   <link
     name="left_shoulder_1">
@@ -1087,6 +1088,7 @@
       upper="0.024"
       effort="0"
       velocity="0" />
+    <!-- <mimic joint="left_finger_1_joint" multiplier="-1.0" offset="0.0" /> -->
   </joint>
   <link
     name="neck_yaw">
