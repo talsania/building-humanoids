@@ -1,6 +1,6 @@
 # humanoid_ws
 
-ROS 2, MoveIt, Python, C++, Git, colcon, rosdep, URDF/Xacro, YAML
+Building Humanoids: MIS/END-TIRI/ME/HPM/2526/004
 
 ## Dev Updates
 
