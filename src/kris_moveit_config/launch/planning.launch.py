@@ -9,14 +9,14 @@ from launch.substitutions import LaunchConfiguration
 import os
 
 def generate_launch_description():
-    pkg = FindPackageShare("myrobot_moveit_config")
+    pkg = FindPackageShare("kris_moveit_config")
 
     # 1) robot_description (xacro → URDF + ros2_control)
     robot_description = ParameterValue(
         Command([
             "xacro ",
-            PathJoinSubstitution([pkg, "config", "myrobot_description.urdf.xacro"]),
-            " name:=myrobot",
+            PathJoinSubstitution([pkg, "config", "v2.urdf.xacro"]),
+            " name:=v2",
             " port_name:=/dev/ttyUSB0",
             " use_fake_hardware:=true",
             " fake_sensor_commands:=true",
@@ -30,7 +30,7 @@ def generate_launch_description():
     robot_description_semantic = ParameterValue(
         Command([
             "cat ",
-            PathJoinSubstitution([pkg, "config", "myrobot_description.srdf"])
+            PathJoinSubstitution([pkg, "config", "v2.srdf"])
         ]),
         value_type=str,
     )

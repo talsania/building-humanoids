@@ -5,7 +5,7 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    pkg_moveit = FindPackageShare("myrobot_moveit_config")
+    pkg_moveit = FindPackageShare("kris_moveit_config")
 
     # Launch MoveGroup
     move_group = IncludeLaunchDescription(
@@ -15,13 +15,13 @@ def generate_launch_description():
     )
 
     # Launch planning and control
-    planning_and_control = IncludeLaunchDescription(
+    planning = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            PathJoinSubstitution([pkg_moveit, "launch", "planning_and_control.launch.py"])
+            PathJoinSubstitution([pkg_moveit, "launch", "planning.launch.py"])
         )
     )
 
     return LaunchDescription([
         move_group,
-        planning_and_control,
+        planning,
     ])

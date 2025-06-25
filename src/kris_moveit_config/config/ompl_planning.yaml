@@ -1,0 +1,57 @@
+planning_plugin: ompl_interface/OMPLPlanner
+moveit_controller_manager: moveit_ros_control_interface/MoveItControllerManager
+
+request_adapters: >
+  default_planner_request_adapters/AddTimeParameterization
+  default_planner_request_adapters/FixWorkspaceBounds
+  default_planner_request_adapters/FixStartStateBounds
+  default_planner_request_adapters/FixStartStateCollision
+  default_planner_request_adapters/FixStartStatePathConstraints
+
+start_state_max_bounds_error: 0.1
+
+ompl:
+  planning_time: 10.0
+  max_velocity_scaling_factor: 0.1
+  max_acceleration_scaling_factor: 0.1
+  simplify_solutions: true
+
+  workspace_parameters:
+    min_corner: [-1.0, -1.0, 0.0]
+    max_corner: [1.0, 1.0, 2.0]
+
+  planner_configs:
+    RRTConnectkConfigDefault:
+      type: geometric::RRTConnect
+      range: 0.0
+      goal_bias: 0.05
+
+    RRTstarkConfigDefault:
+      type: geometric::RRTstar
+      range: 0.0
+      goal_bias: 0.05
+      delay_collision_checking: true
+
+  dual_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
+  left_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
+  right_arm:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+
+  head:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault

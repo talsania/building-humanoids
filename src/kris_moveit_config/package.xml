@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>tara_moveit_config</name>
+  <name>kris_moveit_config</name>
   <version>0.3.0</version>
   <description>
      An automatically generated package with all the configuration and launch files for using the v2 with the MoveIt Motion Planning Framework
   </description>
-  <maintainer email="talsania.k@outlook.com">krishang_talsania</maintainer>
+  <maintainer email="talsania.k@outlook.com">krishang</maintainer>
 
   <license>BSD</license>
 
@@ -14,7 +14,7 @@
   <url type="bugtracker">https://github.com/ros-planning/moveit2/issues</url>
   <url type="repository">https://github.com/ros-planning/moveit2</url>
 
-  <author email="talsania.k@outlook.com">krishang_talsania</author>
+  <author email="talsania.k@outlook.com">krishang</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

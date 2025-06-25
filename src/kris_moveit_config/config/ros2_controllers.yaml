@@ -1,19 +1,24 @@
-# This config file is used by ros2_control
 controller_manager:
   ros__parameters:
+    use_sim_time: false
     update_rate: 100  # Hz
+
+    # List of controllers
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
 
     dual_arm_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-
     head_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+# Joint State Broadcaster config
+joint_state_broadcaster:
+  ros__parameters:
+    publish_rate: 50.0
 
-    joint_state_broadcaster:
-      type: joint_state_broadcaster/JointStateBroadcaster
-
+# Dual Arm - Current-based Position Mode (OpMode 5) on XM430s
 dual_arm_controller:
   ros__parameters:
     joints:
@@ -24,8 +29,6 @@ dual_arm_controller:
       - j15
       - j16
       - j17
-      - f18
-      - f20
       - j21
       - j22
       - j23
@@ -33,12 +36,15 @@ dual_arm_controller:
       - j25
       - j26
       - j27
-      - f28
     command_interfaces:
       - position
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: true
+    action_monitor_rate: 20.0
+
+# Head - Standard Position Mode (OpMode 3) on XL430s
 head_controller:
   ros__parameters:
     joints:
@@ -49,3 +55,5 @@ head_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: true
+    action_monitor_rate: 20.0

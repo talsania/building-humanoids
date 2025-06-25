@@ -24,7 +24,7 @@ MIN_SPEED = 50  # Minimal speed value (adjust as needed)
 
 def main():
     # Servo IDs
-    servo_ids = list(range(11, 18)) + list(range(21, 28))  # IDs 11-17 and 21-27
+    servo_ids = list(range(11, 18)) + list(range(21, 28)) + list(range(31,32))  # IDs 11-17 and 21-27
     
     # Initialize PortHandler and PacketHandler
     portHandler = PortHandler(DEVICENAME)
