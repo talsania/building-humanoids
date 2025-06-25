@@ -35,7 +35,7 @@ class HumanoidCommandListener(Node):
             # self.send_goal(joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27',],
             #                joint_positions=[1.5708, 0.0, 0.0, 1.309, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
                 # Initial raised hand pose
-            hi_pose = [d_to_r(60),d_to_r(0), d_to_r(0), d_to_r(70), d_to_r(0), d_to_r(50), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0)]  
+            hi_pose = [d_to_r(40),d_to_r(0), d_to_r(0), d_to_r(70), d_to_r(0), d_to_r(50), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0), d_to_r(0)]  
             joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
 
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= hi_pose)
@@ -46,7 +46,7 @@ class HumanoidCommandListener(Node):
             # self.send_goal(joint_names=['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27',],
             #                joint_positions=[0.7854, 0.0, 0.0, 0.7854, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
                            
-            handshake_pose = [0.7854, 0.0, 0.0, 0.7854, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]  
+            handshake_pose = [0.6, 0.0, 0.0, 0.7854, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]  
             joint_names = ['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17', 'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27']
             self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= handshake_pose)
             time.sleep(4)
@@ -74,8 +74,8 @@ class HumanoidCommandListener(Node):
 
             # 1. Raise arms forward (shoulder pitch)
             forward = base.copy()
-            forward[0] = d_to_r(45)     # right shoulder pitch
-            forward[7] = d_to_r(-45)    # left shoulder pitch
+            forward[0] = d_to_r(40)     # right shoulder pitch
+            forward[7] = d_to_r(-40)    # left shoulder pitch
             forward[5] = d_to_r(-60)     # right wrist pitch
             forward[12] = d_to_r(-60)   # left wrist pitch
 
@@ -218,7 +218,7 @@ class HumanoidCommandListener(Node):
 
         elif command == "wave_right":
             # Initial raised hand pose
-            wave_pose = [1.0, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            wave_pose = [0.6, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
             wave1 = wave_pose.copy()
             wave2 = wave_pose.copy()
 
@@ -242,7 +242,7 @@ class HumanoidCommandListener(Node):
         elif command == "wave_left":
             # Initial raised hand pose for left hand
             wave_pose = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # j11–j17 (right arm, ignored here)
-                        -1.0, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0]  # j21–j27 (left arm active)
+                        -0.6, 0.0, 0.0, 2.309, 0.0, 0.5, 0.0]  # j21–j27 (left arm active)
 
             wave1 = wave_pose.copy()
             wave2 = wave_pose.copy()
