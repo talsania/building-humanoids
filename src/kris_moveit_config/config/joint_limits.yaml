@@ -75,8 +75,8 @@ ros__parameters:
     # GRIPPERZZZ
     f18:
       has_position_limits: true
-      min_position: 0.024
-      max_position: 0
+      min_position: 0
+      max_position: 0.024
     f19:
       has_position_limits: true
       min_position: -0.024
@@ -87,5 +87,5 @@ ros__parameters:
       max_position: 0
     f29:
       has_position_limits: true
-      min_position: 0.014031
-      max_position: 0
+      min_position: 0
+      max_position: 0.024
