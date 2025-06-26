@@ -1,62 +1,36 @@
-# MoveIt uses this configuration for controller management
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
 
-move_group:
-  ros__parameters:
-    # tells MoveIt which plugin to use
-    moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+moveit_simple_controller_manager:
+  controller_names:
+    - dual_arm_controller
+    - head_controller
 
-    moveit_simple_controller_manager:
-      controller_names:
-        - dual_arm_controller
-        - head_controller
-        # - left_hand_controller
-        # - right_hand_controller
+  dual_arm_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - j11
+      - j12
+      - j13
+      - j14
+      - j15
+      - j16
+      - j17
+      - f18
+      - j21
+      - j22
+      - j23
+      - j24
+      - j25
+      - j26
+      - j27
+      - f28
 
-      dual_arm_controller:
-        type: FollowJointTrajectory
-        action_ns: follow_joint_trajectory
-        default: true
-        joints:
-          - j11
-          - j12
-          - j13
-          - j14
-          - j15
-          - j16
-          - j17
-          - f18
-          # - f19
-          - j21
-          - j22
-          - j23
-          - j24
-          - j25
-          - j26
-          - j27
-          - f28
-          # - f29
-
-      head_controller:
-        type: FollowJointTrajectory
-        action_ns: follow_joint_trajectory
-        default: true
-        joints:
-          - j31
-          - j_32
-
-      # GRIPPERZZZ
-      # left_hand_controller:
-      #   type: FollowJointTrajectory
-      #   action_ns: follow_joint_trajectory
-      #   default: true
-      #   joints:
-      #     - f18
-      #     - f19
-
-      # right_hand_controller:
-      #   type: FollowJointTrajectory
-      #   action_ns: follow_joint_trajectory
-      #   default: true
-      #   joints:
-      #     - f28
-      #     - f29
+  head_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: false
+    joints:
+      - j31
+      - j_32

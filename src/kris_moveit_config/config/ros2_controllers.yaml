@@ -24,7 +24,7 @@ joint_state_broadcaster:
   ros__parameters:
     publish_rate: 50.0
 
-# Dual Arm - Current-based Position Mode (OpMode 5) on XM430s
+# Dual Arm
 dual_arm_controller:
   ros__parameters:
     joints:
@@ -36,7 +36,6 @@ dual_arm_controller:
       - j16
       - j17
       - f18
-      # - f19
       - j21
       - j22
       - j23
@@ -45,7 +44,6 @@ dual_arm_controller:
       - j26
       - j27
       - f28
-      # - f29
     command_interfaces:
       - position
     state_interfaces:

@@ -1,0 +1,23 @@
+planning_scene_monitor:
+  ros__parameters:
+    # Planning scene monitor parameters
+    publish_planning_scene: true
+    publish_geometry_updates: true
+    publish_state_updates: true
+    publish_transforms_updates: true
+    
+    # Planning scene update frequency
+    publish_planning_scene_hz: 4.0
+    
+    # Scene monitoring parameters
+    default_attached_padd: 0.1
+    default_robot_padd: 0.05
+    default_robot_scale: 1.0
+    
+    # Shape monitoring
+    shape_transform_cache_lookup_wait_time: 0.2
+    
+    # Octomap parameters (if using octomap)
+    octomap_frame: base_link
+    octomap_resolution: 0.025
+    max_range: 5.0
