@@ -18,28 +18,110 @@
     <group name="dual_arm">
         <group name="left_arm"/>
         <group name="right_arm"/>
+        <group name="left_hand"/>
+        <group name="right_hand"/>
     </group>
     <group name="head">
         <chain base_link="base_link" tip_link="camera"/>
     </group>
+        <!-- <group name="left_hand">
+        <chain base_link="left_wrist_2" tip_link="left_finger_2"/>
+    </group>
+        <group name="right_hand">
+        <chain base_link="right_wrist_2" tip_link="right_finger_2"/>
+    </group> -->
     <group name="left_hand">
-        <link name="left_finger_1"/>
-        <link name="left_finger_2"/>
+        <chain base_link="left_wrist_2" tip_link="left_finger_1"/>
     </group>
     <group name="right_hand">
-        <link name="right_finger_1"/>
-        <link name="right_finger_2"/>
+        <chain base_link="right_wrist_2" tip_link="right_finger_1"/>
     </group>
+
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
-    <!-- <group_state name="default" group="left_arm">
-        <joint name="j11" value="0"/>
+    <group_state name="default" group="dual_arm">
+        <joint name="j11" value="0.0"/>
+        <joint name="j12" value="0.0"/>
+        <joint name="j13" value="0.0"/>
+        <joint name="j14" value="0.0"/>
+        <joint name="j15" value="0.0"/>
+        <joint name="j16" value="0.0"/>
+        <joint name="j17" value="0.0"/>
+        <joint name="j21" value="0.0"/>
+        <joint name="j22" value="0.0"/>
+        <joint name="j23" value="0.0"/>
+        <joint name="j24" value="0.0"/>
+        <joint name="j25" value="0.0"/>
+        <joint name="j26" value="0.0"/>
+        <joint name="j27" value="0.0"/>
+    </group_state>
+    <group_state name="hand_front" group="dual_arm">
+        <joint name="j11" value="1.571"/>
         <joint name="j12" value="0"/>
         <joint name="j13" value="0"/>
         <joint name="j14" value="0"/>
         <joint name="j15" value="0"/>
         <joint name="j16" value="0"/>
         <joint name="j17" value="0"/>
-    </group_state> -->
+        <joint name="j21" value="-1.571"/>
+        <joint name="j22" value="0"/>
+        <joint name="j23" value="0"/>
+        <joint name="j24" value="0"/>
+        <joint name="j25" value="0"/>
+        <joint name="j26" value="0"/>
+        <joint name="j27" value="0.0608"/>
+    </group_state>
+    <group_state name="cross" group="dual_arm">
+        <joint name="j11" value="0.3038"/>
+        <joint name="j12" value="0.105"/>
+        <joint name="j13" value="1.571"/>
+        <joint name="j14" value="1.0877"/>
+        <joint name="j15" value="0.0781"/>
+        <joint name="j16" value="0.0379"/>
+        <joint name="j17" value="0"/>
+        <joint name="j21" value="-0.4774"/>
+        <joint name="j22" value="-0.105"/>
+        <joint name="j23" value="-1.3974"/>
+        <joint name="j24" value="1.1007"/>
+        <joint name="j25" value="0"/>
+        <joint name="j26" value="0"/>
+        <joint name="j27" value="0"/>
+    </group_state>
+        <group_state name="pick_default" group="dual_arm">
+        <joint name="j11" value="0.5235"/>
+        <joint name="j12" value="0.0"/>
+        <joint name="j13" value="0.0"/>
+        <joint name="j14" value="1.0471"/>
+        <joint name="j15" value="0.0"/>
+        <joint name="j16" value="0.0"/>
+        <joint name="j17" value="0.0"/>
+        <joint name="j21" value="-0.5235"/>
+        <joint name="j22" value="0.0"/>
+        <joint name="j23" value="0.0"/>
+        <joint name="j24" value="1.0471"/>
+        <joint name="j25" value="0.0"/>
+        <joint name="j26" value="0.0"/>
+        <joint name="j27" value="0.0"/>
+    </group_state>
+    <group_state name="right" group="head">
+        <joint name="j31" value="-1.57"/>
+        <joint name="j_32" value="0"/>
+    </group_state>
+    <group_state name="left" group="head">
+        <joint name="j31" value="1.57"/>
+        <joint name="j_32" value="0"/>
+    </group_state>
+    <group_state name="front" group="head">
+        <joint name="j31" value="0"/>
+        <joint name="j_32" value="0"/>
+    </group_state>
+    <group_state name="up" group="head">
+        <joint name="j31" value="0"/>
+        <joint name="j_32" value="0.52"/>
+    </group_state>
+    <group_state name="down" group="head">
+        <joint name="j31" value="0"/>
+        <joint name="j_32" value="-0.52"/>
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="left_finger_1" parent_link="left_finger_1" group="left_arm"/>
     <end_effector name="left_finger_2" parent_link="left_finger_2" group="left_arm"/>
@@ -94,6 +176,7 @@
     <disable_collisions link1="base_link" link2="left_shoulder_1" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="left_shoulder_2" reason="Never"/>
     <disable_collisions link1="base_link" link2="left_shoulder_3" reason="Never"/>
+    <disable_collisions link1="base_link" link2="neck_pitch" reason="Never"/>
     <disable_collisions link1="base_link" link2="neck_yaw" reason="Adjacent"/>
     <disable_collisions link1="base_link" link2="right_elbow_1" reason="Never"/>
     <disable_collisions link1="base_link" link2="right_shoulder_1" reason="Adjacent"/>
@@ -103,6 +186,7 @@
     <disable_collisions link1="camera" link2="left_elbow_2" reason="Never"/>
     <disable_collisions link1="camera" link2="left_finger_1" reason="Never"/>
     <disable_collisions link1="camera" link2="left_finger_2" reason="Never"/>
+    <disable_collisions link1="camera" link2="left_shoulder_1" reason="Never"/>
     <disable_collisions link1="camera" link2="left_shoulder_2" reason="Never"/>
     <disable_collisions link1="camera" link2="left_shoulder_3" reason="Never"/>
     <disable_collisions link1="camera" link2="left_wrist_1" reason="Never"/>
@@ -113,6 +197,7 @@
     <disable_collisions link1="camera" link2="right_elbow_2" reason="Never"/>
     <disable_collisions link1="camera" link2="right_finger_1" reason="Never"/>
     <disable_collisions link1="camera" link2="right_finger_2" reason="Never"/>
+    <disable_collisions link1="camera" link2="right_shoulder_1" reason="Never"/>
     <disable_collisions link1="camera" link2="right_shoulder_2" reason="Never"/>
     <disable_collisions link1="camera" link2="right_shoulder_3" reason="Never"/>
     <disable_collisions link1="camera" link2="right_wrist_1" reason="Never"/>
@@ -142,6 +227,7 @@
     <disable_collisions link1="left_elbow_2" link2="left_shoulder_2" reason="Never"/>
     <disable_collisions link1="left_elbow_2" link2="left_shoulder_3" reason="Never"/>
     <disable_collisions link1="left_elbow_2" link2="left_wrist_1" reason="Adjacent"/>
+    <disable_collisions link1="left_elbow_2" link2="left_wrist_2" reason="Never"/>
     <disable_collisions link1="left_elbow_2" link2="neck_pitch" reason="Never"/>
     <disable_collisions link1="left_elbow_2" link2="neck_yaw" reason="Never"/>
     <disable_collisions link1="left_elbow_2" link2="right_elbow_1" reason="Never"/>
@@ -163,13 +249,10 @@
     <disable_collisions link1="left_finger_1" link2="neck_yaw" reason="Never"/>
     <disable_collisions link1="left_finger_1" link2="right_elbow_1" reason="Never"/>
     <disable_collisions link1="left_finger_1" link2="right_elbow_2" reason="Never"/>
-    <disable_collisions link1="left_finger_1" link2="right_finger_1" reason="Never"/>
-    <disable_collisions link1="left_finger_1" link2="right_finger_2" reason="Never"/>
     <disable_collisions link1="left_finger_1" link2="right_shoulder_1" reason="Never"/>
     <disable_collisions link1="left_finger_1" link2="right_shoulder_2" reason="Never"/>
     <disable_collisions link1="left_finger_1" link2="right_shoulder_3" reason="Never"/>
     <disable_collisions link1="left_finger_1" link2="right_wrist_1" reason="Never"/>
-    <disable_collisions link1="left_finger_1" link2="right_wrist_2" reason="Never"/>
     <disable_collisions link1="left_finger_2" link2="left_shoulder_1" reason="Never"/>
     <disable_collisions link1="left_finger_2" link2="left_shoulder_2" reason="Never"/>
     <disable_collisions link1="left_finger_2" link2="left_shoulder_3" reason="Never"/>
@@ -190,6 +273,7 @@
     <disable_collisions link1="left_shoulder_1" link2="left_shoulder_3" reason="Never"/>
     <disable_collisions link1="left_shoulder_1" link2="left_wrist_1" reason="Never"/>
     <disable_collisions link1="left_shoulder_1" link2="left_wrist_2" reason="Never"/>
+    <disable_collisions link1="left_shoulder_1" link2="neck_pitch" reason="Never"/>
     <disable_collisions link1="left_shoulder_1" link2="neck_yaw" reason="Never"/>
     <disable_collisions link1="left_shoulder_1" link2="right_elbow_1" reason="Never"/>
     <disable_collisions link1="left_shoulder_1" link2="right_elbow_2" reason="Never"/>
@@ -238,23 +322,21 @@
     <disable_collisions link1="left_wrist_1" link2="right_shoulder_2" reason="Never"/>
     <disable_collisions link1="left_wrist_1" link2="right_shoulder_3" reason="Never"/>
     <disable_collisions link1="left_wrist_1" link2="right_wrist_1" reason="Never"/>
-    <disable_collisions link1="left_wrist_1" link2="right_wrist_2" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="neck_pitch" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="neck_yaw" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_elbow_1" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_elbow_2" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_finger_1" reason="Never"/>
-    <disable_collisions link1="left_wrist_2" link2="right_finger_2" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_shoulder_1" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_shoulder_2" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_shoulder_3" reason="Never"/>
     <disable_collisions link1="left_wrist_2" link2="right_wrist_1" reason="Never"/>
-    <disable_collisions link1="left_wrist_2" link2="right_wrist_2" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="neck_yaw" reason="Adjacent"/>
     <disable_collisions link1="neck_pitch" link2="right_elbow_1" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="right_elbow_2" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="right_finger_1" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="right_finger_2" reason="Never"/>
+    <disable_collisions link1="neck_pitch" link2="right_shoulder_1" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="right_shoulder_2" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="right_shoulder_3" reason="Never"/>
     <disable_collisions link1="neck_pitch" link2="right_wrist_1" reason="Never"/>
@@ -282,6 +364,7 @@
     <disable_collisions link1="right_elbow_2" link2="right_shoulder_2" reason="Never"/>
     <disable_collisions link1="right_elbow_2" link2="right_shoulder_3" reason="Never"/>
     <disable_collisions link1="right_elbow_2" link2="right_wrist_1" reason="Adjacent"/>
+    <disable_collisions link1="right_elbow_2" link2="right_wrist_2" reason="Never"/>
     <disable_collisions link1="right_finger_1" link2="right_finger_2" reason="Never"/>
     <disable_collisions link1="right_finger_1" link2="right_shoulder_1" reason="Never"/>
     <disable_collisions link1="right_finger_1" link2="right_shoulder_2" reason="Never"/>

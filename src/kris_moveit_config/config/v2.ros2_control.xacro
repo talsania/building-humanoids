@@ -184,7 +184,7 @@
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
-      
+
       <!-- Head Joints -->
       <joint name="j31">
         <command_interface name="position"/>
@@ -201,6 +201,7 @@
         <state_interface name="velocity"/>
       </joint>
 
+      <!-- GRIPPERZZZ -->
       <joint name="f18">
         <command_interface name="position"/>
         <state_interface name="position">
@@ -209,14 +210,6 @@
         <state_interface name="velocity"/>
       </joint>
 
-      <!-- <joint name="f19">
-        <command_interface name="position"/>
-        <state_interface name="position">
-          <param name="initial_value">${initial_positions['f19']}</param>
-        </state_interface>
-        <state_interface name="velocity"/>
-      </joint> -->
-
       <joint name="f28">
         <command_interface name="position"/>
         <state_interface name="position">
@@ -224,14 +217,6 @@
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
-
-      <!-- <joint name="f29">
-        <command_interface name="position"/>
-        <state_interface name="position">
-          <param name="initial_value">${initial_positions['f29']}</param>
-        </state_interface>
-        <state_interface name="velocity"/>
-      </joint> -->
 
       <!-- GPIO Blocks for each dynamixel (IDs 0 to 15 for 16 joints) -->
       <gpio name="dxl1">
@@ -430,7 +415,8 @@
         <param name="Profile Velocity">200</param>
         <param name="Profile Acceleration">50</param>
       </gpio>
-      <gpio name="dxl16">
+      <!-- GRIPPERZZZ -->
+      <gpio name="dxl17">
         <param name="type">dxl</param>
         <param name="ID">18</param>
         <param name="Operating Mode">3</param>
@@ -444,7 +430,7 @@
         <param name="Profile Velocity">200</param>
         <param name="Profile Acceleration">50</param>
       </gpio>
-      <gpio name="dxl16">
+      <gpio name="dxl18">
         <param name="type">dxl</param>
         <param name="ID">28</param>
         <param name="Operating Mode">3</param>

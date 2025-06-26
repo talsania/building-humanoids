@@ -32,14 +32,6 @@ ros__parameters:
       has_position_limits: true
       min_position: -1.571
       max_position: 1.571
-    f18:
-      has_position_limits: true
-      min_position: 0.024
-      max_position: 0
-    f19:
-      has_position_limits: true
-      min_position: -0.024
-      max_position: 0
 
     # Left arm (from URDF)  
     j21:
@@ -70,14 +62,6 @@ ros__parameters:
       has_position_limits: true
       min_position: -1.571
       max_position: 1.571
-    j28:
-      has_position_limits: true
-      min_position: -0.024
-      max_position: 0
-    j29:
-      has_position_limits: true
-      min_position: -0.024
-      max_position: 0
     
     j31:
       has_position_limits: true
@@ -87,3 +71,21 @@ ros__parameters:
       has_position_limits: true
       min_position: -0.52
       max_position: 0.52
+
+    # GRIPPERZZZ
+    f18:
+      has_position_limits: true
+      min_position: 0.024
+      max_position: 0
+    f19:
+      has_position_limits: true
+      min_position: -0.024
+      max_position: 0
+    j28:
+      has_position_limits: true
+      min_position: -0.024
+      max_position: 0
+    j29:
+      has_position_limits: true
+      min_position: -0.024
+      max_position: 0

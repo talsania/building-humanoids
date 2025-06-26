@@ -9,6 +9,8 @@ move_group:
       controller_names:
         - dual_arm_controller
         - head_controller
+        - left_hand_controller
+        - right_hand_controller
 
       dual_arm_controller:
         type: FollowJointTrajectory
@@ -37,3 +39,20 @@ move_group:
         joints:
           - j31
           - j_32
+
+      # GRIPPERZZZ
+      left_hand_controller:
+        type: FollowJointTrajectory
+        action_ns: follow_joint_trajectory
+        default: true
+        joints:
+          - f18
+          - f19
+
+      right_hand_controller:
+        type: FollowJointTrajectory
+        action_ns: follow_joint_trajectory
+        default: true
+        joints:
+          - f28
+          - f29

@@ -55,3 +55,16 @@ ompl:
     planner_configs:
       - RRTConnectkConfigDefault
       - RRTstarkConfigDefault
+
+  # GRIPPERZZZ
+  left_hand:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault
+  
+  right_hand:
+    default_planner_config: RRTConnectkConfigDefault
+    planner_configs:
+      - RRTConnectkConfigDefault
+      - RRTstarkConfigDefault

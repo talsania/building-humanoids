@@ -1,21 +1,32 @@
 # config/kinematics.yaml
 
 dual_arm:
-  kinematics_solver: lma_kinematics_plugin/LMAKinematicsPlugin
+  kinematics_solver: lma_kinematics_plugin/KDLArmKinematicsPlugin
   kinematics_solver_search_resolution: 0.005
   kinematics_solver_timeout: 0.5
 
 left_arm:
-  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver: kdl_kinematics_plugin/KDLArmKinematicsPlugin
   kinematics_solver_search_resolution: 0.005
   kinematics_solver_timeout: 0.5
 
 right_arm:
-  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver: kdl_kinematics_plugin/KDLArmKinematicsPlugin
   kinematics_solver_search_resolution: 0.005
   kinematics_solver_timeout: 0.5
 
 head:
-  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver: kdl_kinematics_plugin/KDLArmKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.5
+
+# GRIPPERZZZ
+left_hand:
+  kinematics_solver: kdl_kinematics_plugin/KDLArmKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.5
+
+right_hand:
+  kinematics_solver: kdl_kinematics_plugin/KDLArmKinematicsPlugin
   kinematics_solver_search_resolution: 0.005
   kinematics_solver_timeout: 0.5
