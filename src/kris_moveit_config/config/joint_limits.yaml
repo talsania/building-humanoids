@@ -81,11 +81,11 @@ ros__parameters:
       has_position_limits: true
       min_position: -0.024
       max_position: 0
-    j28:
+    f28:
       has_position_limits: true
       min_position: -0.024
       max_position: 0
-    j29:
+    f29:
       has_position_limits: true
-      min_position: -0.024
+      min_position: 0.024
       max_position: 0

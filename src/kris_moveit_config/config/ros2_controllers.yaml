@@ -13,11 +13,11 @@ controller_manager:
     head_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-    left_hand_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+    # left_hand_controller:
+    #   type: joint_trajectory_controller/JointTrajectoryController
     
-    right_hand_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+    # right_hand_controller:
+    #   type: joint_trajectory_controller/JointTrajectoryController
 
 # Joint State Broadcaster config
 joint_state_broadcaster:
@@ -35,6 +35,8 @@ dual_arm_controller:
       - j15
       - j16
       - j17
+      - f18
+      # - f19
       - j21
       - j22
       - j23
@@ -42,6 +44,8 @@ dual_arm_controller:
       - j25
       - j26
       - j27
+      - f28
+      # - f29
     command_interfaces:
       - position
     state_interfaces:
@@ -65,28 +69,28 @@ head_controller:
     action_monitor_rate: 20.0
 
 # GRIPPERZZZ
-left_hand_controller:
-  ros__parameters:
-    joints:
-      - f18
-      - f19
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    allow_nonzero_velocity_at_trajectory_end: true
-    action_monitor_rate: 20.0
+# left_hand_controller:
+#   ros__parameters:
+#     joints:
+#       - f18
+#       - f19
+#     command_interfaces:
+#       - position
+#     state_interfaces:
+#       - position
+#       - velocity
+#     allow_nonzero_velocity_at_trajectory_end: true
+#     action_monitor_rate: 20.0
 
-right_hand_controller:
-  ros__parameters:
-    joints:
-      - f28
-      - f29
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    allow_nonzero_velocity_at_trajectory_end: true
-    action_monitor_rate: 20.0
+# right_hand_controller:
+#   ros__parameters:
+#     joints:
+#       - f28
+#       - f29
+#     command_interfaces:
+#       - position
+#     state_interfaces:
+#       - position
+#       - velocity
+#     allow_nonzero_velocity_at_trajectory_end: true
+#     action_monitor_rate: 20.0
