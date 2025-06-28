@@ -1,5 +1,6 @@
 sensors:
   - default_sensor
+  - kinect_depthimage
 default_sensor:
   far_clipping_plane_distance: 5.0
   filtered_cloud_topic: filtered_cloud
@@ -11,3 +12,27 @@ default_sensor:
   queue_size: 5
   sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
   shadow_threshold: 0.2
+kinect_depthimage:
+  far_clipping_plane_distance: 5.0
+  filtered_cloud_topic: filtered_cloud
+  image_topic: /head_mount_kinect/depth_registered/image_raw
+  max_update_rate: 1.0
+  near_clipping_plane_distance: 0.3
+  padding_offset: 0.03
+  padding_scale: 4.0
+  queue_size: 5
+  sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+  shadow_threshold: 0.2
+
+# sensors:
+#   - realsense_pointcloud
+
+# realsense_pointcloud:
+#   sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+#   point_cloud_topic: /camera/realsense2_camera/depth/color/points
+#   max_range: 2.0
+#   point_subsample: 1
+#   padding_offset: 0.03
+#   padding_scale: 1.0
+#   filtered_cloud_topic: filtered_cloud
+#   sensor_frame: camera_link
