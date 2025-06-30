@@ -4,73 +4,67 @@
   <xacro:arg name="initial_positions_file" default="initial_positions.yaml"/>
 
   <xacro:macro name="myrobot_description_ros2_control"
-               params="name initial_positions_file port_name:=/dev/ttyUSB0
-                       use_fake_hardware:=true fake_sensor_commands:=true">
+               params="name initial_positions_file port_name:=/dev/ttyUSB0 use_fake_hardware:=false fake_sensor_commands:=false">
 
     <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}"/>
 
     <ros2_control name="${name}" type="system">
       <hardware>
-        <xacro:if value="${use_fake_hardware}">
-          <plugin>mock_components/GenericSystem</plugin>
-          <param name="fake_sensor_commands">${fake_sensor_commands}</param>
-          <param name="state_following_offset">0.0</param>
-        <xacro:unless value="${use_fake_hardware}">
-          <plugin>dynamixel_hardware_interface/DynamixelHardware</plugin>
-          <param name="port_name">${port_name}</param>
-          <param name="baud_rate">4000000</param>
-          <param name="error_timeout_sec">0.2</param>
-          <param name="dynamixel_model_folder">/param/dxl_model</param>
-          <param name="number_of_joints">18</param>
-          <param name="number_of_transmissions">18</param>
-          <param name="transmission_to_joint_matrix">
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
-          </param>
-          <param name="joint_to_transmission_matrix">
-            1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
-          </param>
-          <param name="ros_update_freq">200</param>
-          <param name="dynamixel_state_pub_msg_name">dynamixel_hardware_interface/dxl_state</param>
-          <param name="get_dynamixel_data_srv_name">dynamixel_hardware_interface/get_dxl_data</param>
-          <param name="set_dynamixel_data_srv_name">dynamixel_hardware_interface/set_dxl_data</param>
-          <param name="reboot_dxl_srv_name">dynamixel_hardware_interface/reboot_dxl</param>
-          <param name="set_dxl_torque_srv_name">dynamixel_hardware_interface/set_dxl_torque</param>
-        </xacro:unless>
-        </xacro:if>
+        <plugin>dynamixel_hardware_interface/DynamixelHardware</plugin>
+        <param name="use_bulk_read" value="false"/>
+        <param name="bulk_read"     value="false"/>
+        <param name="port_name">${port_name}</param>
+        <param name="baud_rate">4000000</param>
+        <param name="error_timeout_sec">0.2</param>
+        <param name="dynamixel_model_folder">/param/dxl_model</param>
+        <param name="number_of_joints">18</param>
+        <param name="number_of_transmissions">18</param>
+        <param name="transmission_to_joint_matrix">
+          0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, -0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, -0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+        </param>
+        <param name="joint_to_transmission_matrix">
+          4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+        </param>
+        <param name="ros_update_freq">200</param>
+        <param name="dynamixel_state_pub_msg_name">dynamixel_hardware_interface/dxl_state</param>
+        <param name="get_dynamixel_data_srv_name">dynamixel_hardware_interface/get_dxl_data</param>
+        <param name="set_dynamixel_data_srv_name">dynamixel_hardware_interface/set_dxl_data</param>
+        <param name="reboot_dxl_srv_name">dynamixel_hardware_interface/reboot_dxl</param>
+        <param name="set_dxl_torque_srv_name">dynamixel_hardware_interface/set_dxl_torque</param>
       </hardware>
 
       <!-- Joint Definitions with initial positions and velocity interfaces -->
@@ -184,7 +178,7 @@
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
-
+      
       <!-- Head Joints -->
       <joint name="j31">
         <command_interface name="position"/>
@@ -209,7 +203,6 @@
         </state_interface>
         <state_interface name="velocity"/>
       </joint>
-
       <joint name="f28">
         <command_interface name="position"/>
         <state_interface name="position">
@@ -222,7 +215,7 @@
       <gpio name="dxl1">
         <param name="type">dxl</param>
         <param name="ID">11</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -234,7 +227,7 @@
       <gpio name="dxl2">
         <param name="type">dxl</param>
         <param name="ID">12</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -246,7 +239,7 @@
       <gpio name="dxl3">
         <param name="type">dxl</param>
         <param name="ID">13</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -258,7 +251,7 @@
       <gpio name="dxl4">
         <param name="type">dxl</param>
         <param name="ID">14</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -270,7 +263,7 @@
       <gpio name="dxl5">
         <param name="type">dxl</param>
         <param name="ID">15</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -282,7 +275,7 @@
       <gpio name="dxl6">
         <param name="type">dxl</param>
         <param name="ID">16</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -294,7 +287,7 @@
       <gpio name="dxl7">
         <param name="type">dxl</param>
         <param name="ID">17</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -306,7 +299,7 @@
       <gpio name="dxl8">
         <param name="type">dxl</param>
         <param name="ID">21</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -318,7 +311,7 @@
       <gpio name="dxl9">
         <param name="type">dxl</param>
         <param name="ID">22</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -330,7 +323,7 @@
       <gpio name="dxl10">
         <param name="type">dxl</param>
         <param name="ID">23</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -342,7 +335,7 @@
       <gpio name="dxl11">
         <param name="type">dxl</param>
         <param name="ID">24</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -354,7 +347,7 @@
       <gpio name="dxl12">
         <param name="type">dxl</param>
         <param name="ID">25</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -366,7 +359,7 @@
       <gpio name="dxl13">
         <param name="type">dxl</param>
         <param name="ID">26</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -378,7 +371,7 @@
       <gpio name="dxl14">
         <param name="type">dxl</param>
         <param name="ID">27</param>
-        <param name="Operating Mode">5</param>
+        <param name="Operating Mode">4</param>
         <param name="Current Limit">800</param>
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
@@ -390,22 +383,20 @@
       <gpio name="dxl15">
         <param name="type">dxl</param>
         <param name="ID">31</param>  <!-- XL430 ID -->
-        <param name="Operating Mode">3</param>
-        <param name="Current Limit">400</param> 
+        <param name="Operating Mode">3</param>  <!-- Position Control Mode -->
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
         <state_interface name="Torque Enable"/>
         <state_interface name="Present Input Voltage"/>
         <param name="Position P Gain">800</param>
-        <param name="Profile Velocity">200</param>
+        <param name="Profile Velocity">200</param> 
         <param name="Profile Acceleration">50</param>
       </gpio>
       <gpio name="dxl16">
         <param name="type">dxl</param>
         <param name="ID">32</param>  <!-- XL430 ID -->
         <param name="Operating Mode">3</param>
-        <param name="Current Limit">400</param> 
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
@@ -418,9 +409,8 @@
       <!-- GRIPPERZZZ -->
       <gpio name="dxl17">
         <param name="type">dxl</param>
-        <param name="ID">18</param>
+        <param name="ID">18</param>  <!-- XL430 ID -->
         <param name="Operating Mode">3</param>
-        <param name="Current Limit">400</param> 
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>
@@ -432,9 +422,8 @@
       </gpio>
       <gpio name="dxl18">
         <param name="type">dxl</param>
-        <param name="ID">28</param>
+        <param name="ID">28</param>  <!-- XL430 ID -->
         <param name="Operating Mode">3</param>
-        <param name="Current Limit">400</param> 
         <command_interface name="Goal Position"/>
         <state_interface name="Present Position"/>
         <state_interface name="Present Velocity"/>

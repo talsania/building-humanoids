@@ -5,24 +5,29 @@ from launch_ros.actions import Node
 from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, TimerAction
 from launch.substitutions import LaunchConfiguration
 from moveit_configs_utils import MoveItConfigsBuilder
 import yaml
 
 def generate_launch_description():
+    # Define hardware parameters for your specific setup
+    port_name = "/dev/ttyUSB0"  # Your USB port
+    baud_rate = "4000000"       # Your baud rate (4M)
+    
     pkg = FindPackageShare("kris_moveit_config")
     moveit_config_pkg_path = get_package_share_directory('kris_moveit_config')
 
-    # 1) Build robot_description using the same method as move_group
+    # 1) Build robot_description for REAL hardware
     robot_description = ParameterValue(
         Command([
             "xacro ",
             PathJoinSubstitution([pkg, "config", "v2.urdf.xacro"]),
             " name:=v2",
-            " port_name:=/dev/ttyUSB0",
-            " use_fake_hardware:=true",
-            " fake_sensor_commands:=true",
+            " port_name:=", port_name,
+            " baud_rate:=", baud_rate,
+            " use_fake_hardware:=false",  # REAL HARDWARE
+            " fake_sensor_commands:=false",  # REAL SENSORS
             " initial_positions_file:=",
             PathJoinSubstitution([pkg, "config", "initial_positions.yaml"]),
         ]),
@@ -31,7 +36,7 @@ def generate_launch_description():
 
     # 2) Build MoveIt configuration
     robot_definition_builder = MoveItConfigsBuilder(
-        robot_name="myrobot_description", 
+        robot_name="v2", 
         package_name="kris_moveit_config"
     )
     robot_definition_builder.robot_description(file_path="config/v2.urdf.xacro")
@@ -86,7 +91,7 @@ def generate_launch_description():
         final_move_group_params['pilz_industrial_motion_planner'] = {}
     final_move_group_params['pilz_industrial_motion_planner']['request_adapters'] = ""
 
-    # Global parameters
+    # Global parameters - adjusted for real hardware
     final_move_group_params.update({
         "planning_pipelines": ["ompl"],
         "default_planning_pipeline": "ompl",
@@ -99,14 +104,19 @@ def generate_launch_description():
         ],
         "default_planner_request_adapters/FixStartStateBounds.start_state_max_bounds_error": 0.1,
         
-        # Critical parameters for joint control integration
+        # Critical parameters for real hardware joint control
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
         "planning_scene_monitor.publish_planning_scene": True,
         "planning_scene_monitor.publish_geometry_updates": True,
         "planning_scene_monitor.publish_state_updates": True,
         "planning_scene_monitor.publish_transforms_updates": True,
-        "move_group.jiggle_fraction": 0.05,
+        "move_group.jiggle_fraction": 0.02,  # Reduced for real hardware safety
         "move_group.max_safe_path_cost": 1.0,
+        
+        # Real hardware specific parameters
+        "trajectory_execution.allowed_execution_duration_scaling": 2.0,  # Allow more time for real hardware
+        "trajectory_execution.allowed_goal_duration_margin": 2.0,
+        "trajectory_execution.allowed_start_tolerance": 0.05,  # Tighter tolerance for real hardware
     })
 
     # ros2_control configuration
@@ -116,7 +126,6 @@ def generate_launch_description():
     moveit_controllers = PathJoinSubstitution([pkg, "config", "moveit_controllers_for_launch.yaml"])
 
     return LaunchDescription([
-
         # —— robot_state_publisher ——
         Node(
             package="robot_state_publisher",
@@ -125,35 +134,66 @@ def generate_launch_description():
             output="screen"
         ),
 
-        # —— ros2_control_node ——
+        # —— ros2_control_node for REAL hardware with enhanced debugging ——
         Node(
             package="controller_manager",
             executable="ros2_control_node",
             parameters=[
                 {"robot_description": robot_description},
-                ros2_ctrl_yaml
+                ros2_ctrl_yaml,
+                {"use_sim_time": False},  # Explicitly set for real hardware
             ],
-            output="screen"
+            output="screen",
+            arguments=[
+                '--ros-args',
+                '--log-level', 'DEBUG',  # Enable debug logging
+                '--log-level', 'controller_manager:=DEBUG',
+                '--log-level', 'resource_manager:=DEBUG',
+            ],
+            emulate_tty=True,  # Better terminal output
         ),
 
-        # —— spawn controllers ——
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
-            output="screen",
+        # —— spawn controllers with delays for hardware initialization ——
+        TimerAction(
+            period=5.0,  # Wait 5 seconds for hardware to initialize
+            actions=[
+                Node(
+                    package="controller_manager",
+                    executable="spawner",
+                    arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+                    output="screen",
+                ),
+            ]
         ),
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["dual_arm_controller", "--controller-manager", "/controller_manager"],
-            output="screen",
+        
+        TimerAction(
+            period=8.0,  # Wait 8 seconds before spawning joint controllers
+            actions=[
+                Node(
+                    package="controller_manager",
+                    executable="spawner",
+                    arguments=[
+                        "dual_arm_controller", 
+                        "--controller-manager", "/controller_manager"
+                    ],
+                    output="screen",
+                ),
+            ]
         ),
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["head_controller", "--controller-manager", "/controller_manager"],
-            output="screen",
+        
+        TimerAction(
+            period=10.0,  # Wait 10 seconds before spawning head controller
+            actions=[
+                Node(
+                    package="controller_manager",
+                    executable="spawner",
+                    arguments=[
+                        "head_controller", 
+                        "--controller-manager", "/controller_manager"
+                    ],
+                    output="screen",
+                ),
+            ]
         ),
 
         # —— MoveIt! move_group ——
@@ -164,15 +204,14 @@ def generate_launch_description():
             output="screen",
             parameters=[
                 final_move_group_params,
-                moveit_controllers,  # This is crucial for joint control
+                moveit_controllers,
             ],
             arguments=[
                 '--ros-args',
                 '--log-level', 'INFO', 
-                '--log-level', 'moveit_ros_move_group:=DEBUG',
-                '--log-level', 'moveit_ros_planning_pipeline:=DEBUG', 
-                '--log-level', 'moveit_planners_ompl:=DEBUG',      
-                '--log-level', 'pluginlib:=DEBUG', 
+                '--log-level', 'moveit_ros_move_group:=INFO',
+                '--log-level', 'moveit_ros_planning_pipeline:=INFO', 
+                '--log-level', 'moveit_planners_ompl:=INFO',      
             ]
         ),
 
@@ -184,7 +223,7 @@ def generate_launch_description():
             output="screen",
             parameters=[
                 {"robot_description": robot_description},
-                final_move_group_params,  # Pass MoveIt params to RViz
+                final_move_group_params,
             ],
             arguments=["-d", PathJoinSubstitution([pkg, "config", "moveit.rviz"])],
         ),

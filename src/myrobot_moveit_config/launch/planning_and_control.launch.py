@@ -3,9 +3,6 @@ from launch_ros.actions import Node
 from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
-
 import os
 
 def generate_launch_description():
@@ -18,8 +15,8 @@ def generate_launch_description():
             PathJoinSubstitution([pkg, "config", "myrobot_description.urdf.xacro"]),
             " name:=myrobot",
             " port_name:=/dev/ttyUSB0",
-            " use_fake_hardware:=true",
-            " fake_sensor_commands:=true",
+            " use_fake_hardware:=false",
+            " fake_sensor_commands:=false",
             " initial_positions_file:=",
             PathJoinSubstitution([pkg, "config", "initial_positions.yaml"]),
         ]),

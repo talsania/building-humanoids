@@ -9,8 +9,8 @@ controller_manager:
 fake_joint_controller:
   ros__parameters:
     joints:
-      - f18
-      - f19  
-      - f28
-      - f29
+      # - f18
+      # - f19  
+      # - f28
+      # - f29
     interface_name: position

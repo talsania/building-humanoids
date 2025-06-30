@@ -1,32 +1,33 @@
+#!/usr/bin/env python3
+import os
+
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
 
-import os
 
 def generate_launch_description():
     pkg = FindPackageShare("kris_moveit_config")
 
-    # 1) robot_description (xacro → URDF + ros2_control)
+    # 1) robot_description → URDF + ros2_control (real hardware)
     robot_description = ParameterValue(
         Command([
             "xacro ",
             PathJoinSubstitution([pkg, "config", "v2.urdf.xacro"]),
             " name:=v2",
             " port_name:=/dev/ttyUSB0",
-            " use_fake_hardware:=true",
-            " fake_sensor_commands:=true",
+            " baud_rate:=4000000",
+            " use_fake_hardware:=false",
+            " fake_sensor_commands:=false",
             " initial_positions_file:=",
             PathJoinSubstitution([pkg, "config", "initial_positions.yaml"]),
         ]),
         value_type=str,
     )
 
-    # 2) SRDF
+    # 2) semantic SRDF
     robot_description_semantic = ParameterValue(
         Command([
             "cat ",
@@ -35,15 +36,8 @@ def generate_launch_description():
         value_type=str,
     )
 
-    # # 3) MoveIt config files # Not needed here if move_group is launched separately
-    # moveit_controllers   = PathJoinSubstitution([pkg, "config", "moveit_controllers_for_launch.yaml"])
-    # kinematics_yaml      = PathJoinSubstitution([pkg, "config", "kinematics.yaml"])
-    # joint_limits_yaml    = PathJoinSubstitution([pkg, "config", "joint_limits.yaml"])
-    # planning_scene_yaml  = PathJoinSubstitution([pkg, "config", "planning_scene_monitor_params.yaml"])
-    # ompl_planning_yaml   = PathJoinSubstitution([pkg, "config", "ompl_planning.yaml"])
-
-    # 4) ros2_control definitions
-    ros2_ctrl_yaml       = PathJoinSubstitution([pkg, "config", "ros2_controllers.yaml"])
+    # 3) ros2_control definitions
+    ros2_ctrl_yaml = PathJoinSubstitution([pkg, "config", "ros2_controllers.yaml"])
 
     return LaunchDescription([
 
@@ -55,7 +49,7 @@ def generate_launch_description():
             output="screen"
         ),
 
-        # —— joint_state_publisher (for any un‐driven joints) ——
+        # —— joint_state_publisher ——
         Node(
             package="joint_state_publisher",
             executable="joint_state_publisher",
@@ -90,13 +84,13 @@ def generate_launch_description():
         Node(
             package="controller_manager",
             executable="spawner",
-            arguments=["dual_arm_controller", "--controller-manager", "/controller_manager"],
+            arguments=["dual_arm_controller",      "--controller-manager", "/controller_manager"],
             output="screen",
         ),
         Node(
             package="controller_manager",
             executable="spawner",
-            arguments=["head_controller", "--controller-manager", "/controller_manager"],
+            arguments=["head_controller",          "--controller-manager", "/controller_manager"],
             output="screen",
         ),
 
@@ -105,49 +99,23 @@ def generate_launch_description():
             package="moveit_ros_planning",
             executable="moveit_publish_scene_from_text",
             name="publish_planning_scene",
-            output="screen",
             parameters=[
                 {"robot_description": robot_description},
                 {"robot_description_semantic": robot_description_semantic},
             ],
+            output="screen"
         ),
-
-        # # —— MoveIt! move_group —— # <<< COMMENTED OUT / REMOVED THIS SECTION
-        # Node(
-        #     package="moveit_ros_move_group",
-        #     executable="move_group",
-        #     name="move_group",
-        #     output="screen",
-        #     parameters=[
-        #         {"robot_description": robot_description},
-        #         {"robot_description_semantic": robot_description_semantic},
-        #         moveit_controllers,
-        #         kinematics_yaml,
-        #         joint_limits_yaml,
-        #         planning_scene_yaml,
-        #         ompl_planning_yaml,
-        #         {
-        #             "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
-        #             "planning_scene_monitor.publish_planning_scene": True,
-        #             "planning_scene_monitor.publish_geometry_updates": True,
-        #             "planning_scene_monitor.publish_state_updates": True,
-        #             "planning_scene_monitor.publish_transforms_updates": True,
-        #             "move_group.jiggle_fraction": 0.05,
-        #             "move_group.max_safe_path_cost": 1.0,
-        #         }
-        #     ],
-        # ),
 
         # —— RViz ——
         Node(
             package="rviz2",
             executable="rviz2",
             name="rviz2",
-            output="screen",
             parameters=[
                 {"robot_description": robot_description},
                 {"robot_description_semantic": robot_description_semantic}
             ],
             arguments=["-d", PathJoinSubstitution([pkg, "config", "moveit.rviz"])],
+            output="screen"
         ),
     ])
