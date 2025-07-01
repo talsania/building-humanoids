@@ -1371,4 +1371,24 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <!-- <transmission name="f18_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="f18">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="f18_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>0.01924</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="f28_transmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="f28">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="f28_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>0.01924</mechanicalReduction>
+    </actuator>
+  </transmission> -->
 </robot>

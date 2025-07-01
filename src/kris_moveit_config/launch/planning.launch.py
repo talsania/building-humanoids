@@ -6,7 +6,7 @@ from launch_ros.actions import Node
 from launch.substitutions import Command, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
-
+from launch.actions import TimerAction
 
 def generate_launch_description():
     pkg = FindPackageShare("kris_moveit_config")
@@ -81,17 +81,23 @@ def generate_launch_description():
             arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
             output="screen",
         ),
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["dual_arm_controller",      "--controller-manager", "/controller_manager"],
-            output="screen",
-        ),
-        Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["head_controller",          "--controller-manager", "/controller_manager"],
-            output="screen",
+
+        TimerAction(
+            period=2.0,
+            actions=[
+                Node(
+                    package="controller_manager",
+                    executable="spawner",
+                    arguments=["dual_arm_controller", "--controller-manager", "/controller_manager"],
+                    output="screen",
+                ),
+                Node(
+                    package="controller_manager",
+                    executable="spawner",
+                    arguments=["head_controller", "--controller-manager", "/controller_manager"],
+                    output="screen",
+                ),
+            ]
         ),
 
         # —— publish planning scene ——
