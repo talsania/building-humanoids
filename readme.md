@@ -2,7 +2,7 @@
 
 Building Humanoids: MIS/END-TIRI/ME/HPM/2526/004
 
-## Dev Updates
+## Dev Updates V2
 
 - Update URDF to v2 for Gripper integration
 - Moveit issue with revolute to prismatic conversion and execution on real hardware (open #3518)
