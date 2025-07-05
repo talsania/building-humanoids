@@ -2,7 +2,7 @@
 
 Building Humanoids: MIS/END-TIRI/ME/HPM/2526/004
 
-## Dev Updates
+## Dev Updates V1
 
 - Build MoveIt config files, launch scripts, and URDF/XACRO robot descriptions
 - Integrate Dynamixel actuators for hardware-software communication
