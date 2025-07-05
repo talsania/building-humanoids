@@ -4,7 +4,7 @@
   <name>dynamixel_test_utils</name>
   <version>0.1.0</version>
   <description>Utility scripts for testing Dynamixel motors</description>
-  <maintainer email="talsania@example.com">talsania</maintainer>
+  <maintainer email="talsania.k@outlook.com">krishang</maintainer>
   <license>Apache License 2.0</license>
 
   <depend>dynamixel_sdk</depend>

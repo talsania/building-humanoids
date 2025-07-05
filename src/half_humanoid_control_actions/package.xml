@@ -3,7 +3,7 @@
   <name>half_humanoid_control_actions</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="ishaankathiriya2005@gmail.com">ishaan</maintainer>
+  <maintainer email="talsania.k@outlook.com">krishang</maintainer>
   <license>TODO: License declaration</license>
 
   <exec_depend>rclpy</exec_depend>

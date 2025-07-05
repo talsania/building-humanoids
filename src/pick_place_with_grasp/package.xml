@@ -4,7 +4,7 @@
   <name>pick_place_with_grasp</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="ishaankathiriya2005@gmail.com">ishaan</maintainer>
+  <maintainer email="talsania.k@outlook.com">krishang</maintainer>
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>

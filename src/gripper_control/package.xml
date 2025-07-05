@@ -4,7 +4,7 @@
   <name>gripper_control</name>
   <version>0.0.0</version>
   <description>Gripper control using Dynamixel SDK</description>
-  <maintainer email="kptalsania@outlook.com">kptal</maintainer>
+  <maintainer email="talsania.k@outlook.com">krishang</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
