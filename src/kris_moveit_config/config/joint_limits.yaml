@@ -67,7 +67,7 @@ ros__parameters:
       has_position_limits: true
       min_position: -1.57
       max_position: 1.57
-    j_32:
+    j32:
       has_position_limits: true
       min_position: -0.52
       max_position: 0.52

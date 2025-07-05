@@ -289,7 +289,7 @@ class HumanoidCommandListener(Node):
         #     self.send_goal(group_name='dual_arm', joint_names=joint_names, joint_positions= def_pose)
 
         elif command == "head_movement":
-            joint_names = ['j31', 'j_32']  # j31: yaw, j_32: pitch
+            joint_names = ['j31', 'j32']  # j31: yaw, j32: pitch
             def_head_pose = [0.0, 0.0]
 
             positions = [
@@ -310,7 +310,7 @@ class HumanoidCommandListener(Node):
             self.send_goal('head', joint_names, def_head_pose)
 
         elif command == "nod_yes":
-            joint_names = ['j31', 'j_32']
+            joint_names = ['j31', 'j32']
             def_head_pose = [0.0, 0.0]
             yes1 = def_head_pose.copy()
             yes2 = def_head_pose.copy()
@@ -329,7 +329,7 @@ class HumanoidCommandListener(Node):
             self.send_goal(group_name='head', joint_names=joint_names, joint_positions=def_head_pose)
 
         elif command == "nod_no":
-            joint_names = ['j31', 'j_32']
+            joint_names = ['j31', 'j32']
             def_head_pose = [0.0, 0.0]
             yes1 = def_head_pose.copy()
             yes2 = def_head_pose.copy()

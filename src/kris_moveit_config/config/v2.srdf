@@ -110,23 +110,23 @@
     </group_state>
     <group_state name="right" group="head">
         <joint name="j31" value="-1.57"/>
-        <joint name="j_32" value="0"/>
+        <joint name="j32" value="0"/>
     </group_state>
     <group_state name="left" group="head">
         <joint name="j31" value="1.57"/>
-        <joint name="j_32" value="0"/>
+        <joint name="j32" value="0"/>
     </group_state>
     <group_state name="front" group="head">
         <joint name="j31" value="0"/>
-        <joint name="j_32" value="0"/>
+        <joint name="j32" value="0"/>
     </group_state>
     <group_state name="up" group="head">
         <joint name="j31" value="0"/>
-        <joint name="j_32" value="0.52"/>
+        <joint name="j32" value="0.52"/>
     </group_state>
     <group_state name="down" group="head">
         <joint name="j31" value="0"/>
-        <joint name="j_32" value="-0.52"/>
+        <joint name="j32" value="-0.52"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="left_finger_1" parent_link="left_finger_1" group="left_arm"/>

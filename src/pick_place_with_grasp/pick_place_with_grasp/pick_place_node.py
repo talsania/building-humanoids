@@ -107,7 +107,7 @@ class DualArmIKSolver(Node):
         self.current_joint_states = {}
         self.joint_names = ['j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17',  # right arm
                            'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27',  # left arm
-                           'j31', 'j_32']  # neck joints needed for camera transform
+                           'j31', 'j32']  # neck joints needed for camera transform
         
         # Initialize current positions to zero
         for joint in self.joint_names:
@@ -306,7 +306,7 @@ class DualArmIKSolver(Node):
         """Calculate transformation from camera frame to base_link frame using current neck joint states"""
         # Get current joint states for neck joints (use zero if not available)
         j31_angle = self.current_joint_states.get('j31', 0.0)  # neck yaw
-        j32_angle = self.current_joint_states.get('j_32', 0.0)  # neck pitch
+        j32_angle = self.current_joint_states.get('j32', 0.0)  # neck pitch
         
         # Step 1: base_link to neck_yaw origin
         T1 = self.create_transformation_matrix([0.00875, 0, 0.1486], [1.5708, 0, 1.5708])

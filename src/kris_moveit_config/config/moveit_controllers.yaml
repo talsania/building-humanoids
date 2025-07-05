@@ -33,4 +33,4 @@ moveit_simple_controller_manager:
     default: false
     joints:
       - j31
-      - j_32
+      - j32

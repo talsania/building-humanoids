@@ -35,4 +35,4 @@ move_group:
         default: true
         joints:
           - j31
-          - j_32
+          - j32

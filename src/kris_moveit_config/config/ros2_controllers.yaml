@@ -57,7 +57,7 @@ head_controller:
   ros__parameters:
     joints:
       - j31
-      - j_32
+      - j32
     command_interfaces:
       - position
     state_interfaces:
