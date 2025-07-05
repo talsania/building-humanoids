@@ -16,7 +16,6 @@ setup(
     maintainer='krishang',
     maintainer_email='talsania.k@outlook.com',
     description='Utilities for testing Dynamixel motors',
-    license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [

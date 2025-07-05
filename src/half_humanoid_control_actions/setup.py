@@ -15,8 +15,7 @@ setup(
     zip_safe=True,
     maintainer='krishang',
     maintainer_email='talsania.k@outlook.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='gestures',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [

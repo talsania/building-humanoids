@@ -15,7 +15,6 @@ setup(
     maintainer='krishang',
     maintainer_email='talsania.k@outlook.com',
     description='Gripper control using Dynamixel SDK',
-    license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
