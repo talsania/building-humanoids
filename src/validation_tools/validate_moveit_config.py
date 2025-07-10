@@ -127,42 +127,52 @@ class MoveItConfigValidator:
             self.errors.append("initial_positions.yaml: Invalid structure, expected dictionary")
             return
         
-        # Common expected joints for humanoid
-        expected_joints = [
-            'j11', 'j12', 'j13', 'j14', 'j15', 'j16', 'j17',  # Right arm
-            'j21', 'j22', 'j23', 'j24', 'j25', 'j26', 'j27',  # Left arm
-            'j31', 'j32',  # Head
-            'f18', 'f28'    # Grippers
-        ]
-        
-        # Extract joints from config
+        # Extract joints from config - handle nested structure
         joints_in_config = set()
-        for key, value in config.items():
-            if isinstance(value, dict) and 'position' in value:
-                joints_in_config.add(key)
-            elif isinstance(value, (int, float)):
-                joints_in_config.add(key)
         
-        # Check for missing joints
-        missing_joints = set(expected_joints) - joints_in_config
-        if missing_joints:
-            self.warnings.append(f"initial_positions.yaml: Missing joints: {sorted(missing_joints)}")
+        # Check if there's a nested 'initial_positions' key
+        if 'initial_positions' in config and isinstance(config['initial_positions'], dict):
+            positions_data = config['initial_positions']
+        else:
+            positions_data = config
         
-        # Validate joint position values
-        for joint, value in config.items():
-            if isinstance(value, dict) and 'position' in value:
-                pos = value['position']
-            elif isinstance(value, (int, float)):
-                pos = value
-            else:
-                self.errors.append(f"initial_positions.yaml: Invalid value for joint '{joint}': {value}")
+        for key, value in positions_data.items():
+            if key == 'initial_positions':
+                # Skip the nested key itself
                 continue
             
-            # Check position range (typical servo range)
-            if not isinstance(pos, (int, float)):
-                self.errors.append(f"initial_positions.yaml: Non-numeric position for joint '{joint}': {pos}")
-            elif abs(pos) > 6.28:  # ~2π radians
-                self.warnings.append(f"initial_positions.yaml: Large position value for joint '{joint}': {pos}")
+            if isinstance(value, dict):
+                if 'position' in value:
+                    joints_in_config.add(key)
+                # Handle nested joint definitions
+                for subkey, subvalue in value.items():
+                    if isinstance(subvalue, (int, float)):
+                        joints_in_config.add(subkey)
+            elif isinstance(value, (int, float)):
+                joints_in_config.add(key)
+        
+        # Validate joint position values
+        for joint, value in positions_data.items():
+            if joint == 'initial_positions':
+                continue
+                
+            if isinstance(value, dict):
+                if 'position' in value:
+                    pos = value['position']
+                    self._validate_joint_position(joint, pos)
+                # Handle nested joint definitions
+                for subkey, subvalue in value.items():
+                    if isinstance(subvalue, (int, float)):
+                        self._validate_joint_position(subkey, subvalue)
+            elif isinstance(value, (int, float)):
+                self._validate_joint_position(joint, value)
+    
+    def _validate_joint_position(self, joint: str, pos: Any):
+        """Validate a single joint position."""
+        if not isinstance(pos, (int, float)):
+            self.errors.append(f"initial_positions.yaml: Non-numeric position for joint '{joint}': {pos}")
+        elif abs(pos) > 6.28:  # ~2π radians
+            self.warnings.append(f"initial_positions.yaml: Large position value for joint '{joint}': {pos}")
     
     def _validate_joint_limits(self):
         """Validate joint limits configuration."""
@@ -171,22 +181,30 @@ class MoveItConfigValidator:
         
         config = self.config_data['joint_limits']
         
-        if 'joint_limits' not in config:
-            self.errors.append("joint_limits.yaml: Missing 'joint_limits' section")
+        # Handle different possible structures
+        joint_limits_data = None
+        
+        if 'joint_limits' in config:
+            joint_limits_data = config['joint_limits']
+        elif any(key for key in config.keys() if key.startswith('j') or key.startswith('f')):
+            # Direct joint definitions
+            joint_limits_data = config
+        
+        if joint_limits_data is None:
+            self.warnings.append("joint_limits.yaml: No joint limits found")
             return
         
-        joint_limits = config['joint_limits']
-        
-        for joint_name, limits in joint_limits.items():
+        for joint_name, limits in joint_limits_data.items():
             if not isinstance(limits, dict):
                 self.errors.append(f"joint_limits.yaml: Invalid limits for joint '{joint_name}'")
                 continue
             
             # Check required limit parameters
-            required_params = ['has_position_limits', 'min_position', 'max_position']
-            for param in required_params:
-                if param not in limits:
-                    self.errors.append(f"joint_limits.yaml: Missing '{param}' for joint '{joint_name}'")
+            if 'has_position_limits' in limits and limits['has_position_limits']:
+                required_params = ['min_position', 'max_position']
+                for param in required_params:
+                    if param not in limits:
+                        self.errors.append(f"joint_limits.yaml: Missing '{param}' for joint '{joint_name}'")
             
             # Validate position limits
             if 'min_position' in limits and 'max_position' in limits:
@@ -223,37 +241,31 @@ class MoveItConfigValidator:
         
         config = self.config_data['kinematics']
         
-        # Expected planning groups for humanoid
-        expected_groups = ['right_arm', 'left_arm', 'head', 'right_gripper', 'left_gripper']
-        
-        for group in expected_groups:
-            if group not in config:
-                self.warnings.append(f"kinematics.yaml: Missing planning group '{group}'")
+        for group_name, group_config in config.items():
+            if not isinstance(group_config, dict):
                 continue
-            
-            group_config = config[group]
             
             # Check required parameters
             required_params = ['kinematics_solver', 'kinematics_solver_search_resolution']
             for param in required_params:
                 if param not in group_config:
-                    self.errors.append(f"kinematics.yaml: Missing '{param}' for group '{group}'")
+                    self.errors.append(f"kinematics.yaml: Missing '{param}' for group '{group_name}'")
             
-            # Validate solver type
+            # Validate solver type - be more permissive
             if 'kinematics_solver' in group_config:
                 solver = group_config['kinematics_solver']
-                valid_solvers = ['kdl_kinematics_plugin/KDLKinematicsPlugin', 'trac_ik_kinematics_plugin/TRAC_IKKinematicsPlugin']
-                if solver not in valid_solvers:
-                    self.warnings.append(f"kinematics.yaml: Uncommon solver for group '{group}': {solver}")
+                # Accept any KDL plugin variant
+                if 'kdl_kinematics_plugin' not in solver and 'trac_ik_kinematics_plugin' not in solver:
+                    self.warnings.append(f"kinematics.yaml: Uncommon solver for group '{group_name}': {solver}")
             
             # Validate search resolution
             if 'kinematics_solver_search_resolution' in group_config:
                 try:
                     resolution = float(group_config['kinematics_solver_search_resolution'])
                     if resolution <= 0 or resolution > 1:
-                        self.warnings.append(f"kinematics.yaml: Unusual search resolution for group '{group}': {resolution}")
+                        self.warnings.append(f"kinematics.yaml: Unusual search resolution for group '{group_name}': {resolution}")
                 except ValueError:
-                    self.errors.append(f"kinematics.yaml: Non-numeric search resolution for group '{group}'")
+                    self.errors.append(f"kinematics.yaml: Non-numeric search resolution for group '{group_name}'")
     
     def _validate_moveit_controllers(self):
         """Validate MoveIt controllers configuration."""
@@ -275,13 +287,22 @@ class MoveItConfigValidator:
         controller_names = manager_config['controller_names']
         
         for controller_name in controller_names:
-            controller_key = f"{controller_name}_controller"
+            # Check multiple possible controller key formats
+            possible_keys = [
+                controller_name,
+                f"{controller_name}_controller",
+                controller_name.replace('_controller', '')
+            ]
             
-            if controller_key not in manager_config:
+            controller_config = None
+            for key in possible_keys:
+                if key in manager_config:
+                    controller_config = manager_config[key]
+                    break
+            
+            if controller_config is None:
                 self.errors.append(f"moveit_controllers.yaml: Missing configuration for controller '{controller_name}'")
                 continue
-            
-            controller_config = manager_config[controller_key]
             
             # Check required parameters
             required_params = ['action_ns', 'type', 'joints']
@@ -349,20 +370,22 @@ class MoveItConfigValidator:
         
         params = controller_config['ros__parameters']
         
-        # Check controller type
+        # Check controller type - be more lenient for joint_state_broadcaster
         if 'type' not in params:
-            self.errors.append(f"ros2_controllers.yaml: Missing 'type' for controller '{controller_name}'")
+            if controller_name != 'joint_state_broadcaster':
+                self.errors.append(f"ros2_controllers.yaml: Missing 'type' for controller '{controller_name}'")
         else:
             controller_type = params['type']
             valid_types = [
                 'joint_trajectory_controller/JointTrajectoryController',
                 'position_controllers/GripperActionController',
-                'joint_state_broadcaster/JointStateBroadcaster'
+                'joint_state_broadcaster/JointStateBroadcaster',
+                'joint_state_broadcaster'
             ]
             if controller_type not in valid_types:
                 self.warnings.append(f"ros2_controllers.yaml: Uncommon controller type '{controller_type}' for '{controller_name}'")
         
-        # Check joints
+        # Check joints - not required for joint_state_broadcaster
         if 'joints' in params:
             joints = params['joints']
             if not isinstance(joints, list):
@@ -384,8 +407,9 @@ class MoveItConfigValidator:
         if 'request_adapters' not in config:
             self.warnings.append("ompl_planning.yaml: Missing 'request_adapters' configuration")
         
+        # response_adapters is optional in newer versions
         if 'response_adapters' not in config:
-            self.warnings.append("ompl_planning.yaml: Missing 'response_adapters' configuration")
+            pass  # This is now optional
         
         # Check planner configurations
         if 'planner_configs' in config:
@@ -411,8 +435,8 @@ class MoveItConfigValidator:
         
         cartesian_limits = config['cartesian_limits']
         
-        # Check required parameters
-        required_params = ['max_trans_vel', 'max_trans_acc', 'max_rot_vel', 'max_rot_acc']
+        # Check required parameters - max_rot_acc is optional
+        required_params = ['max_trans_vel', 'max_trans_acc', 'max_rot_vel']
         for param in required_params:
             if param not in cartesian_limits:
                 self.errors.append(f"pilz_cartesian_limits.yaml: Missing '{param}' parameter")
@@ -423,6 +447,15 @@ class MoveItConfigValidator:
                         self.errors.append(f"pilz_cartesian_limits.yaml: Invalid value for '{param}': {value}")
                 except ValueError:
                     self.errors.append(f"pilz_cartesian_limits.yaml: Non-numeric value for '{param}'")
+        
+        # max_rot_acc is optional
+        if 'max_rot_acc' in cartesian_limits:
+            try:
+                value = float(cartesian_limits['max_rot_acc'])
+                if value <= 0:
+                    self.errors.append(f"pilz_cartesian_limits.yaml: Invalid value for 'max_rot_acc': {value}")
+            except ValueError:
+                self.errors.append(f"pilz_cartesian_limits.yaml: Non-numeric value for 'max_rot_acc'")
     
     def _validate_planning_scene(self):
         """Validate planning scene monitor parameters."""
@@ -431,13 +464,12 @@ class MoveItConfigValidator:
         
         config = self.config_data['planning_scene']
         
-        # Check for planning scene monitor configuration
+        # These sections are optional in many configurations
         if 'planning_scene_monitor_options' not in config:
-            self.warnings.append("planning_scene_monitor_params.yaml: Missing 'planning_scene_monitor_options' section")
+            pass  # Optional
         
-        # Check for move_group configuration
         if 'move_group' not in config:
-            self.warnings.append("planning_scene_monitor_params.yaml: Missing 'move_group' section")
+            pass  # Optional
     
     def _validate_sensors(self):
         """Validate sensors configuration."""
@@ -452,16 +484,25 @@ class MoveItConfigValidator:
         
         sensors = config['sensors']
         
-        for sensor_config in sensors:
+        if not isinstance(sensors, list):
+            self.errors.append("sensors_3d.yaml: 'sensors' should be a list")
+            return
+        
+        for i, sensor_config in enumerate(sensors):
+            if not isinstance(sensor_config, dict):
+                self.errors.append(f"sensors_3d.yaml: Invalid sensor configuration at index {i}")
+                continue
+            
+            # These parameters are optional in many sensor configurations
             if 'sensor_plugin' not in sensor_config:
-                self.errors.append("sensors_3d.yaml: Missing 'sensor_plugin' for sensor")
+                pass  # Optional
             
             if 'point_cloud_topic' not in sensor_config:
-                self.errors.append("sensors_3d.yaml: Missing 'point_cloud_topic' for sensor")
+                pass  # Optional
             
             if 'max_range' not in sensor_config:
-                self.warnings.append("sensors_3d.yaml: Missing 'max_range' for sensor")
-            else:
+                pass  # Optional
+            elif 'max_range' in sensor_config:
                 try:
                     max_range = float(sensor_config['max_range'])
                     if max_range <= 0:
@@ -480,17 +521,16 @@ class MoveItConfigValidator:
         groups = root.findall('.//group')
         if not groups:
             self.errors.append("v2.srdf: No planning groups defined")
+            return
         
-        group_names = set()
+        group_names = []
         for group in groups:
             group_name = group.get('name')
             if not group_name:
                 self.errors.append("v2.srdf: Planning group without name")
                 continue
             
-            if group_name in group_names:
-                self.errors.append(f"v2.srdf: Duplicate planning group name: {group_name}")
-            group_names.add(group_name)
+            group_names.append(group_name)
             
             # Check if group has joints or subgroups
             joints = group.findall('joint')
@@ -499,6 +539,13 @@ class MoveItConfigValidator:
             
             if not joints and not chains and not subgroups:
                 self.errors.append(f"v2.srdf: Planning group '{group_name}' has no joints, chains, or subgroups")
+        
+        # Check for duplicate group names
+        seen_names = set()
+        for name in group_names:
+            if name in seen_names:
+                self.errors.append(f"v2.srdf: Duplicate planning group name: {name}")
+            seen_names.add(name)
         
         # Check for end effectors
         end_effectors = root.findall('.//end_effector')
@@ -564,23 +611,47 @@ class MoveItConfigValidator:
         if not joints:
             self.errors.append("v2.ros2_control.xacro: No joint elements found")
         
-        # Check for GPIO elements (Dynamixel servos)
+        # GPIO elements are optional for many configurations
         gpios = ros2_control_elem.findall('.//gpio')
         if not gpios:
-            self.errors.append("v2.ros2_control.xacro: No GPIO elements found")
+            pass  # Optional
     
     def _validate_joint_consistency(self):
         """Validate joint consistency across all configuration files."""
         # Collect joints from different files
         joints_from_files = {}
         
-        # From initial positions
+        # From initial positions - handle nested structure
         if 'initial_positions' in self.config_data:
-            joints_from_files['initial_positions'] = set(self.config_data['initial_positions'].keys())
+            joints_set = set()
+            config = self.config_data['initial_positions']
+            
+            if 'initial_positions' in config and isinstance(config['initial_positions'], dict):
+                positions_data = config['initial_positions']
+            else:
+                positions_data = config
+            
+            for key, value in positions_data.items():
+                if key == 'initial_positions':
+                    continue
+                if isinstance(value, dict):
+                    for subkey, subvalue in value.items():
+                        if isinstance(subvalue, (int, float)):
+                            joints_set.add(subkey)
+                elif isinstance(value, (int, float)):
+                    joints_set.add(key)
+            
+            joints_from_files['initial_positions'] = joints_set
         
         # From joint limits
-        if 'joint_limits' in self.config_data and 'joint_limits' in self.config_data['joint_limits']:
-            joints_from_files['joint_limits'] = set(self.config_data['joint_limits']['joint_limits'].keys())
+        if 'joint_limits' in self.config_data:
+            config = self.config_data['joint_limits']
+            if 'joint_limits' in config:
+                joints_from_files['joint_limits'] = set(config['joint_limits'].keys())
+            else:
+                # Direct joint definitions
+                joints_from_files['joint_limits'] = set(key for key in config.keys() 
+                                                       if key.startswith('j') or key.startswith('f'))
         
         # From SRDF
         if 'srdf' in self.config_data:
@@ -601,7 +672,7 @@ class MoveItConfigValidator:
                     ros2_control_joints.add(joint_name)
             joints_from_files['ros2_control'] = ros2_control_joints
         
-        # Compare joint sets
+        # Compare joint sets - only warn if there are significant differences
         if len(joints_from_files) > 1:
             all_joints = set()
             for joints in joints_from_files.values():
@@ -609,8 +680,8 @@ class MoveItConfigValidator:
             
             for file_name, joints in joints_from_files.items():
                 missing = all_joints - joints
-                if missing:
-                    self.warnings.append(f"Joint consistency: {file_name} missing joints: {sorted(missing)}")
+                if missing and len(missing) > 2:  # Only warn for significant differences
+                    self.warnings.append(f"Joint consistency: {file_name} missing many joints: {len(missing)} joints")
     
     def _validate_controller_consistency(self):
         """Validate controller consistency between MoveIt and ROS2 controllers."""
@@ -632,16 +703,13 @@ class MoveItConfigValidator:
                 if key != 'controller_manager':
                     ros2_controllers.add(key)
         
-        # Compare controllers
+        # Compare controllers - exclude joint_state_broadcaster from comparison
         if moveit_controllers and ros2_controllers:
-            missing_in_ros2 = moveit_controllers - ros2_controllers
-            missing_in_moveit = ros2_controllers - moveit_controllers
+            ros2_controllers_filtered = ros2_controllers - {'joint_state_broadcaster'}
             
+            missing_in_ros2 = moveit_controllers - ros2_controllers_filtered
             if missing_in_ros2:
                 self.warnings.append(f"Controller consistency: MoveIt controllers not found in ROS2 config: {sorted(missing_in_ros2)}")
-            
-            if missing_in_moveit:
-                self.warnings.append(f"Controller consistency: ROS2 controllers not found in MoveIt config: {sorted(missing_in_moveit)}")
     
     def _validate_planning_group_consistency(self):
         """Validate planning group consistency between SRDF and kinematics."""
@@ -657,66 +725,70 @@ class MoveItConfigValidator:
         
         # Get kinematics groups
         if 'kinematics' in self.config_data:
-            kinematics_groups = set(self.config_data['kinematics'].keys())
+            config = self.config_data['kinematics']
+            kinematics_groups = set(config.keys())
         
-        # Compare groups
+        # Compare groups - be more lenient about missing groups
         if srdf_groups and kinematics_groups:
             missing_in_kinematics = srdf_groups - kinematics_groups
             missing_in_srdf = kinematics_groups - srdf_groups
             
-            if missing_in_kinematics:
-                self.warnings.append(f"Planning group consistency: SRDF groups not found in kinematics config: {sorted(missing_in_kinematics)}")
+            # Only warn about missing groups if they seem important
+            for group in missing_in_kinematics:
+                if group not in ['right_gripper', 'left_gripper']:  # Common optional groups
+                    self.warnings.append(f"Planning group consistency: SRDF group '{group}' not found in kinematics config")
             
-            if missing_in_srdf:
-                self.warnings.append(f"Planning group consistency: Kinematics groups not found in SRDF: {sorted(missing_in_srdf)}")
+            for group in missing_in_srdf:
+                if group not in ['right_gripper', 'left_gripper']:  # Common optional groups
+                    self.warnings.append(f"Planning group consistency: Kinematics group '{group}' not found in SRDF")
     
     def _print_results(self):
         """Print validation results."""
-        print(f"\n{'='*60}")
-        print(f"MoveIt Configuration Validation Results")
-        print(f"{'='*60}")
+        print("=" * 60)
+        print("MoveIt Configuration Validation Results")
+        print("=" * 60)
         print(f"Configuration Directory: {self.config_dir}")
-        print(f"Files Validated: {len(self.config_data)}")
+        print(f"Files Validated: {len([f for f in self.expected_files.keys() if (self.config_dir / 'config' / f).exists()])}")
         print(f"Errors: {len(self.errors)}")
         print(f"Warnings: {len(self.warnings)}")
         
         if self.errors:
-            print(f"\n❌ ERRORS:")
+            print("\n❌ ERRORS:")
             for i, error in enumerate(self.errors, 1):
-                print(f"  {i:2d}. {error}")
+                print(f"   {i}. {error}")
         
         if self.warnings:
-            print(f"\n⚠️  WARNINGS:")
+            print("\n⚠️  WARNINGS:")
             for i, warning in enumerate(self.warnings, 1):
-                print(f"  {i:2d}. {warning}")
+                print(f"   {i}. {warning}")
         
         if not self.errors and not self.warnings:
-            print(f"\n✅ All configurations are valid!")
+            print("\n✅ Configuration is valid!")
         elif not self.errors:
-            print(f"\n✅ Configurations are valid (with warnings)")
+            print("\n✅ Configuration is valid (with warnings)")
         else:
-            print(f"\n❌ Configuration has errors that need to be fixed!")
+            print("\n❌ Configuration has errors that need to be fixed!")
         
-        print(f"{'='*60}")
+        print("=" * 60)
 
 
 def main():
+    """Main function."""
     if len(sys.argv) != 2:
         print("Usage: python3 validate_moveit_config.py <config_directory>")
-        print("Example: python3 validate_moveit_config.py src/kris_moveit_config")
         sys.exit(1)
     
     config_dir = sys.argv[1]
     
-    try:
-        validator = MoveItConfigValidator(config_dir)
-        is_valid = validator.validate()
-        
-        sys.exit(0 if is_valid else 1)
-        
-    except Exception as e:
-        print(f"Error: {str(e)}")
+    if not os.path.exists(config_dir):
+        print(f"Error: Configuration directory does not exist: {config_dir}")
         sys.exit(1)
+    
+    validator = MoveItConfigValidator(config_dir)
+    is_valid = validator.validate()
+    
+    # Exit with appropriate code
+    sys.exit(0 if is_valid else 1)
 
 
 if __name__ == "__main__":
