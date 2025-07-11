@@ -9,6 +9,7 @@ find_package(ament_cmake REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(orocos_kdl REQUIRED)
 find_package(tf2_kdl REQUIRED)
+find_package(tf2_eigen REQUIRED)
 find_package(kdl_parser REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(random_numbers REQUIRED)
@@ -17,6 +18,11 @@ find_package(pluginlib REQUIRED)
 find_package(moveit_core REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_msgs REQUIRED)
+find_package(PkgConfig REQUIRED)
+
+# Find pinocchio using CMake module
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} /opt/ros/humble/lib/x86_64-linux-gnu/cmake)
+find_package(pinocchio REQUIRED)
 
 # Finds Boost Components
 include(ConfigExtras.cmake)
@@ -26,6 +32,7 @@ set(THIS_PACKAGE_INCLUDE_DIRS
   lma_kinematics_plugin/include
   srv_kinematics_plugin/include
   cached_ik_kinematics_plugin/include
+  kris_kinematics_plugin/include
 )
 
 set(THIS_PACKAGE_LIBRARIES
@@ -34,6 +41,7 @@ set(THIS_PACKAGE_LIBRARIES
   moveit_kdl_kinematics_plugin
   moveit_lma_kinematics_plugin
   moveit_srv_kinematics_plugin
+  moveit_kris_kinematics_plugin
 )
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
@@ -47,6 +55,7 @@ pluginlib_export_plugin_description_file(moveit_core kdl_kinematics_plugin_descr
 pluginlib_export_plugin_description_file(moveit_core lma_kinematics_plugin_description.xml)
 pluginlib_export_plugin_description_file(moveit_core srv_kinematics_plugin_description.xml)
 pluginlib_export_plugin_description_file(moveit_core cached_ik_kinematics_plugin_description.xml)
+pluginlib_export_plugin_description_file(moveit_core kris_kinematics_plugin/kris_kinematics_plugin_description.xml)
 
 include_directories(${THIS_PACKAGE_INCLUDE_DIRS})
 
@@ -55,6 +64,7 @@ add_subdirectory(ikfast_kinematics_plugin)
 add_subdirectory(kdl_kinematics_plugin)
 add_subdirectory(lma_kinematics_plugin)
 add_subdirectory(srv_kinematics_plugin)
+add_subdirectory(kris_kinematics_plugin)
 add_subdirectory(test)
 
 install(

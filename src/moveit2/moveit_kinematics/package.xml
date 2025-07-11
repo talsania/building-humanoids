@@ -30,8 +30,10 @@
   <depend>eigen</depend>
   <depend>tf2</depend>
   <depend>tf2_kdl</depend>
+  <depend>tf2_eigen</depend>
   <depend>orocos_kdl_vendor</depend>
   <depend>moveit_msgs</depend>
+  <depend>pinocchio</depend>
 
   <!-- some requirements of ikfast scripts -->
   <exec_depend>urdfdom</exec_depend> <!-- provides check_urdf -->
