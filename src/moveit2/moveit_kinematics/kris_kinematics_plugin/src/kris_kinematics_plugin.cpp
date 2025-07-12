@@ -32,15 +32,16 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Adapted from kdl_kinematics_plugin for Pinocchio */
+/* Author: Krishang Talsania - Adapted for Pinocchio */
 
 #include <moveit/kris_kinematics_plugin/kris_kinematics_plugin.h>
 #include <pluginlib/class_list_macros.hpp>
 
 #include <tf2_eigen/tf2_eigen.hpp>
-#include <tf2_kdl/tf2_kdl.hpp>
-#include <sstream>
-#include <tinyxml.h>
+#include <moveit/robot_model/robot_model.h>
+#include <moveit/robot_state/robot_state.h>
+#include <moveit/robot_state/conversions.h>
+#include <pinocchio/parsers/urdf.hpp>
 
 namespace kris_kinematics_plugin
 {
@@ -50,9 +51,44 @@ rclcpp::Clock KrisKinematicsPlugin::steady_clock_{ RCL_STEADY_TIME };
 
 KrisKinematicsPlugin::KrisKinematicsPlugin() : initialized_(false)
 {
-  max_solver_iterations_ = 500;
-  epsilon_ = 1e-5;
-  orientation_vs_position_weight_ = 1.0;
+}
+
+void KrisKinematicsPlugin::getRandomConfiguration(Eigen::VectorXd& jnt_array) const
+{
+  state_->setToRandomPositions(joint_model_group_);
+  state_->copyJointGroupPositions(joint_model_group_, &jnt_array[0]);
+}
+
+void KrisKinematicsPlugin::getRandomConfiguration(const Eigen::VectorXd& seed_state,
+                                                 const std::vector<double>& consistency_limits,
+                                                 Eigen::VectorXd& jnt_array) const
+{
+  joint_model_group_->getVariableRandomPositionsNearBy(state_->getRandomNumberGenerator(), &jnt_array[0],
+                                                       &seed_state[0], consistency_limits);
+}
+
+bool KrisKinematicsPlugin::checkConsistency(const Eigen::VectorXd& seed_state,
+                                           const std::vector<double>& consistency_limits,
+                                           const Eigen::VectorXd& solution) const
+{
+  for (std::size_t i = 0; i < dimension_; ++i)
+    if (fabs(seed_state(i) - solution(i)) > consistency_limits[i])
+      return false;
+  return true;
+}
+
+void KrisKinematicsPlugin::getJointWeights()
+{
+  // Initialize with equal weights
+  joint_weights_.resize(dimension_, 1.0);
+  
+  // Could add parameter loading here like in KDL plugin
+  // For now, using simple equal weighting
+}
+
+bool KrisKinematicsPlugin::timedOut(const rclcpp::Time& start_time, double duration) const
+{
+  return ((steady_clock_.now() - start_time).seconds() >= duration);
 }
 
 bool KrisKinematicsPlugin::initialize(const rclcpp::Node::SharedPtr& /*node*/,
@@ -63,75 +99,72 @@ bool KrisKinematicsPlugin::initialize(const rclcpp::Node::SharedPtr& /*node*/,
                                       double search_discretization)
 {
   storeValues(robot_model, group_name, base_frame, tip_frames, search_discretization);
-  
-  joint_model_group_ = robot_model.getJointModelGroup(group_name);
+  joint_model_group_ = robot_model_->getJointModelGroup(group_name);
   if (!joint_model_group_)
+    return false;
+
+  if (!joint_model_group_->isChain())
   {
-    RCLCPP_ERROR(LOGGER, "Could not find joint model group: %s", group_name.c_str());
+    RCLCPP_ERROR(LOGGER, "Group '%s' is not a chain", group_name.c_str());
+    return false;
+  }
+  if (!joint_model_group_->isSingleDOFJoints())
+  {
+    RCLCPP_ERROR(LOGGER, "Group '%s' includes joints that have more than 1 DOF", group_name.c_str());
     return false;
   }
 
-  if (tip_frames.empty())
-  {
-    RCLCPP_ERROR(LOGGER, "No tip frame specified");
-    return false;
-  }
-
-  // Store base frame and tip frames
-  base_frame_ = base_frame;
-  tip_frames_ = tip_frames;
-  
   // Get joint names
   joint_names_ = joint_model_group_->getVariableNames();
-  
-  if (joint_names_.empty())
+  link_names_ = joint_model_group_->getLinkModelNames();
+
+  if (tip_frames.size() != 1)
   {
-    RCLCPP_ERROR(LOGGER, "No joints found in group: %s", group_name.c_str());
+    RCLCPP_ERROR(LOGGER, "Expecting exactly one tip frame");
     return false;
   }
-  
+
+  // Store parameters
+  base_frame_ = base_frame;
+  tip_frames_ = tip_frames;
   dimension_ = joint_names_.size();
 
   // Load robot model into Pinocchio
   if (!loadRobotModel(robot_model))
   {
-    RCLCPP_ERROR(LOGGER, "Failed to load robot model into Pinocchio");
+    RCLCPP_ERROR(LOGGER, "Could not load robot model");
     return false;
   }
 
   // Setup joint limits
   setupJointLimits();
 
-  // Initialize Pinocchio data
-  data_ = pinocchio::Data(model_);
-
   // Get joint weights
   getJointWeights();
 
-  // Create robot state
+  // Initialize Pinocchio data
+  data_ = pinocchio::Data(model_);
+
+  // Setup the joint state groups that we need
   state_ = std::make_shared<moveit::core::RobotState>(robot_model_);
+
+  // Set solver parameters
+  max_solver_iterations_ = 500;
+  epsilon_ = 1e-5;
+  orientation_vs_position_weight_ = 1.0;
 
   // Setup solver info
   solver_info_.joint_names = joint_names_;
   solver_info_.limits.resize(joint_names_.size());
-  for (size_t i = 0; i < joint_names_.size(); ++i)
+  for (std::size_t i = 0; i < joint_names_.size(); ++i)
   {
     solver_info_.limits[i].joint_name = joint_names_[i];
     solver_info_.limits[i].has_position_limits = true;
-    solver_info_.limits[i].min_position = joint_position_lower_limits_[i];
-    solver_info_.limits[i].max_position = joint_position_upper_limits_[i];
-    solver_info_.limits[i].has_velocity_limits = true;
-    solver_info_.limits[i].max_velocity = joint_velocity_limits_[i];
-    solver_info_.limits[i].has_acceleration_limits = true;
-    solver_info_.limits[i].max_acceleration = joint_acceleration_limits_[i];
+    solver_info_.limits[i].min_position = joint_min_[i];
+    solver_info_.limits[i].max_position = joint_max_[i];
   }
 
   initialized_ = true;
-  RCLCPP_INFO(LOGGER, "KrisKinematicsPlugin initialized successfully");
-  RCLCPP_INFO(LOGGER, "Group: %s, Base: %s, Tip: %s", 
-              group_name.c_str(), base_frame.c_str(), tip_frames[0].c_str());
-  RCLCPP_INFO(LOGGER, "Number of joints: %zu", joint_names_.size());
-  
   return true;
 }
 
@@ -139,246 +172,391 @@ bool KrisKinematicsPlugin::loadRobotModel(const moveit::core::RobotModel& robot_
 {
   try
   {
-    // For now, we'll use a simplified approach - the URDF should be available as a parameter
-    // This is a temporary workaround until we fix the URDF extraction from robot_model
-    
-    // Try to get URDF from robot description parameter
-    std::string urdf_param = "/robot_description";
-    if (rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared("temp_node"))
+    // Get URDF model
+    const urdf::ModelInterfaceSharedPtr& urdf_model = robot_model.getURDF();
+    if (!urdf_model)
     {
-      if (node->has_parameter(urdf_param))
-      {
-        std::string urdf_string = node->get_parameter(urdf_param).as_string();
-        pinocchio::urdf::buildModelFromXML(urdf_string, model_);
-      }
-      else
-      {
-        // Fallback - build a minimal model for testing
-        RCLCPP_WARN(LOGGER, "Could not find robot_description parameter, using minimal model");
-        // Create a minimal model for testing
-        model_ = pinocchio::Model();
-        return true;
-      }
+      RCLCPP_ERROR(LOGGER, "URDF model not available");
+      return false;
+    }
+    
+    // Build Pinocchio model from URDF
+    pinocchio::urdf::buildModel(robot_model.getURDF(), model_);
+    
+    // Find the tip frame in the model
+    if (model_.existFrame(tip_frames_[0]))
+    {
+      tip_frame_id_ = model_.getFrameId(tip_frames_[0]);
+      RCLCPP_DEBUG(LOGGER, "Found tip frame '%s' with ID %lu", tip_frames_[0].c_str(), tip_frame_id_);
     }
     else
     {
-      throw std::runtime_error("Failed to create temporary node for URDF access");
+      RCLCPP_ERROR(LOGGER, "Could not find tip frame '%s' in Pinocchio model", tip_frames_[0].c_str());
+      return false;
     }
     
-    // Get link names
-    const std::vector<const moveit::core::LinkModel*>& links = joint_model_group_->getLinkModels();
-    link_names_.clear();
-    for (const auto* link : links)
-    {
-      link_names_.push_back(link->getName());
-    }
-
-    // Find tip frame in Pinocchio model
-    if (!tip_frames_.empty())
-    {
-      std::string tip_frame = tip_frames_[0];
-      if (model_.existFrame(tip_frame))
-      {
-        tip_frame_id_ = model_.getFrameId(tip_frame);
-      }
-      else
-      {
-        RCLCPP_WARN(LOGGER, "Tip frame %s not found in Pinocchio model", tip_frame.c_str());
-        // Try to find by searching frames
-        for (size_t i = 0; i < model_.frames.size(); ++i)
-        {
-          if (model_.frames[i].name == tip_frame)
-          {
-            tip_frame_id_ = i;
-            break;
-          }
-        }
-      }
-    }
-
-    RCLCPP_INFO(LOGGER, "Pinocchio model loaded: %d joints, %zu frames", 
-                model_.njoints, model_.frames.size());
-    
+    RCLCPP_DEBUG(LOGGER, "Built Pinocchio model with %d joints", model_.njoints - 1);
     return true;
   }
   catch (const std::exception& e)
   {
-    RCLCPP_ERROR(LOGGER, "Error loading robot model: %s", e.what());
+    RCLCPP_ERROR(LOGGER, "Error building Pinocchio model: %s", e.what());
     return false;
   }
 }
 
 void KrisKinematicsPlugin::setupJointLimits()
 {
+  joint_min_.resize(dimension_);
+  joint_max_.resize(dimension_);
+  
   const std::vector<const moveit::core::JointModel*>& joint_models = joint_model_group_->getJointModels();
   
-  joint_position_lower_limits_.clear();
-  joint_position_upper_limits_.clear();
-  joint_velocity_limits_.clear();
-  joint_acceleration_limits_.clear();
-
-  for (const auto* joint_model : joint_models)
+  for (std::size_t i = 0; i < joint_models.size(); ++i)
   {
-    const moveit::core::JointModel::Bounds& bounds = joint_model->getVariableBounds();
-    
-    for (const auto& bound : bounds)
+    const moveit::core::JointModel::Bounds& bounds = joint_models[i]->getVariableBounds();
+    if (bounds.size() == 1)
     {
-      joint_position_lower_limits_.push_back(bound.min_position_);
-      joint_position_upper_limits_.push_back(bound.max_position_);
-      joint_velocity_limits_.push_back(bound.max_velocity_);
-      joint_acceleration_limits_.push_back(bound.max_acceleration_);
-    }
-  }
-}
-
-void KrisKinematicsPlugin::getJointWeights()
-{
-  // For now, use equal weights for all joints
-  joint_weights_.resize(joint_names_.size(), 1.0);
-  
-  // Could add parameter loading here like in KDL plugin
-  // if (lookupParam(node_, "joint_weights.weights", weights, weights))
-  // {
-  //   ...
-  // }
-}
-
-bool KrisKinematicsPlugin::getJacobian(const std::vector<double>& joint_angles,
-                                       Eigen::MatrixXd& jacobian) const
-{
-  if (joint_angles.size() != joint_names_.size())
-  {
-    RCLCPP_ERROR(LOGGER, "Joint angles size mismatch: %zu vs %zu", 
-                 joint_angles.size(), joint_names_.size());
-    return false;
-  }
-
-  try
-  {
-    // Convert joint angles to Eigen
-    Eigen::VectorXd q = vectorToEigen(joint_angles);
-    
-    // Make sure we have the right size
-    if (q.size() != model_.nq)
-    {
-      // Pad with zeros if needed (for floating base, etc.)
-      Eigen::VectorXd q_full = Eigen::VectorXd::Zero(model_.nq);
-      q_full.tail(q.size()) = q;
-      q = q_full;
-    }
-
-    // Compute forward kinematics
-    pinocchio::forwardKinematics(model_, data_, q);
-    
-    // Compute Jacobian
-    jacobian = Eigen::MatrixXd::Zero(6, model_.nv);
-    
-    if (tip_frame_id_ < model_.frames.size())
-    {
-      // Compute Jacobian for the tip frame
-      pinocchio::computeFrameJacobian(model_, data_, q, tip_frame_id_, 
-                                      pinocchio::LOCAL_WORLD_ALIGNED, jacobian);
+      joint_min_[i] = bounds[0].min_position_;
+      joint_max_[i] = bounds[0].max_position_;
     }
     else
     {
-      // Use end-effector joint if tip frame not found
-      pinocchio::computeJointJacobian(model_, data_, q, model_.njoints - 1, jacobian);
+      joint_min_[i] = -M_PI;
+      joint_max_[i] = M_PI;
     }
-
-    // Extract the relevant columns (for the actual joints we're controlling)
-    jacobian = jacobian.rightCols(joint_angles.size());
-
-    RCLCPP_DEBUG(LOGGER, "Jacobian computed: %dx%d", 
-                 (int)jacobian.rows(), (int)jacobian.cols());
-    
-    return true;
-  }
-  catch (const std::exception& e)
-  {
-    RCLCPP_ERROR(LOGGER, "Error computing Jacobian: %s", e.what());
-    return false;
   }
 }
 
-bool KrisKinematicsPlugin::getJacobianAtTipFrame(const std::vector<double>& joint_angles,
-                                                 const std::string& tip_frame,
-                                                 Eigen::MatrixXd& jacobian) const
+void KrisKinematicsPlugin::clipToJointLimits(const Eigen::VectorXd& q, Eigen::VectorXd& q_delta, Eigen::ArrayXd& weighting) const
 {
-  // Find the frame ID
-  pinocchio::FrameIndex frame_id;
-  if (model_.existFrame(tip_frame))
+  for (std::size_t i = 0; i < dimension_; ++i)
   {
-    frame_id = model_.getFrameId(tip_frame);
-  }
-  else
-  {
-    RCLCPP_ERROR(LOGGER, "Frame %s not found in model", tip_frame.c_str());
-    return false;
-  }
-
-  try
-  {
-    // Convert joint angles to Eigen
-    Eigen::VectorXd q = vectorToEigen(joint_angles);
-    
-    // Make sure we have the right size
-    if (q.size() != model_.nq)
+    if (q[i] + q_delta[i] > joint_max_[i])
     {
-      Eigen::VectorXd q_full = Eigen::VectorXd::Zero(model_.nq);
-      q_full.tail(q.size()) = q;
-      q = q_full;
+      q_delta[i] = joint_max_[i] - q[i];
+      weighting[i] = 0.0;
     }
+    else if (q[i] + q_delta[i] < joint_min_[i])
+    {
+      q_delta[i] = joint_min_[i] - q[i];
+      weighting[i] = 0.0;
+    }
+    else
+    {
+      weighting[i] = 1.0;
+    }
+  }
+}
 
+// Core IK solver - equivalent to KDL's CartToJnt
+int KrisKinematicsPlugin::CartToJnt(const Eigen::VectorXd& q_init, const pinocchio::SE3& p_in,
+                                    Eigen::VectorXd& q_out, const unsigned int max_iter,
+                                    const Eigen::VectorXd& joint_weights,
+                                    const Twist& cartesian_weights) const
+{
+  q_out = q_init;
+  
+  // Ensure proper size for Pinocchio model
+  Eigen::VectorXd q = Eigen::VectorXd::Zero(model_.nq);
+  q.tail(dimension_) = q_init;
+  
+  for (unsigned int i = 0; i < max_iter; ++i)
+  {
     // Compute forward kinematics
     pinocchio::forwardKinematics(model_, data_, q);
+    pinocchio::updateFramePlacements(model_, data_);
     
-    // Compute Jacobian for the specified frame
-    jacobian = Eigen::MatrixXd::Zero(6, model_.nv);
-    pinocchio::computeFrameJacobian(model_, data_, q, frame_id, 
+    // Get current end-effector pose
+    pinocchio::SE3 current_pose = data_.oMf[tip_frame_id_];
+    
+    // Compute pose error
+    pinocchio::SE3 pose_error = current_pose.inverse() * p_in;
+    
+    // Convert to 6D error vector
+    Eigen::VectorXd error(6);
+    error.head<3>() = pose_error.translation();
+    error.tail<3>() = pinocchio::log3(pose_error.rotation());
+    
+    // Apply cartesian weights
+    for (int j = 0; j < 6; ++j)
+      error[j] *= cartesian_weights[j];
+    
+    // Check convergence
+    if (error.norm() < epsilon_)
+    {
+      q_out = q.tail(dimension_);
+      return 0; // Success
+    }
+    
+    // Compute Jacobian
+    Eigen::MatrixXd jacobian = Eigen::MatrixXd::Zero(6, model_.nv);
+    pinocchio::computeFrameJacobian(model_, data_, q, tip_frame_id_, 
                                     pinocchio::LOCAL_WORLD_ALIGNED, jacobian);
-
-    // Extract the relevant columns
-    jacobian = jacobian.rightCols(joint_angles.size());
-
-    return true;
+    
+    // Extract relevant columns
+    Eigen::MatrixXd J = jacobian.rightCols(dimension_);
+    
+    // Apply joint weights
+    for (std::size_t j = 0; j < dimension_; ++j)
+      J.col(j) *= joint_weights[j];
+    
+    // Solve for joint increment using damped least squares
+    double damping = 1e-6;
+    Eigen::MatrixXd JJt = J * J.transpose() + damping * Eigen::MatrixXd::Identity(6, 6);
+    Eigen::VectorXd dq = J.transpose() * JJt.ldlt().solve(error);
+    
+    // Apply joint limits
+    Eigen::ArrayXd weighting(dimension_);
+    clipToJointLimits(q.tail(dimension_), dq, weighting);
+    
+    // Update joint positions
+    q.tail(dimension_) += dq;
   }
-  catch (const std::exception& e)
-  {
-    RCLCPP_ERROR(LOGGER, "Error computing frame Jacobian: %s", e.what());
-    return false;
-  }
+  
+  // Max iterations reached
+  q_out = q.tail(dimension_);
+  return -1; // Failed to converge
 }
 
+bool KrisKinematicsPlugin::getPositionIK(const geometry_msgs::msg::Pose& ik_pose,
+                                          const std::vector<double>& ik_seed_state,
+                                          std::vector<double>& solution,
+                                          moveit_msgs::msg::MoveItErrorCodes& error_code,
+                                          const kinematics::KinematicsQueryOptions& options) const
+{
+  const IKCallbackFn solution_callback = IKCallbackFn();
+  std::vector<double> consistency_limits;
+  return searchPositionIK(ik_pose, ik_seed_state, 0.1, consistency_limits, solution, solution_callback, error_code, options);
+}
+
+bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
+                                             const std::vector<double>& ik_seed_state,
+                                             double timeout,
+                                             std::vector<double>& solution,
+                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
+                                             const kinematics::KinematicsQueryOptions& options) const
+{
+  const IKCallbackFn solution_callback = IKCallbackFn();
+  std::vector<double> consistency_limits;
+  return searchPositionIK(ik_pose, ik_seed_state, timeout, consistency_limits, solution, solution_callback, error_code, options);
+}
+
+bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
+                                             const std::vector<double>& ik_seed_state,
+                                             double timeout,
+                                             const std::vector<double>& consistency_limits,
+                                             std::vector<double>& solution,
+                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
+                                             const kinematics::KinematicsQueryOptions& options) const
+{
+  const IKCallbackFn solution_callback = IKCallbackFn();
+  return searchPositionIK(ik_pose, ik_seed_state, timeout, consistency_limits, solution, solution_callback, error_code, options);
+}
+
+bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
+                                             const std::vector<double>& ik_seed_state,
+                                             double timeout,
+                                             std::vector<double>& solution,
+                                             const IKCallbackFn& solution_callback,
+                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
+                                             const kinematics::KinematicsQueryOptions& options) const
+{
+  std::vector<double> consistency_limits;
+  return searchPositionIK(ik_pose, ik_seed_state, timeout, consistency_limits, solution, solution_callback, error_code, options);
+}
+
+bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
+                                             const std::vector<double>& ik_seed_state,
+                                             double timeout,
+                                             const std::vector<double>& consistency_limits,
+                                             std::vector<double>& solution,
+                                             const IKCallbackFn& solution_callback,
+                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
+                                             const kinematics::KinematicsQueryOptions& options) const
+{
+  if (!initialized_)
+  {
+    RCLCPP_ERROR(LOGGER, "kinematics not active");
+    error_code.val = moveit_msgs::msg::MoveItErrorCodes::PLANNING_FAILED;
+    return false;
+  }
+
+  if (ik_seed_state.size() != dimension_)
+  {
+    RCLCPP_ERROR(LOGGER, "Seed state must have size %d instead of size %zu", dimension_, ik_seed_state.size());
+    error_code.val = moveit_msgs::msg::MoveItErrorCodes::PLANNING_FAILED;
+    return false;
+  }
+
+  if (!consistency_limits.empty() && consistency_limits.size() != dimension_)
+  {
+    RCLCPP_ERROR(LOGGER, "Consistency limits must have size %d instead of size %zu", dimension_, consistency_limits.size());
+    error_code.val = moveit_msgs::msg::MoveItErrorCodes::PLANNING_FAILED;
+    return false;
+  }
+
+  // Convert target pose to Pinocchio SE3
+  pinocchio::SE3 target_pose = poseToSE3(ik_pose);
+  
+  // Setup joint weights
+  Eigen::VectorXd joint_weights_eigen = Eigen::Map<const Eigen::VectorXd>(joint_weights_.data(), joint_weights_.size());
+  
+  // Setup cartesian weights
+  Twist cartesian_weights;
+  cartesian_weights.setOnes();
+  if (options.return_approximate_solution)
+  {
+    cartesian_weights.tail<3>() *= orientation_vs_position_weight_;
+  }
+
+  rclcpp::Time start_time = steady_clock_.now();
+  
+  // Try with seed state first
+  Eigen::VectorXd seed = vectorToEigen(ik_seed_state);
+  Eigen::VectorXd q_out;
+  
+  int ik_valid = CartToJnt(seed, target_pose, q_out, max_solver_iterations_, joint_weights_eigen, cartesian_weights);
+  
+  if (ik_valid >= 0)
+  {
+    solution = eigenToVector(q_out);
+    
+    // Check consistency limits
+    if (!consistency_limits.empty())
+    {
+      if (!checkConsistency(seed, consistency_limits, q_out))
+      {
+        ik_valid = -1;
+      }
+    }
+    
+    if (ik_valid >= 0)
+    {
+      // Check solution callback
+      if (solution_callback)
+      {
+        solution_callback(ik_pose, solution, error_code);
+        if (error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
+        {
+          return true;
+        }
+      }
+      else
+      {
+        error_code.val = moveit_msgs::msg::MoveItErrorCodes::SUCCESS;
+        return true;
+      }
+    }
+  }
+
+  // If seed state failed, try random sampling
+  if (timeout > 0.0)
+  {
+    Eigen::VectorXd jnt_pos_in(dimension_);
+    Eigen::VectorXd jnt_pos_out(dimension_);
+    
+    while (!timedOut(start_time, timeout))
+    {
+      if (consistency_limits.empty())
+      {
+        getRandomConfiguration(jnt_pos_in);
+      }
+      else
+      {
+        getRandomConfiguration(seed, consistency_limits, jnt_pos_in);
+      }
+      
+      ik_valid = CartToJnt(jnt_pos_in, target_pose, jnt_pos_out, max_solver_iterations_, joint_weights_eigen, cartesian_weights);
+      
+      if (ik_valid >= 0)
+      {
+        solution = eigenToVector(jnt_pos_out);
+        
+        if (solution_callback)
+        {
+          solution_callback(ik_pose, solution, error_code);
+          if (error_code.val == moveit_msgs::msg::MoveItErrorCodes::SUCCESS)
+          {
+            return true;
+          }
+        }
+        else
+        {
+          error_code.val = moveit_msgs::msg::MoveItErrorCodes::SUCCESS;
+          return true;
+        }
+      }
+    }
+  }
+
+  error_code.val = moveit_msgs::msg::MoveItErrorCodes::NO_IK_SOLUTION;
+  return false;
+}
+
+bool KrisKinematicsPlugin::getPositionFK(const std::vector<std::string>& link_names,
+                                          const std::vector<double>& joint_angles,
+                                          std::vector<geometry_msgs::msg::Pose>& poses) const
+{
+  if (!initialized_)
+  {
+    RCLCPP_ERROR(LOGGER, "kinematics not active");
+    return false;
+  }
+
+  if (joint_angles.size() != dimension_)
+  {
+    RCLCPP_ERROR(LOGGER, "Joint angles must have size %d instead of size %zu", dimension_, joint_angles.size());
+    return false;
+  }
+
+  // Convert joint angles to Pinocchio
+  Eigen::VectorXd q = Eigen::VectorXd::Zero(model_.nq);
+  q.tail(dimension_) = vectorToEigen(joint_angles);
+
+  // Compute forward kinematics
+  pinocchio::forwardKinematics(model_, data_, q);
+  pinocchio::updateFramePlacements(model_, data_);
+
+  poses.resize(link_names.size());
+  
+  for (std::size_t i = 0; i < link_names.size(); ++i)
+  {
+    if (link_names[i] == tip_frames_[0])
+    {
+      poses[i] = se3ToPose(data_.oMf[tip_frame_id_]);
+    }
+    else
+    {
+      // For other links, return identity (simplified)
+      poses[i].position.x = poses[i].position.y = poses[i].position.z = 0.0;
+      poses[i].orientation.x = poses[i].orientation.y = poses[i].orientation.z = 0.0;
+      poses[i].orientation.w = 1.0;
+    }
+  }
+
+  return true;
+}
+
+// Utility functions
 Eigen::VectorXd KrisKinematicsPlugin::vectorToEigen(const std::vector<double>& vec) const
 {
-  Eigen::VectorXd eigen_vec(vec.size());
-  for (size_t i = 0; i < vec.size(); ++i)
-  {
-    eigen_vec[i] = vec[i];
-  }
-  return eigen_vec;
+  return Eigen::Map<const Eigen::VectorXd>(vec.data(), vec.size());
 }
 
 std::vector<double> KrisKinematicsPlugin::eigenToVector(const Eigen::VectorXd& vec) const
 {
-  std::vector<double> std_vec(vec.size());
-  for (int i = 0; i < vec.size(); ++i)
-  {
-    std_vec[i] = vec[i];
-  }
-  return std_vec;
+  return std::vector<double>(vec.data(), vec.data() + vec.size());
 }
 
 geometry_msgs::msg::Pose KrisKinematicsPlugin::se3ToPose(const pinocchio::SE3& transform) const
 {
   geometry_msgs::msg::Pose pose;
   
-  // Position
   pose.position.x = transform.translation().x();
   pose.position.y = transform.translation().y();
   pose.position.z = transform.translation().z();
   
-  // Orientation
   Eigen::Quaterniond quat(transform.rotation());
   pose.orientation.x = quat.x();
   pose.orientation.y = quat.y();
@@ -397,154 +575,6 @@ pinocchio::SE3 KrisKinematicsPlugin::poseToSE3(const geometry_msgs::msg::Pose& p
   return pinocchio::SE3(rotation.toRotationMatrix(), translation);
 }
 
-bool KrisKinematicsPlugin::getPositionFK(const std::vector<std::string>& link_names,
-                                          const std::vector<double>& joint_angles,
-                                          std::vector<geometry_msgs::msg::Pose>& poses) const
-{
-  if (joint_angles.size() != joint_names_.size())
-  {
-    return false;
-  }
-
-  try
-  {
-    // Convert joint angles to Eigen
-    Eigen::VectorXd q = vectorToEigen(joint_angles);
-    
-    // Make sure we have the right size
-    if (q.size() != model_.nq)
-    {
-      Eigen::VectorXd q_full = Eigen::VectorXd::Zero(model_.nq);
-      q_full.tail(q.size()) = q;
-      q = q_full;
-    }
-
-    // Compute forward kinematics
-    pinocchio::forwardKinematics(model_, data_, q);
-    pinocchio::updateFramePlacements(model_, data_);
-
-    poses.clear();
-    for (const std::string& link_name : link_names)
-    {
-      geometry_msgs::msg::Pose pose;
-      
-      if (model_.existFrame(link_name))
-      {
-        pinocchio::FrameIndex frame_id = model_.getFrameId(link_name);
-        pinocchio::SE3 placement = data_.oMf[frame_id];
-        pose = se3ToPose(placement);
-      }
-      else
-      {
-        RCLCPP_WARN(LOGGER, "Frame %s not found", link_name.c_str());
-        // Return identity pose
-        pose.position.x = pose.position.y = pose.position.z = 0.0;
-        pose.orientation.x = pose.orientation.y = pose.orientation.z = 0.0;
-        pose.orientation.w = 1.0;
-      }
-      
-      poses.push_back(pose);
-    }
-
-    return true;
-  }
-  catch (const std::exception& e)
-  {
-    RCLCPP_ERROR(LOGGER, "Error in forward kinematics: %s", e.what());
-    return false;
-  }
-}
-
-// Full IK implementation using Pinocchio
-bool KrisKinematicsPlugin::getPositionIK(const geometry_msgs::msg::Pose& ik_pose,
-                                          const std::vector<double>& ik_seed_state,
-                                          std::vector<double>& solution,
-                                          moveit_msgs::msg::MoveItErrorCodes& error_code,
-                                          const kinematics::KinematicsQueryOptions& options) const
-{
-  return solvePositionIK(ik_pose, ik_seed_state, solution, 0.05, // 50ms timeout
-                         std::vector<double>(), IKCallbackFn(), error_code, options);
-}
-
-bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
-                                             const std::vector<double>& ik_seed_state,
-                                             double timeout,
-                                             std::vector<double>& solution,
-                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
-                                             const kinematics::KinematicsQueryOptions& options) const
-{
-  return solvePositionIK(ik_pose, ik_seed_state, solution, timeout,
-                         std::vector<double>(), IKCallbackFn(), error_code, options);
-}
-
-bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
-                                             const std::vector<double>& ik_seed_state,
-                                             double timeout,
-                                             const std::vector<double>& consistency_limits,
-                                             std::vector<double>& solution,
-                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
-                                             const kinematics::KinematicsQueryOptions& options) const
-{
-  return solvePositionIK(ik_pose, ik_seed_state, solution, timeout,
-                         consistency_limits, IKCallbackFn(), error_code, options);
-}
-
-bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
-                                             const std::vector<double>& ik_seed_state,
-                                             double timeout,
-                                             std::vector<double>& solution,
-                                             const IKCallbackFn& solution_callback,
-                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
-                                             const kinematics::KinematicsQueryOptions& options) const
-{
-  return getPositionIK(ik_pose, ik_seed_state, solution, error_code, options);
-}
-
-bool KrisKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose& ik_pose,
-                                             const std::vector<double>& ik_seed_state,
-                                             double timeout,
-                                             const std::vector<double>& consistency_limits,
-                                             std::vector<double>& solution,
-                                             const IKCallbackFn& solution_callback,
-                                             moveit_msgs::msg::MoveItErrorCodes& error_code,
-                                             const kinematics::KinematicsQueryOptions& options) const
-{
-  return getPositionIK(ik_pose, ik_seed_state, solution, error_code, options);
-}
-
-// Utility functions
-bool KrisKinematicsPlugin::timedOut(const rclcpp::Time& start_time, double duration) const
-{
-  return (steady_clock_.now() - start_time).seconds() >= duration;
-}
-
-bool KrisKinematicsPlugin::checkConsistency(const Eigen::VectorXd& seed_state,
-                                           const std::vector<double>& consistency_limits,
-                                           const Eigen::VectorXd& solution) const
-{
-  for (std::size_t i = 0; i < dimension_; ++i)
-  {
-    if (fabs(seed_state(i) - solution(i)) > consistency_limits[i])
-      return false;
-  }
-  return true;
-}
-
-void KrisKinematicsPlugin::getRandomConfiguration(Eigen::VectorXd& jnt_array) const
-{
-  state_->setToRandomPositions(joint_model_group_);
-  state_->copyJointGroupPositions(joint_model_group_, &jnt_array[0]);
-}
-
-void KrisKinematicsPlugin::getRandomConfiguration(const Eigen::VectorXd& seed_state,
-                                                 const std::vector<double>& consistency_limits,
-                                                 Eigen::VectorXd& jnt_array) const
-{
-  joint_model_group_->getVariableRandomPositionsNearBy(state_->getRandomNumberGenerator(), &jnt_array[0],
-                                                       &seed_state[0], consistency_limits);
-}
-
-// Getters
 const std::vector<std::string>& KrisKinematicsPlugin::getJointNames() const
 {
   return joint_names_;
@@ -557,5 +587,4 @@ const std::vector<std::string>& KrisKinematicsPlugin::getLinkNames() const
 
 }  // namespace kris_kinematics_plugin
 
-// Plugin registration
 PLUGINLIB_EXPORT_CLASS(kris_kinematics_plugin::KrisKinematicsPlugin, kinematics::KinematicsBase)

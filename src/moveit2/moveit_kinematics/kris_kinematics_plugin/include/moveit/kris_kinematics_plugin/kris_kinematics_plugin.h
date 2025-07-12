@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 
-/* Author: Adapted from kdl_kinematics_plugin for Pinocchio */
+/* Author: Krishang Talsania - Adapted for Pinocchio */
 
 #pragma once
 
@@ -67,7 +67,7 @@ namespace kris_kinematics_plugin
 {
 /**
  * @brief Specific implementation of kinematics using Pinocchio.
- * This version supports any kinematic chain, mimicking the KDL interface.
+ * This version supports any kinematic chain, mimicking the KDL plugin interface exactly.
  */
 class KrisKinematicsPlugin : public kinematics::KinematicsBase
 {
@@ -122,25 +122,14 @@ public:
    */
   const std::vector<std::string>& getLinkNames() const override;
 
-  /**
-   * @brief  Get the Jacobian matrix for the current joint configuration
-   */
-  bool getJacobian(const std::vector<double>& joint_angles, Eigen::MatrixXd& jacobian) const;
-
-  /**
-   * @brief  Get the Jacobian matrix for a specific tip frame
-   */
-  bool getJacobianAtTipFrame(const std::vector<double>& joint_angles, const std::string& tip_frame,
-                             Eigen::MatrixXd& jacobian) const;
-
 protected:
   typedef Eigen::Matrix<double, 6, 1> Twist;
 
-  /// Solve position IK using Pinocchio
-  bool solvePositionIK(const geometry_msgs::msg::Pose& ik_pose, const std::vector<double>& ik_seed_state,
-                       std::vector<double>& solution, double timeout,
-                       const std::vector<double>& consistency_limits = std::vector<double>(),
-                       const IKCallbackFn& solution_callback = IKCallbackFn()) const;
+  /// Solve position IK given initial joint values (equivalent to KDL's CartToJnt)
+  int CartToJnt(const Eigen::VectorXd& q_init, const pinocchio::SE3& p_in,
+                Eigen::VectorXd& q_out, const unsigned int max_iter,
+                const Eigen::VectorXd& joint_weights,
+                const Twist& cartesian_weights) const;
 
 private:
   void getJointWeights();
@@ -164,6 +153,9 @@ private:
    */
   void getRandomConfiguration(const Eigen::VectorXd& seed_state, const std::vector<double>& consistency_limits,
                               Eigen::VectorXd& jnt_array) const;
+
+  /// clip q_delta such that joint limits will not be violated
+  void clipToJointLimits(const Eigen::VectorXd& q, Eigen::VectorXd& q_delta, Eigen::ArrayXd& weighting) const;
 
   /// Load robot model into Pinocchio
   bool loadRobotModel(const moveit::core::RobotModel& robot_model);
@@ -198,14 +190,12 @@ private:
   std::vector<std::string> joint_names_;
   std::vector<std::string> link_names_;
   std::vector<double> joint_weights_;
-  std::vector<double> joint_position_lower_limits_;
-  std::vector<double> joint_position_upper_limits_;
-  std::vector<double> joint_velocity_limits_;
-  std::vector<double> joint_acceleration_limits_;
   
   pinocchio::FrameIndex tip_frame_id_;
   std::string base_frame_;
   std::vector<std::string> tip_frames_;
+
+  Eigen::VectorXd joint_min_, joint_max_;  ///< joint limits
 
   int max_solver_iterations_;
   double epsilon_;

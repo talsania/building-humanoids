@@ -1,0 +1,7 @@
+<library path="moveit_kris_kinematics_plugin">
+  <class name="kris_kinematics_plugin/KrisKinematicsPlugin" type="kris_kinematics_plugin::KrisKinematicsPlugin" base_class_type="kinematics::KinematicsBase">
+    <description>
+      A implementation of kinematics as a plugin based on Pinocchio.
+    </description>
+  </class>
+</library>
