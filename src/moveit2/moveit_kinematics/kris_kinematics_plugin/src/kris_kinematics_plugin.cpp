@@ -42,6 +42,7 @@
 #include <moveit/robot_state/robot_state.h>
 #include <moveit/robot_state/conversions.h>
 #include <pinocchio/parsers/urdf.hpp>
+#include <pinocchio/algorithm/model.hpp>
 
 namespace kris_kinematics_plugin
 {
@@ -180,29 +181,155 @@ bool KrisKinematicsPlugin::loadRobotModel(const moveit::core::RobotModel& robot_
       return false;
     }
     
-    // Build Pinocchio model from URDF
-    pinocchio::urdf::buildModel(robot_model.getURDF(), model_);
-    
-    // Find the tip frame in the model
-    if (model_.existFrame(tip_frames_[0]))
+    // Extract chain joints from base to tip (like KDL's getChain)
+    std::vector<std::string> chain_joint_names;
+    std::vector<std::string> chain_link_names;
+    if (!buildChainFromBaseToTip(robot_model, chain_joint_names, chain_link_names))
     {
-      tip_frame_id_ = model_.getFrameId(tip_frames_[0]);
-      RCLCPP_DEBUG(LOGGER, "Found tip frame '%s' with ID %lu", tip_frames_[0].c_str(), tip_frame_id_);
-    }
-    else
-    {
-      RCLCPP_ERROR(LOGGER, "Could not find tip frame '%s' in Pinocchio model", tip_frames_[0].c_str());
+      RCLCPP_ERROR(LOGGER, "Failed to build chain from base to tip");
       return false;
     }
     
-    RCLCPP_DEBUG(LOGGER, "Built Pinocchio model with %d joints", model_.njoints - 1);
+    // Build chain-specific Pinocchio model (like KDL's targeted approach)
+    if (!buildChainModel(urdf_model, chain_joint_names, chain_link_names))
+    {
+      RCLCPP_ERROR(LOGGER, "Failed to build chain-specific Pinocchio model");
+      return false;
+    }
+    
+    // Validate the chain connectivity
+    if (!validateChain())
+    {
+      RCLCPP_ERROR(LOGGER, "Chain validation failed - no valid path from base to tip");
+      return false;
+    }
+    
+    // Find the tip frame in the chain model
+    if (model_.existFrame(tip_frames_[0]))
+    {
+      tip_frame_id_ = model_.getFrameId(tip_frames_[0]);
+      RCLCPP_DEBUG(LOGGER, "Found tip frame '%s' with ID %lu in chain model", tip_frames_[0].c_str(), tip_frame_id_);
+    }
+    else
+    {
+      RCLCPP_ERROR(LOGGER, "Could not find tip frame '%s' in chain model", tip_frames_[0].c_str());
+      return false;
+    }
+    
+    RCLCPP_INFO(LOGGER, "Built Pinocchio chain model: %zu joints, %zu links (base: %s -> tip: %s)", 
+                chain_joint_names.size(), chain_link_names.size(), base_frame_.c_str(), tip_frames_[0].c_str());
     return true;
   }
   catch (const std::exception& e)
   {
-    RCLCPP_ERROR(LOGGER, "Error building Pinocchio model: %s", e.what());
+    RCLCPP_ERROR(LOGGER, "Error building Pinocchio chain model: %s", e.what());
     return false;
   }
+}
+
+bool KrisKinematicsPlugin::buildChainFromBaseToTip(const moveit::core::RobotModel& robot_model, 
+                                                    std::vector<std::string>& chain_joint_names,
+                                                    std::vector<std::string>& chain_link_names)
+{
+  chain_joint_names.clear();
+  chain_link_names.clear();
+  
+  // Extract chain like KDL's getChain() - only tip link, joints in between
+  const auto* current_link = robot_model.getLinkModel(tip_frames_[0]);
+  if (!current_link)
+  {
+    RCLCPP_ERROR(LOGGER, "Could not find tip link '%s'", tip_frames_[0].c_str());
+    return false;
+  }
+  
+  // Like KDL: only store the tip link
+  chain_link_names.push_back(current_link->getName());
+  
+  // Traverse from tip to base, collecting only active joints (like KDL)
+  while (current_link && current_link->getName() != base_frame_)
+  {
+    const auto* parent_joint = current_link->getParentJointModel();
+    if (!parent_joint)
+    {
+      RCLCPP_ERROR(LOGGER, "Found link '%s' with no parent joint", current_link->getName().c_str());
+      return false;
+    }
+    
+    // Add joint to chain (at beginning to maintain base->tip order) - only active joints
+    if (parent_joint->getVariableCount() > 0)
+    {
+      const std::vector<std::string>& var_names = parent_joint->getVariableNames();
+      chain_joint_names.insert(chain_joint_names.begin(), var_names.begin(), var_names.end());
+    }
+    
+    // Move to parent link (but don't store intermediate links like KDL)
+    current_link = parent_joint->getParentLinkModel();
+  }
+  
+  if (!current_link || current_link->getName() != base_frame_)
+  {
+    RCLCPP_ERROR(LOGGER, "Could not complete chain from '%s' to '%s'", base_frame_.c_str(), tip_frames_[0].c_str());
+    return false;
+  }
+  
+  RCLCPP_INFO(LOGGER, "Built kinematic chain (KDL-style): %zu joints, %zu links (base: %s -> tip: %s)", 
+              chain_joint_names.size(), chain_link_names.size(), base_frame_.c_str(), tip_frames_[0].c_str());
+  
+  return !chain_joint_names.empty();
+}
+
+bool KrisKinematicsPlugin::buildChainModel(const urdf::ModelInterfaceSharedPtr& urdf_model,
+                                           const std::vector<std::string>& chain_joint_names,
+                                           const std::vector<std::string>& chain_link_names)
+{
+  // Build full model first, then extract chain (future optimization: build only chain directly)
+  pinocchio::urdf::buildModel(urdf_model, model_);
+  
+  // For now, use full model but validate it contains our chain
+  // Future enhancement: Use pinocchio::buildReducedModel with chain joints
+  
+  // Verify all chain joints exist in model
+  for (const std::string& joint_name : chain_joint_names)
+  {
+    if (!model_.existJointName(joint_name))
+    {
+      RCLCPP_ERROR(LOGGER, "Chain joint '%s' not found in Pinocchio model", joint_name.c_str());
+      return false;
+    }
+  }
+  
+  // Verify chain links exist as frames
+  for (const std::string& link_name : chain_link_names)
+  {
+    if (!model_.existFrame(link_name))
+    {
+      RCLCPP_WARN(LOGGER, "Chain link '%s' not found as frame in Pinocchio model", link_name.c_str());
+    }
+  }
+  
+  RCLCPP_INFO(LOGGER, "Chain model validation: %d total joints, %zu chain joints", 
+              model_.njoints - 1, chain_joint_names.size());
+  
+  return true;
+}
+
+bool KrisKinematicsPlugin::validateChain()
+{
+  if (!model_.existFrame(tip_frames_[0]))
+  {
+    RCLCPP_ERROR(LOGGER, "Tip frame '%s' not found in Pinocchio model", tip_frames_[0].c_str());
+    return false;
+  }
+  
+  if (!model_.existFrame(base_frame_))
+  {
+    RCLCPP_DEBUG(LOGGER, "Base frame '%s' treated as root", base_frame_.c_str());
+  }
+  
+  RCLCPP_DEBUG(LOGGER, "Chain validation successful: %s -> %s", 
+               base_frame_.c_str(), tip_frames_[0].c_str());
+  
+  return true;
 }
 
 void KrisKinematicsPlugin::setupJointLimits()

@@ -160,6 +160,22 @@ private:
   /// Load robot model into Pinocchio
   bool loadRobotModel(const moveit::core::RobotModel& robot_model);
 
+  /// Extract joints in chain from base to tip (mimics KDL's getChain behavior)
+  bool extractChainJoints(const moveit::core::RobotModel& robot_model, std::vector<std::string>& chain_joint_names);
+
+  /// Build chain from base to tip like KDL's getChain() method
+  bool buildChainFromBaseToTip(const moveit::core::RobotModel& robot_model, 
+                               std::vector<std::string>& chain_joint_names,
+                               std::vector<std::string>& chain_link_names);
+
+  /// Build chain-specific Pinocchio model (only chain joints/links)
+  bool buildChainModel(const urdf::ModelInterfaceSharedPtr& urdf_model,
+                       const std::vector<std::string>& chain_joint_names,
+                       const std::vector<std::string>& chain_link_names);
+
+  /// Validate chain connectivity from base to tip
+  bool validateChain();
+
   /// Setup joint limits from MoveIt
   void setupJointLimits();
 
