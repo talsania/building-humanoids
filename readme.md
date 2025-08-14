@@ -1,6 +1,7 @@
 # humanoid_ws
 
 Building Humanoids: MIS/END-TIRI/ME/HPM/2526/004
+![PXL_20250609_142242649](https://github.com/user-attachments/assets/f465c342-139f-4c75-b549-1a14104c73db)
 
 ## Dev Updates V2
 
