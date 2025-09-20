@@ -33,6 +33,8 @@ source ~/ws_moveit2/install/setup.bash
 source ~/humanoid_ws/install/setup.bash
 ```
 
+<img width="2880" height="1800" alt="Screenshot from 2025-05-22 10-28-24" src="https://github.com/user-attachments/assets/56c0bdde-ed8b-463d-b3f7-9321200664f6" />
+
 ## Commands
 
 ### Launch Simulation & Hardware
@@ -79,6 +81,8 @@ ros2 topic pub --once /pick_transform std_msgs/msg/Float64MultiArray
 ```bash
 ros2 run realsense2_camera realsense2_camera_node --ros-args   -p align_depth.enable:=true   -p pointcloud.enable:=true   -p depth_module.profile:="640x480x30"   -p enable_color:=true   -p enable_depth:=true   -p enable_accel:=false   -p enable_gyro:=false
 ```
+
+<img width="700" height="1465" alt="Screenshot from 2025-06-03 20-25-32~2" src="https://github.com/user-attachments/assets/7d588d1f-dfc4-4a46-b11d-3ed7d06425d5" />
 
 ## Hardware Info
 
